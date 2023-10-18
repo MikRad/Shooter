@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyTransform: {fileID: 2125387840078992436}
-  _baseSpeed: 7.5
+  _baseSpeed: 10
   _patrolSpeedFactor: 0.5
   _returnSpeedFactor: 0.8
   _rageSpeedFactor: 1.2
