@@ -7,6 +7,9 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     [SerializeField] private SfxType[] _damagedSfxTypes;
     [SerializeField] private SfxType[] _deathSfxTypes;
     
+    [Header("Vfx")]
+    [SerializeField] private VfxType[] _damagedVfxTypes;
+    
     [Header("Attack")]
     [SerializeField] protected float _attackDelay = 1.0f;
     
@@ -24,6 +27,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     protected Transform _cachedTransform;
     protected Animator _animator;
     protected AudioController _audioController;
+    protected VfxSpawner _vfxSpawner;
     
     private bool HasHealth => _currentHealth > 0;
     protected bool HasMaxHealth => _currentHealth == _healthMax;
@@ -44,7 +48,10 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
         FillMaxHealth();
     }
 
-    public abstract void Init(DiContainer diContainer);
+    public virtual void Init(DiContainer diContainer)
+    {
+        _vfxSpawner = diContainer.Resolve<VfxSpawner>();
+    }
     
     public virtual void HandleDamage(int damageAmount)
     {
@@ -56,6 +63,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
             return;
         }
         
+        AddDamagedVfx();
         PlayDamagedSfx();
     }
 
@@ -111,6 +119,12 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     private void ClampHealthValue()
     {
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _healthMax);
+    }
+    
+    private void AddDamagedVfx()
+    {
+        int rndIdx = Random.Range(0, _damagedVfxTypes.Length);
+        _vfxSpawner.SpawnVfx(_damagedVfxTypes[rndIdx], _cachedTransform.position, _cachedTransform.rotation);
     }
     
     private void PlayDamagedSfx()

@@ -5,9 +5,9 @@ using Object = UnityEngine.Object;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    public T Prefab { get; }
-    public bool IsAutoExpand { get; set; }
-    public Transform Container { get; }
+    public bool IsAutoExpand { get; set; } = true;
+    private T Prefab { get; }
+    private Transform Container { get; }
 
     private List<T> _pool;
 

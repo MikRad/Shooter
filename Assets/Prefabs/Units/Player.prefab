@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damagedSfxTypes: 0c0000000d0000000e000000
   _deathSfxTypes: 0f00000010000000
+  _damagedVfxTypes: 0200000003000000
   _attackDelay: 0.5
   _healthMax: 20
   _bodyTransform: {fileID: 862007793389010953}

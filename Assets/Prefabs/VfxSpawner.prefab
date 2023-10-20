@@ -106,7 +106,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxContainer: {fileID: 2499130667399485482}
-  _vfxPoolsContainer: {fileID: 4333325312084364670}
   _vfxPrefabs:
   - {fileID: 253234593470580267, guid: c936ebcc6a762704182ee579e1b36934, type: 3}
-  _vfxPoolSize: 10
+  - {fileID: 3064877577679123546, guid: a0a0d85d3ddeb71488b3242efe59f4ec, type: 3}
+  - {fileID: 3064877577679123546, guid: 4643ca0125da4164ebb062acf5d515cc, type: 3}
+  - {fileID: 3064877577679123546, guid: cf8e21a8341b9a949b7ac4191e7c6f37, type: 3}
+  - {fileID: 3064877577679123546, guid: 629da742b2c774b44abbc70d2da6085a, type: 3}
+  _vfxPoolSize: 15
