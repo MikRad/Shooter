@@ -18,6 +18,8 @@ public class EnemyShootingUnit : EnemyUnit
 
     public override void Init(DiContainer diContainer)
     {
+        base.Init(diContainer);
+        
         _player = diContainer.Resolve<Player>();
         _pickupItemSpawner = diContainer.Resolve<PickupItemSpawner>();
         _audioController = diContainer.Resolve<AudioController>();

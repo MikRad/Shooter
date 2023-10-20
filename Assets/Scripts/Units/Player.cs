@@ -32,6 +32,8 @@ public class Player : BaseUnit
 
     public override void Init(DiContainer diContainer)
     {
+        base.Init(diContainer);
+        
         _audioController = diContainer.Resolve<AudioController>();
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
         _shooting.Init(bulletSpawner, _audioController);
