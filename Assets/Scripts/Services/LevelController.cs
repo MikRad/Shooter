@@ -17,12 +17,7 @@ public class LevelController : MonoBehaviour
 
     private void Awake()
     {
-        EnemyUnit.OnCreated += HandledEnemyCreated;
-        ExplosiveBarrel.OnCreated += HandleExplosiveBarrelCreated;
-        
-        _player.OnDied += HandlePlayerDeath;
-        _player.OnHealthChanged += HandlePlayerHealthChange;
-        _player.OnAmmoChanged += HandlePlayerAmmoChange;
+        AddEventHandlers();
     }
 
     private void OnDestroy()
@@ -42,6 +37,16 @@ public class LevelController : MonoBehaviour
         InitUIStats();
     }
     
+    private void AddEventHandlers()
+    {
+        EnemyUnit.OnCreated += HandledEnemyCreated;
+        ExplosiveBarrel.OnCreated += HandleExplosiveBarrelCreated;
+
+        _player.OnDied += HandlePlayerDeath;
+        _player.OnHealthChanged += HandlePlayerHealthChange;
+        _player.OnAmmoChanged += HandlePlayerAmmoChange;
+    }
+    
     private void RemoveEventHandlers()
     {
         EnemyUnit.OnCreated -= HandledEnemyCreated;
@@ -51,6 +56,18 @@ public class LevelController : MonoBehaviour
         _player.OnHealthChanged -= HandlePlayerHealthChange;
         _player.OnAmmoChanged -= HandlePlayerAmmoChange;
 
+        RemoveBossConditionHandlers();
+    }
+
+    private void AddBossConditionHandlers()
+    {
+        _bossConditionChecker.OnDied += HandleBossDeath;
+        _bossConditionChecker.OnHealthChanged += HandleBossHealthChange;
+        _bossConditionChecker.OnActivated += HandleBossActivation;
+    }
+    
+    private void RemoveBossConditionHandlers()
+    {
         _bossConditionChecker.OnDied -= HandleBossDeath;
         _bossConditionChecker.OnHealthChanged -= HandleBossHealthChange;
         _bossConditionChecker.OnActivated -= HandleBossActivation;
@@ -64,13 +81,11 @@ public class LevelController : MonoBehaviour
         if(enemy is IBossConditionChecker bossConditionChecker)
         {
             _bossConditionChecker = bossConditionChecker;
-        
-            _bossConditionChecker.OnDied += HandleBossDeath;
-            _bossConditionChecker.OnHealthChanged += HandleBossHealthChange;
-            _bossConditionChecker.OnActivated += HandleBossActivation;
+
+            AddBossConditionHandlers();
         }
     }
-    
+
     private void HandleBossDeath()
     {
         foreach (EnemyUnit enemy in _enemyList)

@@ -11,29 +11,41 @@ public class Game : MonoBehaviour
     private UIViewsController _uiViewsController;
     private LevelController _levelController;
     private AudioController _audioController;
+    private BulletSpawner _bulletSpawner;
+    private PickupItemSpawner _pickupItemSpawner;
+    private VfxSpawner _vfxSpawner;
+    private DiContainer _diContainer;
 
     private void Start()
+    {
+        FindServices();
+        RegisterServices();
+        AddServicesEventHandlers();
+
+        _levelController.Init(_diContainer);
+    }
+
+    private void FindServices()
     {
         _uiViewsController = GetComponentInChildren<UIViewsController>();
         _levelController = GetComponentInChildren<LevelController>();
         _audioController = GetComponentInChildren<AudioController>();
-        BulletSpawner bulletSpawner = GetComponentInChildren<BulletSpawner>();
-        PickupItemSpawner pickupItemSpawner = GetComponentInChildren<PickupItemSpawner>();
-        VfxSpawner vfxSpawner = GetComponentInChildren<VfxSpawner>();
-
-        AddServicesEventHandlers();
-
-        DiContainer diContainer = new DiContainer();
-        diContainer.Register(_uiViewsController);
-        diContainer.Register(_levelController);
-        diContainer.Register(_audioController);
-        diContainer.Register(bulletSpawner);
-        diContainer.Register(pickupItemSpawner);
-        diContainer.Register(vfxSpawner);
-        
-        _levelController.Init(diContainer);
+        _bulletSpawner = GetComponentInChildren<BulletSpawner>();
+        _pickupItemSpawner = GetComponentInChildren<PickupItemSpawner>();
+        _vfxSpawner = GetComponentInChildren<VfxSpawner>();
     }
 
+    private void RegisterServices()
+    {
+        _diContainer = new DiContainer();
+        _diContainer.Register(_uiViewsController);
+        _diContainer.Register(_levelController);
+        _diContainer.Register(_audioController);
+        _diContainer.Register(_bulletSpawner);
+        _diContainer.Register(_pickupItemSpawner);
+        _diContainer.Register(_vfxSpawner);
+    }
+    
     private void OnDestroy()
     {
         RemoveServicesEventHandlers();
