@@ -23,7 +23,7 @@ public class PickupItemSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log($"There is no pool for item of type {pickupItemType} !");
+            Debug.LogWarning($"There is no pool for item of type {pickupItemType} !");
         }
     }
     
