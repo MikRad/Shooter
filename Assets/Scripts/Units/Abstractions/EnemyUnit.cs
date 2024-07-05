@@ -24,7 +24,7 @@ public abstract class EnemyUnit : BaseUnit
     [Header("Item generation")]
     [Range(0, 100)]
     [SerializeField] private int _itemGenerationProbability;
-    [SerializeField] private PickupItemType[] _possibleItemGenerationTypes;
+    [SerializeField] private PickupGenerationInfo[] _pickupGenerationInfos;
 
     protected EnemyMovement _movement;
     private Vector3 _startPosition;
@@ -147,14 +147,29 @@ public abstract class EnemyUnit : BaseUnit
 
     private void TryGenerateItem()
     {
-        if ((_possibleItemGenerationTypes == null) || (_possibleItemGenerationTypes.Length == 0))
+        if ((_pickupGenerationInfos == null) || (_pickupGenerationInfos.Length == 0))
             return;
 
-        int randNum = Random.Range(1, 101);
-        if(randNum <= _itemGenerationProbability)
+        int randProbability = Random.Range(1, 101);
+        if(randProbability <= _itemGenerationProbability)
         {
-            int randIdx = Random.Range(0, _possibleItemGenerationTypes.Length);
-            _pickupItemSpawner.SpawnItem(_possibleItemGenerationTypes[randIdx], _cachedTransform.position);
+            int totalWeight = 0;
+            foreach (PickupGenerationInfo info in _pickupGenerationInfos)
+            {
+                totalWeight += info.probabilityWeight;
+            }
+
+            int randWeight = Random.Range(0, totalWeight + 1);
+            int cumulativeWeight = 0;
+            for (int i = 0; i < _pickupGenerationInfos.Length; i++)
+            {
+                cumulativeWeight += _pickupGenerationInfos[i].probabilityWeight;
+                if (cumulativeWeight >= randWeight)
+                {
+                    _pickupItemSpawner.SpawnItem(_pickupGenerationInfos[i].itemType, _cachedTransform.position);
+                    return;
+                }
+            }
         }
     }
     

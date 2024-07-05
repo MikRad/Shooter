@@ -70,7 +70,11 @@ MonoBehaviour:
   _rageDuration: 6
   _patrolPointsTransform: {fileID: 2837713517028743552}
   _itemGenerationProbability: 25
-  _possibleItemGenerationTypes: 010000000100000002000000
+  _pickupGenerationInfos:
+  - itemType: 1
+    probabilityWeight: 3
+  - itemType: 2
+    probabilityWeight: 1
   _damageAmount: 2
 --- !u!114 &2492868542174008771
 MonoBehaviour:

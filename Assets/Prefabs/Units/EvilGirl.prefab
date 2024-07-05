@@ -208,8 +208,11 @@ MonoBehaviour:
   _rageDuration: 5.5
   _patrolPointsTransform: {fileID: 4108623057782176745}
   _itemGenerationProbability: 40
-  _possibleItemGenerationTypes: 02000000020000000200000001000000
-  _pickupGenerationTypes: []
+  _pickupGenerationInfos:
+  - itemType: 1
+    probabilityWeight: 2
+  - itemType: 2
+    probabilityWeight: 5
   _playerShootAccessibilityMask:
     serializedVersion: 2
     m_Bits: 6272
