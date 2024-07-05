@@ -5,24 +5,26 @@ using Object = UnityEngine.Object;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    public bool IsAutoExpand { get; set; } = true;
+    public bool IsAutoExpand { get; private set; }
     private T Prefab { get; }
     private Transform Container { get; }
 
     private List<T> _pool;
 
-    public Pool(T prefab, int poolSize)
+    public Pool(T prefab, int poolSize, bool isAutoExpand = true)
     {
         Prefab = prefab;
         Container = null;
+        IsAutoExpand = isAutoExpand;
 
         InitPool(poolSize);
     }
 
-    public Pool(T prefab, int poolSize, Transform container)
+    public Pool(T prefab, int poolSize, Transform container, bool isAutoExpand = true)
     {
         Prefab = prefab;
         Container = container;
+        IsAutoExpand = isAutoExpand;
         
         InitPool(poolSize);
     }
