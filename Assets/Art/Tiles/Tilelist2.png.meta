@@ -57,7 +57,7 @@ TextureImporter:
       213: -2135647442242255708
     second: Tilelist2_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -78,6 +78,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -116,6 +117,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -167,6 +169,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -568,6 +582,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Tilelist2_0: 5282585085383365432
+      Tilelist2_1: 8347219867227901626
+      Tilelist2_10: 8670192853916394631
+      Tilelist2_11: -1781381467377690806
+      Tilelist2_12: 23148321909071490
+      Tilelist2_13: -7056379864497305849
+      Tilelist2_14: -4599954908378693616
+      Tilelist2_15: 8456731059497352184
+      Tilelist2_16: 6537329780280718947
+      Tilelist2_17: -2135647442242255708
+      Tilelist2_2: -3257439693714504208
+      Tilelist2_3: 265276869415549302
+      Tilelist2_4: 8864858919792963235
+      Tilelist2_5: 6264751403997258905
+      Tilelist2_6: 6382864210541234635
+      Tilelist2_7: -305191731837122664
+      Tilelist2_8: -2208652046314501609
+      Tilelist2_9: 4155953049287878388
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

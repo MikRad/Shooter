@@ -105,7 +105,7 @@ TextureImporter:
       213: -5459931122059740560
     second: Tilelist3_33
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -126,6 +126,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -164,6 +165,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -215,6 +217,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -952,6 +966,41 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Tilelist3_0: -7631168322615863925
+      Tilelist3_1: 4392114961707416380
+      Tilelist3_10: 1389402827308977137
+      Tilelist3_11: 1563966671190972398
+      Tilelist3_12: 6296232338554279095
+      Tilelist3_13: 1788797182600465403
+      Tilelist3_14: 6504726949164327549
+      Tilelist3_15: -1913473535222756183
+      Tilelist3_16: 3455188360902491763
+      Tilelist3_17: -6705876777463684029
+      Tilelist3_18: 1417384439942110111
+      Tilelist3_19: 3414861026321219963
+      Tilelist3_2: -1940262225320273042
+      Tilelist3_20: 8503176506661840106
+      Tilelist3_21: 6224082465782247468
+      Tilelist3_22: -4908813277723768300
+      Tilelist3_23: 9152714778733282809
+      Tilelist3_24: -2424136668141544418
+      Tilelist3_25: -222184422866197831
+      Tilelist3_26: 696239910758162832
+      Tilelist3_27: 599029916707914660
+      Tilelist3_28: -5836989552916674007
+      Tilelist3_29: -438446939082289787
+      Tilelist3_3: 2913160005799973997
+      Tilelist3_30: 2753851170264077983
+      Tilelist3_31: -947508320627198831
+      Tilelist3_32: -185548034660841952
+      Tilelist3_33: -5459931122059740560
+      Tilelist3_4: 474240928342617306
+      Tilelist3_5: 8371029782747421080
+      Tilelist3_6: -7151046820455166309
+      Tilelist3_7: 5566484939981885373
+      Tilelist3_8: 4275865180974918057
+      Tilelist3_9: -7282877302067879396
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
