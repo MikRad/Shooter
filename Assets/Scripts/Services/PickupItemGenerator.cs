@@ -9,26 +9,6 @@ public class PickupItemGenerator : MonoBehaviour
     
     private PickupItemSpawner _pickupItemSpawner;
 
-    /*
-    protected void OnValidate()
-    {
-        HashSet<PickupItemType> uniqueTypes = new HashSet<PickupItemType>();
-        List<PickupGenerationInfo> uniqueInfos = new List<PickupGenerationInfo>();
-
-        foreach (PickupGenerationInfo info in _pickupGenerationInfos)
-        {
-            if (uniqueTypes.Add(info.itemType))
-            {
-                uniqueInfos.Add(info);
-            }
-            else
-            {
-                Debug.LogWarning($"Duplicate gen info for type {info.itemType} removed !");
-            }
-        }
-    }
-    */
-
     public void Init(PickupItemSpawner itemSpawner)
     {
         _pickupItemSpawner = itemSpawner;

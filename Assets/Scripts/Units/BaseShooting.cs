@@ -8,11 +8,11 @@ public class BaseShooting : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] protected BulletType _bulletType;
     [SerializeField] protected Transform _bulletSpawnPoint;
-    [SerializeField] protected SfxType[] _shootSfxTypes;
 
-    private Animator _animator;
+    protected Animator _animator;
     protected BulletSpawner _bulletSpawner;
-    protected AudioController _audioController;
+
+    protected UnitFxHolder _fxHolder; 
 
     public Vector3 BulletSpawnPosition => _bulletSpawnPoint.position;
 
@@ -21,10 +21,10 @@ public class BaseShooting : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-    public void Init(BulletSpawner bulletSpawner, AudioController audioController)
+    public void Init(BulletSpawner bulletSpawner, UnitFxHolder fxHolder)
     {
         _bulletSpawner = bulletSpawner;
-        _audioController = audioController;
+        _fxHolder = fxHolder;
     }
     
     public virtual void Shoot()
@@ -61,7 +61,6 @@ public class BaseShooting : MonoBehaviour
 
     private void PlayShotSfx()
     {
-        int rndIdx = Random.Range(0, _shootSfxTypes.Length);
-        _audioController.PlaySfx(_shootSfxTypes[rndIdx]);
+        _fxHolder.PlayShootSfx();
     }
 }

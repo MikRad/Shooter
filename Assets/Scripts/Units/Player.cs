@@ -35,7 +35,7 @@ public class Player : BaseUnit
         base.Init(diContainer);
         
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
-        _shooting.Init(bulletSpawner, _audioController);
+        _shooting.Init(bulletSpawner, _fxHolder);
     }
     
     public override void Deactivate()
@@ -60,7 +60,7 @@ public class Player : BaseUnit
             return false;
         
         AddHealth(healthItem.HealthAmount);
-        _audioController.PlaySfx(SfxType.HealthCollect);    
+        _fxHolder.PlayHealthCollectSfx();
         
         OnHealthChanged?.Invoke(HealthFullness);
         
@@ -73,7 +73,7 @@ public class Player : BaseUnit
             return false;
 
         _shooting.AddAmmo(gunMagazine.AmmoAmount);
-        _audioController.PlaySfx(SfxType.GunMagazineCollect);    
+        _fxHolder.PlayGunMagazineCollectSfx();
         
         OnAmmoChanged?.Invoke(_shooting.AmmoFullness);
 
@@ -117,7 +117,7 @@ public class Player : BaseUnit
         }
         else
         {
-            _audioController.PlaySfx(SfxType.NoAmmo);
+            _fxHolder.PlayNoAmmoSfx();
         }
     }
     

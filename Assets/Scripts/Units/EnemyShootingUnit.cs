@@ -21,7 +21,7 @@ public class EnemyShootingUnit : EnemyUnit
         base.Init(diContainer);
         
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
-        _shooting.Init(bulletSpawner, _audioController);
+        _shooting.Init(bulletSpawner, _fxHolder);
         
         InitStatesAndPositions();
     }

@@ -1,15 +1,8 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), RequireComponent(typeof(UnitFxHolder))]
 public abstract class BaseUnit : MonoBehaviour, IDamageable
 {
-    [Header("Sfx")]
-    [SerializeField] private SfxType[] _damagedSfxTypes;
-    [SerializeField] private SfxType[] _deathSfxTypes;
-    
-    [Header("Vfx")]
-    [SerializeField] private VfxType[] _damagedVfxTypes;
-    
     [Header("Attack")]
     [SerializeField] protected float _attackDelay = 1.0f;
     
@@ -26,8 +19,8 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     protected Collider2D _bodyCollider;
     protected Transform _cachedTransform;
     protected Animator _animator;
-    protected AudioController _audioController;
-    protected VfxSpawner _vfxSpawner;
+    
+    protected UnitFxHolder _fxHolder;
     
     private bool HasHealth => _currentHealth > 0;
     protected bool HasMaxHealth => _currentHealth == _healthMax;
@@ -40,6 +33,8 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
         _healthBar = GetComponentInChildren<UIProgressBar>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponentInChildren<Animator>();
+        _fxHolder = GetComponent<UnitFxHolder>();
+        
         _cachedTransform = transform;
     }
 
@@ -50,8 +45,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
 
     public virtual void Init(DIContainer diContainer)
     {
-        _audioController = diContainer.Resolve<AudioController>();
-        _vfxSpawner = diContainer.Resolve<VfxSpawner>();
+        _fxHolder.Init(diContainer.Resolve<AudioController>(), diContainer.Resolve<VfxSpawner>());
     }
     
     public virtual void HandleDamage(int damageAmount)
@@ -63,9 +57,9 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
             Die();
             return;
         }
-        
-        AddDamagedVfx();
-        PlayDamagedSfx();
+
+        _fxHolder.AddDamagedVfx(_cachedTransform.position, _cachedTransform.rotation);
+        _fxHolder.PlayDamagedSfx();
     }
 
     public virtual void Deactivate()
@@ -76,7 +70,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         PlayDeathAnimation();
-        PlayDeathSfx();
+        _fxHolder.PlayDeathSfx();
 
         _bodyCollider.enabled = false;
         _spriteRenderer.sortingOrder = 0;
@@ -120,23 +114,5 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     private void ClampHealthValue()
     {
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _healthMax);
-    }
-    
-    private void AddDamagedVfx()
-    {
-        int rndIdx = Random.Range(0, _damagedVfxTypes.Length);
-        _vfxSpawner.SpawnVfx(_damagedVfxTypes[rndIdx], _cachedTransform.position, _cachedTransform.rotation);
-    }
-    
-    private void PlayDamagedSfx()
-    {
-        int rndIdx = Random.Range(0, _damagedSfxTypes.Length);
-        _audioController.PlaySfx(_damagedSfxTypes[rndIdx]);
-    }
-    
-    private void PlayDeathSfx()
-    {
-        int rndIdx = Random.Range(0, _deathSfxTypes.Length);
-        _audioController.PlaySfx(_deathSfxTypes[rndIdx]);
     }
 }

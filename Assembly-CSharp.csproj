@@ -113,11 +113,12 @@
     <Compile Include="Assets\Scripts\Services\PickupItemSpawner.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
-    <Compile Include="Assets\Scripts\PickupItems\PickupItemGenerator.cs" />
+    <Compile Include="Assets\Scripts\Services\PickupItemGenerator.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntryTags.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntry.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntrySingleton.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntryTransient.cs" />
+    <Compile Include="Assets\Scripts\Services\UnitFxHolder.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2492868542174008768}
   - component: {fileID: 5368265338109796309}
   - component: {fileID: 2492868542174008771}
+  - component: {fileID: 110715277788329510}
+  - component: {fileID: 7657252240704774974}
   - component: {fileID: 2492868542174008769}
   - component: {fileID: 2492868542174008774}
   - component: {fileID: -8130858421239437844}
@@ -68,8 +70,6 @@ MonoBehaviour:
   _attackRadius: 2.7
   _rageDuration: 7
   _patrolPointsTransform: {fileID: 2837713517028743552}
-  _itemGenerationProbability: 0
-  _pickupGenerationInfos: []
   _damageAmount: 3
   _attackVariants: 
   _lifesNumber: 2
@@ -94,6 +94,35 @@ MonoBehaviour:
   _defaultPathUpdateInterval: 0.5
   _patrolPathUpdateInterval: 1
   _returnPathUpdateInterval: 0.75
+--- !u!114 &110715277788329510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492868542174008770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7308ac51f7b2441f87ac04bb96ba2f49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagedSfxTypes: 1e0000001f00000020000000210000002200000023000000
+  _deathSfxTypes: 2400000025000000
+  _damagedVfxTypes: 0400000005000000
+--- !u!114 &7657252240704774974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492868542174008770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5402fb7d97c04d20a4c8ff11e0436871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemGenerationProbability: 0
+  _pickupGenerationInfos: []
 --- !u!50 &2492868542174008769
 Rigidbody2D:
   serializedVersion: 4

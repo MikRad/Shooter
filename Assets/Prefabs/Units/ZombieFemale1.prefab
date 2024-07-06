@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 2492868542174008768}
   - component: {fileID: 2378835359551561546}
   - component: {fileID: 2492868542174008771}
+  - component: {fileID: 7657252240704774974}
+  - component: {fileID: 110715277788329510}
   - component: {fileID: 2492868542174008769}
   - component: {fileID: 2492868542174008774}
   - component: {fileID: -4744644638151494414}
   - component: {fileID: -8135084345635247067}
   - component: {fileID: 8000953816588831702}
-  - component: {fileID: 7657252240704774974}
   m_Layer: 8
   m_Name: ZombieFemale1
   m_TagString: Untagged
@@ -70,12 +71,6 @@ MonoBehaviour:
   _attackRadius: 2
   _rageDuration: 6
   _patrolPointsTransform: {fileID: 2837713517028743552}
-  _itemGenerationProbability: 25
-  _pickupGenerationInfos:
-  - itemType: 1
-    probabilityWeight: 3
-  - itemType: 2
-    probabilityWeight: 1
   _damageAmount: 2
 --- !u!114 &2492868542174008771
 MonoBehaviour:
@@ -97,6 +92,39 @@ MonoBehaviour:
   _defaultPathUpdateInterval: 0.5
   _patrolPathUpdateInterval: 1
   _returnPathUpdateInterval: 1
+--- !u!114 &7657252240704774974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492868542174008770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5402fb7d97c04d20a4c8ff11e0436871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemGenerationProbability: 25
+  _pickupGenerationInfos:
+  - itemType: 1
+    probabilityWeight: 3
+  - itemType: 2
+    probabilityWeight: 1
+--- !u!114 &110715277788329510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492868542174008770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7308ac51f7b2441f87ac04bb96ba2f49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagedSfxTypes: 160000001700000018000000190000001a0000001b000000
+  _deathSfxTypes: 1c0000001d000000
+  _damagedVfxTypes: 0400000005000000
 --- !u!50 &2492868542174008769
 Rigidbody2D:
   serializedVersion: 4
@@ -212,24 +240,6 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
---- !u!114 &7657252240704774974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2492868542174008770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5402fb7d97c04d20a4c8ff11e0436871, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemGenerationProbability: 25
-  _pickupGenerationInfos:
-  - itemType: 1
-    probabilityWeight: 3
-  - itemType: 2
-    probabilityWeight: 1
 --- !u!1 &2492868542710655251
 GameObject:
   m_ObjectHideFlags: 0
