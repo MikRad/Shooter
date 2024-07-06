@@ -24,7 +24,7 @@ public class EnemyMeleeUnit : EnemyUnit
         _animationHandler.OnAttackPerformed -= DoDamage;
     }
 
-    public override void Init(DiContainer diContainer)
+    public override void Init(DIContainer diContainer)
     {
         base.Init(diContainer);
 

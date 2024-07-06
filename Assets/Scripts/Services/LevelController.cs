@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour
     private readonly LinkedList<EnemyUnit> _enemyList = new LinkedList<EnemyUnit>();
     
     private UIViewsController _uiViewsController;
-    private DiContainer _diContainer;
+    private DIContainer _diContainer;
     
     public event Action OnLevelCompleted; 
     public event Action OnLevelFailed; 
@@ -25,10 +25,10 @@ public class LevelController : MonoBehaviour
         RemoveEventHandlers();
     }
 
-    public void Init(DiContainer diContainer)
+    public void Init(DIContainer diContainer)
     {
         _diContainer = diContainer;
-        _diContainer.Register(_player);
+        _diContainer.RegisterInstance(_player);
         
         _player.Init(diContainer);
         

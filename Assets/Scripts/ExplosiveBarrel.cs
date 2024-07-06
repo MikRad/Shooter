@@ -38,7 +38,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
         OnCreated?.Invoke(this);
     }
 
-    public void Init(DiContainer diContainer)
+    public void Init(DIContainer diContainer)
     {
         _vfxSpawner = diContainer.Resolve<VfxSpawner>();
         _audioController = diContainer.Resolve<AudioController>();

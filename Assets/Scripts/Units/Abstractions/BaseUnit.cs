@@ -48,7 +48,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
         FillMaxHealth();
     }
 
-    public virtual void Init(DiContainer diContainer)
+    public virtual void Init(DIContainer diContainer)
     {
         _audioController = diContainer.Resolve<AudioController>();
         _vfxSpawner = diContainer.Resolve<VfxSpawner>();

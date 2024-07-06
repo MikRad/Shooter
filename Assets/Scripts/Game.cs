@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
     private BulletSpawner _bulletSpawner;
     private PickupItemSpawner _pickupItemSpawner;
     private VfxSpawner _vfxSpawner;
-    private DiContainer _diContainer;
+    private DIContainer _diContainer;
 
     private void Start()
     {
@@ -37,13 +37,13 @@ public class Game : MonoBehaviour
 
     private void RegisterServices()
     {
-        _diContainer = new DiContainer();
-        _diContainer.Register(_uiViewsController);
-        _diContainer.Register(_levelController);
-        _diContainer.Register(_audioController);
-        _diContainer.Register(_bulletSpawner);
-        _diContainer.Register(_pickupItemSpawner);
-        _diContainer.Register(_vfxSpawner);
+        _diContainer = new DIContainer();
+        _diContainer.RegisterInstance(_uiViewsController);
+        _diContainer.RegisterInstance(_levelController);
+        _diContainer.RegisterInstance(_audioController);
+        _diContainer.RegisterInstance(_bulletSpawner);
+        _diContainer.RegisterInstance(_pickupItemSpawner);
+        _diContainer.RegisterInstance(_vfxSpawner);
     }
     
     private void OnDestroy()

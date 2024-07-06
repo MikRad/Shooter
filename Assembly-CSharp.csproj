@@ -57,7 +57,6 @@
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateMachine.cs" />
     <Compile Include="Assets\Scripts\UI\UIEventType.cs" />
     <Compile Include="Assets\Scripts\Units\PlayerShooting.cs" />
-    <Compile Include="Assets\Scripts\DI\DiGroup.cs" />
     <Compile Include="Assets\Scripts\Vfx\VfxType.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStatePatrol.cs" />
     <Compile Include="Assets\Scripts\Audio\Services\AudioController.cs" />
@@ -96,10 +95,9 @@
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateAttack.cs" />
     <Compile Include="Assets\Scripts\Units\Player.cs" />
     <Compile Include="Assets\Scripts\UI\UIProgressBar.cs" />
-    <Compile Include="Assets\Scripts\DI\DiContainer.cs" />
+    <Compile Include="Assets\Scripts\DI\DIContainer.cs" />
     <Compile Include="Assets\Scripts\PickupItems\PickupGenerationInfo.cs" />
     <Compile Include="Assets\Scripts\Vfx\VfxLifeTimeChecker.cs" />
-    <Compile Include="Assets\Scripts\DI\DependencyKey.cs" />
     <Compile Include="Assets\Scripts\Units\Animation\UnitAnimationIdHelper.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateBossPursuit.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateIdle.cs" />
@@ -116,6 +114,10 @@
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
     <Compile Include="Assets\Scripts\PickupItems\PickupItemGenerator.cs" />
+    <Compile Include="Assets\Scripts\DI\DIEntryTags.cs" />
+    <Compile Include="Assets\Scripts\DI\DIEntry.cs" />
+    <Compile Include="Assets\Scripts\DI\DIEntrySingleton.cs" />
+    <Compile Include="Assets\Scripts\DI\DIEntryTransient.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
