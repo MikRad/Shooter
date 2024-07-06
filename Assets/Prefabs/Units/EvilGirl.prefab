@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 8736978680594925682}
   - component: {fileID: 6034650743113681430}
   - component: {fileID: 4087927913844230109}
+  - component: {fileID: 4256200623546921435}
   - component: {fileID: 4559121222024792933}
   - component: {fileID: 4559121222024792934}
   - component: {fileID: 6160188295842618164}
@@ -253,6 +254,24 @@ MonoBehaviour:
   _bulletType: 2
   _bulletSpawnPoint: {fileID: 4559121222628824974}
   _shootSfxTypes: 030000000400000005000000
+--- !u!114 &4256200623546921435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559121222024792930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5402fb7d97c04d20a4c8ff11e0436871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemGenerationProbability: 40
+  _pickupGenerationInfos:
+  - itemType: 1
+    probabilityWeight: 2
+  - itemType: 2
+    probabilityWeight: 5
 --- !u!58 &4559121222024792933
 CircleCollider2D:
   m_ObjectHideFlags: 0

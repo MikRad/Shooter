@@ -28,10 +28,6 @@ public class EnemyMeleeUnit : EnemyUnit
     {
         base.Init(diContainer);
 
-        _player = diContainer.Resolve<Player>();
-        _pickupItemSpawner = diContainer.Resolve<PickupItemSpawner>();
-        _audioController = diContainer.Resolve<AudioController>();
-        
         InitStatesAndPositions();
     }
     

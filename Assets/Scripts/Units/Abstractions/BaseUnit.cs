@@ -50,6 +50,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
 
     public virtual void Init(DiContainer diContainer)
     {
+        _audioController = diContainer.Resolve<AudioController>();
         _vfxSpawner = diContainer.Resolve<VfxSpawner>();
     }
     

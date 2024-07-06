@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(PickupItemGenerator))]
 public abstract class EnemyUnit : BaseUnit
 {
     [Header("Vision")]
@@ -21,11 +21,6 @@ public abstract class EnemyUnit : BaseUnit
     [Header("Movement")]
     [SerializeField] protected Transform _patrolPointsTransform;
     
-    [Header("Item generation")]
-    [Range(0, 100)]
-    [SerializeField] private int _itemGenerationProbability;
-    [SerializeField] private PickupGenerationInfo[] _pickupGenerationInfos;
-
     protected EnemyMovement _movement;
     private Vector3 _startPosition;
     
@@ -33,17 +28,18 @@ public abstract class EnemyUnit : BaseUnit
     private readonly List<Vector3> _patrolPoints = new List<Vector3>();
     
     protected Player _player;
-    protected PickupItemSpawner _pickupItemSpawner;
+    protected PickupItemGenerator _pickupItemGenerator;
     
     public bool IsPatrolRole { get; private set;}
     
     public static event Action<EnemyUnit> OnCreated;
-    
+
     protected override void Awake()
     {
         base.Awake();
         
         _movement = GetComponent<EnemyMovement>();
+        _pickupItemGenerator = GetComponent<PickupItemGenerator>();
     }
 
     protected override void Start()
@@ -56,6 +52,14 @@ public abstract class EnemyUnit : BaseUnit
     protected virtual void Update()
     {
         _stateMachine.Update();
+    }
+
+    public override void Init(DiContainer diContainer)
+    {
+        base.Init(diContainer);
+        
+        _player = diContainer.Resolve<Player>();
+        _pickupItemGenerator.Init(diContainer.Resolve<PickupItemSpawner>());
     }
 
     public bool TryDetectPlayer()
@@ -142,36 +146,10 @@ public abstract class EnemyUnit : BaseUnit
         _stateMachine.SetState(EnemyStateType.Dead);
         
         base.Die();
-        TryGenerateItem();
+        
+        _pickupItemGenerator.TryGenerateItem(_cachedTransform.position);
     }
 
-    private void TryGenerateItem()
-    {
-        if ((_pickupGenerationInfos == null) || (_pickupGenerationInfos.Length == 0))
-            return;
-
-        int randProbability = Random.Range(1, 101);
-        if(randProbability <= _itemGenerationProbability)
-        {
-            int totalWeight = 0;
-            foreach (PickupGenerationInfo info in _pickupGenerationInfos)
-            {
-                totalWeight += info.probabilityWeight;
-            }
-
-            int randWeight = Random.Range(0, totalWeight + 1);
-            int cumulativeWeight = 0;
-            for (int i = 0; i < _pickupGenerationInfos.Length; i++)
-            {
-                cumulativeWeight += _pickupGenerationInfos[i].probabilityWeight;
-                if (cumulativeWeight >= randWeight)
-                {
-                    _pickupItemSpawner.SpawnItem(_pickupGenerationInfos[i].itemType, _cachedTransform.position);
-                    return;
-                }
-            }
-        }
-    }
     
     private void OnDrawGizmos()
     {

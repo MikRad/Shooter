@@ -34,7 +34,6 @@ public class Player : BaseUnit
     {
         base.Init(diContainer);
         
-        _audioController = diContainer.Resolve<AudioController>();
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
         _shooting.Init(bulletSpawner, _audioController);
     }

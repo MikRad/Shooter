@@ -20,10 +20,6 @@ public class EnemyShootingUnit : EnemyUnit
     {
         base.Init(diContainer);
         
-        _player = diContainer.Resolve<Player>();
-        _pickupItemSpawner = diContainer.Resolve<PickupItemSpawner>();
-        _audioController = diContainer.Resolve<AudioController>();
-        
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
         _shooting.Init(bulletSpawner, _audioController);
         
