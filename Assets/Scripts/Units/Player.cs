@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement)), RequireComponent(typeof(PlayerShooting))]
 public class Player : BaseUnit
 {
+    private IPlayerInput _playerInput;
     private PlayerMovement _movement;
     private PlayerShooting _shooting;
 
@@ -34,8 +35,10 @@ public class Player : BaseUnit
     {
         base.Init(diContainer);
         
+        _playerInput = diContainer.Resolve<IPlayerInput>();
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
-        _shooting.Init(bulletSpawner, _fxHolder);
+        _movement.Init(_playerInput);
+        _shooting.Init(_playerInput, bulletSpawner, _fxHolder);
     }
     
     public override void Deactivate()
@@ -85,7 +88,7 @@ public class Player : BaseUnit
         if (IsDead)
             return;
 
-        if (CanAttack() && Input.GetButton("Fire1"))
+        if (CanAttack() && _playerInput.IsFirePressed)
         {
             Attack();
         }
@@ -110,9 +113,7 @@ public class Player : BaseUnit
         
         if(_shooting.HasAmmo)
         {
-            
             _shooting.Shoot();
-            
             OnAmmoChanged?.Invoke(_shooting.AmmoFullness);
         }
         else

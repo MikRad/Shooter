@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rBody;
     private Transform _cachedTransform;
     private Camera _mainCamera;
+    private IPlayerInput _playerInput;
 
     private void Start()
     {
@@ -25,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
         Rotate();
     }
 
+    public void Init(IPlayerInput inputService)
+    {
+        _playerInput = inputService;
+    }
+    
     public void Stop()
     {
         _rBody.velocity = Vector2.zero;
@@ -35,9 +41,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Move()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector2 direction = Vector2.ClampMagnitude(new Vector2(horizontal, vertical), 1f);
+        Vector2 direction = Vector2.ClampMagnitude(_playerInput.Axes, 1f);
 
         _rBody.velocity = direction * _speed;
 
@@ -46,10 +50,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-        Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0;
-        Vector3 direction = mousePosition - _cachedTransform.position;
+        Vector3 aimPosition = _mainCamera.ScreenToWorldPoint(_playerInput.AimPosition);
+        aimPosition.z = 0;
+        Vector3 lookDirection = aimPosition - _cachedTransform.position;
 
-        _bodyTransform.up = (Vector2) direction;
+        _bodyTransform.up = (Vector2) lookDirection;
     }
 }

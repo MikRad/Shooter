@@ -16,7 +16,9 @@ public class PlayerShooting : BaseShooting
     private Transform _aim;
     private Vector3 _aimMovePos;
     private Vector3 _aimMoveVel;
-    
+
+    private IPlayerInput _playerInput; 
+        
     private Camera _mainCamera;
     
     private SpringUtils.tDampedSpringMotionParams _springParams = new SpringUtils.tDampedSpringMotionParams();
@@ -38,6 +40,13 @@ public class PlayerShooting : BaseShooting
         UpdateAimPosition();
     }
 
+    public void Init(IPlayerInput playerInput, BulletSpawner bulletSpawner, UnitFxHolder fxHolder)
+    {
+        base.Init(bulletSpawner, fxHolder);
+        
+        _playerInput = playerInput;
+    }
+
     public override void Shoot()
     {
         ShootAt(_aim.position);
@@ -53,10 +62,10 @@ public class PlayerShooting : BaseShooting
     
     private void UpdateAimPosition()
     {
-        Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 targetAimPos = _mainCamera.ScreenToWorldPoint(_playerInput.AimPosition);
         
         SpringUtils.CalcDampedSpringMotionParams(ref _springParams, Time.deltaTime, _aimSensitivity, _aimDamping);
-        SpringUtils.UpdateDampedSpringMotion(ref _aimMovePos, ref _aimMoveVel, mousePosition, _springParams);
+        SpringUtils.UpdateDampedSpringMotion(ref _aimMovePos, ref _aimMoveVel, targetAimPos, _springParams);
         
         _aim.position = _aimMovePos;
     }

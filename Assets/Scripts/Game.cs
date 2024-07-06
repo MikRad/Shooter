@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
         _diContainer.RegisterInstance(_bulletSpawner);
         _diContainer.RegisterInstance(_pickupItemSpawner);
         _diContainer.RegisterInstance(_vfxSpawner);
+        _diContainer.RegisterSingleton<IPlayerInput>((c) => new DesktopPlayerInput());
     }
     
     private void OnDestroy()
