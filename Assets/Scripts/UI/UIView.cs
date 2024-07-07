@@ -12,33 +12,16 @@ public abstract class UIView : MonoBehaviour
     {
         _tweener = GetComponent<UITweener>();
         
-        AddElementsListeners();
-        SetEnableElements(false);
         SetActive(false);
     }
 
-    protected virtual void OnDestroy()
-    { 
-        RemoveElementsListeners(); 
-    }
-
-    public virtual void Show()
-    {
-        SetActive(true);
-        
-        _tweener.Show((() => SetEnableElements(true)));
-    }
-
+    public abstract void Show();
+    
     public virtual void Hide()
     {
-        SetEnableElements(false);
-        
         _tweener.Hide(HandleHideCompleted);
     }
-
-    protected abstract void AddElementsListeners();
-    protected abstract void RemoveElementsListeners();
-    protected abstract void SetEnableElements(bool isEnabled);
+    
     protected void SetActive(bool isActive) => gameObject.SetActive(isActive);
 
     protected virtual void HandleHideCompleted()

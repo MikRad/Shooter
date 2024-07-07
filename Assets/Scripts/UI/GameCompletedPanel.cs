@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameCompletedPanel : UIView
+public class GameCompletedPanel : UIViewInteractable
 {
     [Header("UI elements")]
     [SerializeField] private Button _playAgainButton;
     [SerializeField] private Button _exitButton;
 
     private UIEventType _userEventType = UIEventType.Undefined;
-    
+
     protected override void AddElementsListeners()
     {
         _playAgainButton.onClick.AddListener(PlayAgainClickHandler);

@@ -16,16 +16,4 @@ public class BossUIStats : UIView
     {
         _healthBar.SetValue(healthFullness);
     }
-    
-    protected override void AddElementsListeners()
-    {
-    }
-
-    protected override void RemoveElementsListeners()
-    {
-    }
-
-    protected override void SetEnableElements(bool isEnabled)
-    {
-    }
 }

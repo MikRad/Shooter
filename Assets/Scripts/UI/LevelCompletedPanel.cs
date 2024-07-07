@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelCompletedPanel : UIView
+public class LevelCompletedPanel : UIViewInteractable
 {
     [Header("UI elements ")]
     [SerializeField] private Button _continueButton;

@@ -22,16 +22,4 @@ public class PlayerUIStats : UIView
     {
         _ammoBar.SetValue(ammoFullness);
     }
-    
-    protected override void AddElementsListeners()
-    {
-    }
-    
-    protected override void RemoveElementsListeners()
-    {
-    }
-
-    protected override void SetEnableElements(bool isEnabled)
-    {
-    }
 }
