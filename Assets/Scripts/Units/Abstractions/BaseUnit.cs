@@ -1,20 +1,16 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), RequireComponent(typeof(UnitFxHolder))]
+[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), 
+ RequireComponent(typeof(UnitHealth)), RequireComponent(typeof(UnitFxHolder))]
 public abstract class BaseUnit : MonoBehaviour, IDamageable
 {
     [Header("Attack")]
     [SerializeField] protected float _attackDelay = 1.0f;
     
-    [Header("Health")]
-    [SerializeField] private int _healthMax;
-    
     [Header("Movement")]
     [SerializeField] protected Transform _bodyTransform;
 
-    private int _currentHealth;
-    
-    private UIProgressBar _healthBar;
+    protected UnitHealth _health;
     private SpriteRenderer _spriteRenderer;
     protected Collider2D _bodyCollider;
     protected Transform _cachedTransform;
@@ -22,15 +18,12 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     
     protected UnitFxHolder _fxHolder;
     
-    private bool HasHealth => _currentHealth > 0;
-    protected bool HasMaxHealth => _currentHealth == _healthMax;
-    protected float HealthFullness => (float)_currentHealth / _healthMax;
-    public bool IsDead => !HasHealth;
+    public bool IsDead => !_health.HasHealth;
     
     protected virtual void Awake()
     {
         _bodyCollider = GetComponent<Collider2D>();
-        _healthBar = GetComponentInChildren<UIProgressBar>();
+        _health = GetComponent<UnitHealth>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponentInChildren<Animator>();
         _fxHolder = GetComponent<UnitFxHolder>();
@@ -40,7 +33,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
 
     protected virtual void Start()
     {
-        FillMaxHealth();
+        _health.FillMaxHealth();
     }
 
     public virtual void Init(DIContainer diContainer)
@@ -50,9 +43,9 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     
     public virtual void HandleDamage(int damageAmount)
     {
-        RemoveHealth(damageAmount);
+        _health.ChangeHealth(-damageAmount);
 
-        if (!HasHealth)
+        if (!_health.HasHealth)
         {
             Die();
             return;
@@ -74,45 +67,11 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
 
         _bodyCollider.enabled = false;
         _spriteRenderer.sortingOrder = 0;
-        if(_healthBar != null)
-        {
-            _healthBar.gameObject.SetActive(false);
-        }
+        _health.HideHealthBar();
     }
     
     private void PlayDeathAnimation()
     {
         _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Death));
-    }
-
-    private void UpdateHealthBar()
-    {
-        _healthBar?.SetValue(HealthFullness);
-    }
-    
-    protected void AddHealth(int healthAmount)
-    {
-        _currentHealth += healthAmount;
-        ClampHealthValue();
-        UpdateHealthBar();
-    }
-
-    protected void FillMaxHealth()
-    {
-        _currentHealth = _healthMax;
-        ClampHealthValue();
-        UpdateHealthBar();
-    }
-
-    private void RemoveHealth(int healthAmount)
-    {
-        _currentHealth -= healthAmount;
-        ClampHealthValue();
-        UpdateHealthBar();
-    }
-    
-    private void ClampHealthValue()
-    {
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _healthMax);
     }
 }

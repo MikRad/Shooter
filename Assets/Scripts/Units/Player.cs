@@ -28,7 +28,7 @@ public class Player : BaseUnit
     {
         UpdateAttackDelay();
 
-        CheckFireButton();
+        CheckAttackPossibility();
     }
 
     public override void Init(DIContainer diContainer)
@@ -54,18 +54,18 @@ public class Player : BaseUnit
     {
         base.HandleDamage(damageAmount);
 
-        OnHealthChanged?.Invoke(HealthFullness);
+        OnHealthChanged?.Invoke(_health.HealthFullness);
     }
 
     public bool TryCollectHealth(HealthItem healthItem)
     {
-        if (HasMaxHealth)
+        if (_health.HasMaxHealth)
             return false;
         
-        AddHealth(healthItem.HealthAmount);
+        _health.ChangeHealth(healthItem.HealthAmount);
         _fxHolder.PlayHealthCollectSfx();
         
-        OnHealthChanged?.Invoke(HealthFullness);
+        OnHealthChanged?.Invoke(_health.HealthFullness);
         
         return true;
     }
@@ -83,7 +83,7 @@ public class Player : BaseUnit
         return true;
     }
     
-    private void CheckFireButton()
+    private void CheckAttackPossibility()
     {
         if (IsDead)
             return;
@@ -128,6 +128,8 @@ public class Player : BaseUnit
 
         _movement.Stop();
         _movement.enabled = false;
+        _shooting.Deactivate();
+        _shooting.enabled = false;
         
         OnDied?.Invoke();
     }

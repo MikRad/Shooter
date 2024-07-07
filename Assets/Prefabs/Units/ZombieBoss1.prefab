@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2492868542174008771}
   - component: {fileID: 7657252240704774974}
   - component: {fileID: 110715277788329510}
+  - component: {fileID: 4067472770882708410}
   - component: {fileID: 2492868542174008769}
   - component: {fileID: 2492868542174008774}
   - component: {fileID: -8326845757864514685}
@@ -54,11 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e751f8d22d91668418dfb0026f27f20e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damagedSfxTypes: 1e0000001f00000020000000210000002200000023000000
-  _deathSfxTypes: 2400000025000000
-  _damagedVfxTypes: 0400000005000000
   _attackDelay: 0.7
-  _healthMax: 60
   _bodyTransform: {fileID: 136968841416082052}
   _visionAngle: 360
   _obstaclesMask:
@@ -122,7 +119,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damagedSfxTypes: 1e0000001f00000020000000210000002200000023000000
   _deathSfxTypes: 2400000025000000
+  _shootSfxTypes: 
   _damagedVfxTypes: 0400000005000000
+--- !u!114 &4067472770882708410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492868542174008770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51726bc7e9334c798cf5522787f58589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 60
 --- !u!50 &2492868542174008769
 Rigidbody2D:
   serializedVersion: 4

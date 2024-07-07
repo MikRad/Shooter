@@ -22,8 +22,8 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
     {
         _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Resurrect));
         
-        FillMaxHealth();        
-        OnHealthChanged?.Invoke(HealthFullness);
+        _health.FillMaxHealth();        
+        OnHealthChanged?.Invoke(_health.HealthFullness);
 
         _bodyCollider.enabled = true;
         _movement.enabled = true;
@@ -33,7 +33,7 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
     {
         base.HandleDamage(damageValue);
         
-        OnHealthChanged?.Invoke(HealthFullness);
+        OnHealthChanged?.Invoke(_health.HealthFullness);
     }
     
     protected override void InitStateMachine()

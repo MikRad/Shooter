@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 4087927913844230109}
   - component: {fileID: 4256200623546921435}
   - component: {fileID: 6592835232129452342}
+  - component: {fileID: 8795754961857299748}
   - component: {fileID: 4559121222024792933}
   - component: {fileID: 4559121222024792934}
   - component: {fileID: 6160188295842618164}
@@ -193,11 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61079d883056ac4092ce8251bfa5d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damagedSfxTypes: 110000001200000013000000
-  _deathSfxTypes: 1400000015000000
-  _damagedVfxTypes: 0200000003000000
   _attackDelay: 1
-  _healthMax: 12
   _bodyTransform: {fileID: 8884718031696014949}
   _visionAngle: 120
   _obstaclesMask:
@@ -248,7 +245,6 @@ MonoBehaviour:
   _bodyTransform: {fileID: 8884718031696014949}
   _bulletType: 2
   _bulletSpawnPoint: {fileID: 4559121222628824974}
-  _shootSfxTypes: 030000000400000005000000
 --- !u!114 &4256200623546921435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +279,19 @@ MonoBehaviour:
   _deathSfxTypes: 1400000015000000
   _shootSfxTypes: 030000000400000005000000
   _damagedVfxTypes: 0200000003000000
+--- !u!114 &8795754961857299748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559121222024792930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51726bc7e9334c798cf5522787f58589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 12
 --- !u!58 &4559121222024792933
 CircleCollider2D:
   m_ObjectHideFlags: 0

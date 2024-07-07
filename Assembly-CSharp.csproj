@@ -44,6 +44,7 @@
     <Compile Include="Assets\Scripts\BulletType.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateMeleeAttack.cs" />
     <Compile Include="Assets\Scripts\Units\Animation\UnitAnimationState.cs" />
+    <Compile Include="Assets\Scripts\Input\IPlayerInput.cs" />
     <Compile Include="Assets\Scripts\UI\BossUIStats.cs" />
     <Compile Include="Assets\Scripts\Services\VfxSpawner.cs" />
     <Compile Include="Assets\Scripts\Game.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStatePursuit.cs" />
     <Compile Include="Assets\Scripts\Audio\GameAudioSource.cs" />
     <Compile Include="Assets\Scripts\Utils\SpringUtils.cs" />
+    <Compile Include="Assets\Scripts\Input\DesktopPlayerInput.cs" />
     <Compile Include="Assets\Scripts\DamageDealer.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateAttack.cs" />
     <Compile Include="Assets\Scripts\Units\Player.cs" />
@@ -119,8 +121,7 @@
     <Compile Include="Assets\Scripts\Services\PickupItemSpawner.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
-    <Compile Include="Assets\Scripts\Input\IPlayerInput.cs" />
-    <Compile Include="Assets\Scripts\Input\DesktopPlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Units\UnitHealth.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

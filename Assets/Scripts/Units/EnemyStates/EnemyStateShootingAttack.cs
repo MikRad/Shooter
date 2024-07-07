@@ -19,7 +19,7 @@ public class EnemyStateShootingAttack : EnemyStateAttack
             return;
         
         UpdateAttackDelay();
-        _unit.UpdateShootingAimPosition(out _aimPosition);
+        _unit.UpdateAimPosition(out _aimPosition);
         _unitMovement.SetTargetPosition(_aimPosition);
 
         if (CanAttack && _unit.IsPlayerAccessibleToShoot(_aimPosition))

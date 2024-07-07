@@ -59,6 +59,11 @@ public class PlayerShooting : BaseShooting
         _currentAmmo += ammoAmount;
         ClampAmmoValue();
     }
+
+    public void Deactivate()
+    {
+        _aim.gameObject.SetActive(false);
+    }
     
     private void UpdateAimPosition()
     {

@@ -36,7 +36,7 @@ public class EnemyShootingUnit : EnemyUnit
         return (rayHit.collider != null) && (rayHit.collider.gameObject.TryGetComponent(out Player _));
     }
 
-    public void UpdateShootingAimPosition(out Vector3 aimPosition)
+    public void UpdateAimPosition(out Vector3 aimPosition)
     {
         aimPosition = _player.Transform.position;
         
