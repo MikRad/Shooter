@@ -24,12 +24,12 @@ public class EnemyMeleeUnit : EnemyUnit
         _animationHandler.OnAttackPerformed -= DoDamage;
     }
 
-    public override void Init(DIContainer diContainer)
-    {
-        base.Init(diContainer);
-
-        InitStatesAndPositions();
-    }
+    // public override void Init(DIContainer diContainer)
+    // {
+    //     base.Init(diContainer);
+    //
+    //     InitStatesAndPositions();
+    // }
     
     public virtual void Attack()
     {

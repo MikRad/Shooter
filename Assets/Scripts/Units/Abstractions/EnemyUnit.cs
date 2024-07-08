@@ -32,21 +32,22 @@ public abstract class EnemyUnit : BaseUnit
     
     public bool IsPatrolRole { get; private set;}
     
-    public static event Action<EnemyUnit> OnCreated;
-
     protected override void Awake()
     {
         base.Awake();
         
         _movement = GetComponent<EnemyMovement>();
         _pickupItemGenerator = GetComponent<PickupItemGenerator>();
+        
+        EventBus.Get.Subscribe<PlayerCreatedEvent>(HandlePlayerCreated);
     }
 
     protected override void Start()
     {
         base.Start();
-        
-        OnCreated?.Invoke(this);
+
+        EnemyCreatedEvent ev = new EnemyCreatedEvent(this);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
     
     protected virtual void Update()
@@ -58,8 +59,12 @@ public abstract class EnemyUnit : BaseUnit
     {
         base.Init(diContainer);
         
-        _player = diContainer.Resolve<Player>();
         _pickupItemGenerator.Init(diContainer.Resolve<PickupItemSpawner>());
+    }
+
+    private void OnDestroy()
+    {
+        EventBus.Get.Unsubscribe<PlayerCreatedEvent>(HandlePlayerCreated);
     }
 
     public bool TryDetectPlayer()
@@ -125,6 +130,13 @@ public abstract class EnemyUnit : BaseUnit
         _stateMachine.AddState(EnemyStateType.Dead, new EnemyStateDead(this, _stateMachine, _movement));
         
         _stateMachine.SetState(IsPatrolRole ? EnemyStateType.Patrol : EnemyStateType.Idle);
+    }
+    
+    private void HandlePlayerCreated(ref PlayerCreatedEvent ev)
+    {
+        _player = ev.Player;
+        
+        InitStatesAndPositions();
     }
     
     private bool IsPlayerVisible()

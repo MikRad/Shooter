@@ -60,8 +60,8 @@ public class Game : MonoBehaviour
         _uiViewsController.AddUIEventSubscriber(UIEventType.GameCompletedPlayAgainClick, StartNewGame);
         _uiViewsController.AddUIEventSubscriber(UIEventType.GameCompletedExitClick, ExitGame);
 
-        _levelController.OnLevelCompleted += HandleLevelCompleted;
-        _levelController.OnLevelFailed += HandleLevelFailed;
+        EventBus.Get.Subscribe<LevelCompletedEvent>(HandleLevelCompleted);
+        EventBus.Get.Subscribe<LevelFailedEvent>(HandleLevelFailed);
     }
     
     private void RemoveServicesEventHandlers()
@@ -72,16 +72,16 @@ public class Game : MonoBehaviour
         _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameCompletedPlayAgainClick, StartNewGame);
         _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameCompletedExitClick, ExitGame);
 
-        _levelController.OnLevelCompleted -= HandleLevelCompleted;
-        _levelController.OnLevelFailed -= HandleLevelFailed;
+        EventBus.Get.Unsubscribe<LevelCompletedEvent>(HandleLevelCompleted);
+        EventBus.Get.Unsubscribe<LevelFailedEvent>(HandleLevelFailed);
     }
 
-    private void HandleLevelFailed()
+    private void HandleLevelFailed(ref LevelFailedEvent ev)
     {
         StartCoroutine(UpdateGameOverDelay());
     }
 
-    private void HandleLevelCompleted()
+    private void HandleLevelCompleted(ref LevelCompletedEvent ev)
     {
         StartCoroutine(UpdateLevelCompletedDelay());
     }

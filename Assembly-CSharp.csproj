@@ -123,6 +123,16 @@
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
     <Compile Include="Assets\Scripts\UI\UIViewInteractable.cs" />
+    <Compile Include="Assets\Scripts\Services\EventBus.cs" />
+    <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
+    <Compile Include="Assets\Scripts\Events\IEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\PlayerCreatedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\EnemyCreatedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\PlayerDiedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\PlayerAmmoChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\PlayerHealthChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\LevelCompletedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\LevelFailedEvent.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

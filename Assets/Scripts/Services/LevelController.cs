@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
@@ -12,9 +11,6 @@ public class LevelController : MonoBehaviour
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
     
-    public event Action OnLevelCompleted; 
-    public event Action OnLevelFailed; 
-
     private void Awake()
     {
         AddEventHandlers();
@@ -28,9 +24,6 @@ public class LevelController : MonoBehaviour
     public void Init(DIContainer diContainer)
     {
         _diContainer = diContainer;
-        _diContainer.RegisterInstance(_player);
-        
-        _player.Init(diContainer);
         
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
         
@@ -39,22 +32,24 @@ public class LevelController : MonoBehaviour
     
     private void AddEventHandlers()
     {
-        EnemyUnit.OnCreated += HandledEnemyCreated;
+        EventBus.Get.Subscribe<EnemyCreatedEvent>(HandledEnemyCreated);
+        EventBus.Get.Subscribe<PlayerCreatedEvent>(HandledPlayerCreated);
+        EventBus.Get.Subscribe<PlayerDiedEvent>(HandledPlayerDied);
+        EventBus.Get.Subscribe<PlayerHealthChangedEvent>(HandledPlayerHealthChanged);
+        EventBus.Get.Subscribe<PlayerAmmoChangedEvent>(HandledPlayerAmmoChanged);
+        
         ExplosiveBarrel.OnCreated += HandleExplosiveBarrelCreated;
-
-        _player.OnDied += HandlePlayerDeath;
-        _player.OnHealthChanged += HandlePlayerHealthChange;
-        _player.OnAmmoChanged += HandlePlayerAmmoChange;
     }
-    
+
     private void RemoveEventHandlers()
     {
-        EnemyUnit.OnCreated -= HandledEnemyCreated;
+        EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandledEnemyCreated);
+        EventBus.Get.Unsubscribe<PlayerCreatedEvent>(HandledPlayerCreated);
+        EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandledPlayerDied);
+        EventBus.Get.Unsubscribe<PlayerHealthChangedEvent>(HandledPlayerHealthChanged);
+        EventBus.Get.Unsubscribe<PlayerAmmoChangedEvent>(HandledPlayerAmmoChanged);
+        
         ExplosiveBarrel.OnCreated -= HandleExplosiveBarrelCreated;
-
-        _player.OnDied -= HandlePlayerDeath;
-        _player.OnHealthChanged -= HandlePlayerHealthChange;
-        _player.OnAmmoChanged -= HandlePlayerAmmoChange;
 
         RemoveBossConditionHandlers();
     }
@@ -73,8 +68,35 @@ public class LevelController : MonoBehaviour
         _bossConditionChecker.OnActivated -= HandleBossActivation;
     }
     
-    private void HandledEnemyCreated(EnemyUnit enemy)
+    private void HandledPlayerCreated(ref PlayerCreatedEvent ev)
     {
+        _player = ev.Player;
+        _player.Init(_diContainer);
+        
+        _diContainer.RegisterInstance(_player);
+    }
+    
+    private void HandledPlayerDied(ref PlayerDiedEvent raisedevent)
+    {
+        LevelFailedEvent ev = new LevelFailedEvent();
+        EventBus.Get.RaiseEvent(this, ref ev);
+    }
+    
+    private void HandledPlayerHealthChanged(ref PlayerHealthChangedEvent ev)
+    {
+        _uiViewsController.SetPlayerUIHealthFullness(ev.HealthFullness);
+    }
+    
+    private void HandledPlayerAmmoChanged(ref PlayerAmmoChangedEvent ev)
+    {
+        _uiViewsController.SetPlayerUIAmmoFullness(ev.AmmoFullness);
+    }
+
+    
+    private void HandledEnemyCreated(ref EnemyCreatedEvent ev)
+    {
+        EnemyUnit enemy = ev.Enemy;
+        
         enemy.Init(_diContainer);
         _enemyList.AddLast(enemy);
         
@@ -95,14 +117,10 @@ public class LevelController : MonoBehaviour
         
         _player.Deactivate();
         
-        OnLevelCompleted?.Invoke();
+        LevelCompletedEvent ev = new LevelCompletedEvent();
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 
-    private void HandlePlayerDeath()
-    {
-        OnLevelFailed?.Invoke();
-    }
-    
     private void HandleExplosiveBarrelCreated(ExplosiveBarrel barrel)
     {
         barrel.Init(_diContainer);
@@ -128,18 +146,8 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    private void HandlePlayerHealthChange(float value)
-    {
-        _uiViewsController.SetPlayerUIHealthFullness(value);
-    }
-    
     private void HandleBossHealthChange(float value)
     {
         _uiViewsController.SetBossUIHealthFullness(value);
-    }
-
-    private void HandlePlayerAmmoChange(float value)
-    {
-        _uiViewsController.SetPlayerUIAmmoFullness(value);
     }
 }

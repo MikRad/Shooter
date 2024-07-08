@@ -23,7 +23,7 @@ public class EnemyShootingUnit : EnemyUnit
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
         _shooting.Init(bulletSpawner, _fxHolder);
         
-        InitStatesAndPositions();
+        // InitStatesAndPositions();
     }
     
     public bool IsPlayerAccessibleToShoot(in Vector3 aimPosition)

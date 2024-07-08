@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement)), RequireComponent(typeof(PlayerShooting))]
@@ -12,16 +11,20 @@ public class Player : BaseUnit
 
     public Transform Transform => _bodyTransform;
 
-    public event Action OnDied;
-    public event Action<float> OnHealthChanged;
-    public event Action<float> OnAmmoChanged;
-
     protected override void Awake()
     {
         base.Awake();
         
         _movement = GetComponent<PlayerMovement>();
         _shooting = GetComponent<PlayerShooting>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        PlayerCreatedEvent ev = new PlayerCreatedEvent(this);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 
     private void Update()
@@ -54,7 +57,8 @@ public class Player : BaseUnit
     {
         base.HandleDamage(damageAmount);
 
-        OnHealthChanged?.Invoke(_health.HealthFullness);
+        PlayerHealthChangedEvent ev = new PlayerHealthChangedEvent(_health.HealthFullness);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 
     public bool TryCollectHealth(HealthItem healthItem)
@@ -65,7 +69,8 @@ public class Player : BaseUnit
         _health.ChangeHealth(healthItem.HealthAmount);
         _fxHolder.PlayHealthCollectSfx();
         
-        OnHealthChanged?.Invoke(_health.HealthFullness);
+        PlayerHealthChangedEvent ev = new PlayerHealthChangedEvent(_health.HealthFullness);
+        EventBus.Get.RaiseEvent(this, ref ev);
         
         return true;
     }
@@ -78,7 +83,8 @@ public class Player : BaseUnit
         _shooting.AddAmmo(gunMagazine.AmmoAmount);
         _fxHolder.PlayGunMagazineCollectSfx();
         
-        OnAmmoChanged?.Invoke(_shooting.AmmoFullness);
+        PlayerAmmoChangedEvent ev = new PlayerAmmoChangedEvent(_shooting.AmmoFullness);
+        EventBus.Get.RaiseEvent(this, ref ev);
 
         return true;
     }
@@ -114,7 +120,9 @@ public class Player : BaseUnit
         if(_shooting.HasAmmo)
         {
             _shooting.Shoot();
-            OnAmmoChanged?.Invoke(_shooting.AmmoFullness);
+            
+            PlayerAmmoChangedEvent ev = new PlayerAmmoChangedEvent(_shooting.AmmoFullness);
+            EventBus.Get.RaiseEvent(this, ref ev);
         }
         else
         {
@@ -131,6 +139,7 @@ public class Player : BaseUnit
         _shooting.Deactivate();
         _shooting.enabled = false;
         
-        OnDied?.Invoke();
+        PlayerDiedEvent ev = new PlayerDiedEvent();
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 }
