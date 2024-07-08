@@ -35,7 +35,7 @@ public class VfxSpawner : MonoBehaviour
         }
     }
     
-    private void HandleVfxNeeded(ref VfxNeededEvent ev)
+    private void HandleVfxNeeded(VfxNeededEvent ev)
     {
         SpawnVfx(ev.VfxType, ev.TargetTransform.position, ev.TargetTransform.rotation);
     }

@@ -23,8 +23,7 @@ public class Player : BaseUnit
     {
         base.Start();
 
-        PlayerCreatedEvent ev = new PlayerCreatedEvent(this);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new PlayerCreatedEvent(this));
     }
 
     private void Update()
@@ -55,8 +54,7 @@ public class Player : BaseUnit
     {
         base.HandleDamage(damageAmount);
 
-        PlayerHealthChangedEvent ev = new PlayerHealthChangedEvent(_health.HealthFullness);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new PlayerHealthChangedEvent(_health.HealthFullness));
     }
 
     public bool TryCollectHealth(HealthItem healthItem)
@@ -67,8 +65,7 @@ public class Player : BaseUnit
         _health.ChangeHealth(healthItem.HealthAmount);
         _fxHolder.AddHealthCollectSfx();
         
-        PlayerHealthChangedEvent ev = new PlayerHealthChangedEvent(_health.HealthFullness);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new PlayerHealthChangedEvent(_health.HealthFullness));
         
         return true;
     }
@@ -81,8 +78,7 @@ public class Player : BaseUnit
         _shooting.AddAmmo(gunMagazine.AmmoAmount);
         _fxHolder.AddGunMagazineCollectSfx();
         
-        PlayerAmmoChangedEvent ev = new PlayerAmmoChangedEvent(_shooting.AmmoFullness);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new PlayerAmmoChangedEvent(_shooting.AmmoFullness));
 
         return true;
     }
@@ -119,8 +115,7 @@ public class Player : BaseUnit
         {
             _shooting.Shoot();
             
-            PlayerAmmoChangedEvent ev = new PlayerAmmoChangedEvent(_shooting.AmmoFullness);
-            EventBus.Get.RaiseEvent(this, ref ev);
+            EventBus.Get.RaiseEvent(this, new PlayerAmmoChangedEvent(_shooting.AmmoFullness));
         }
         else
         {
@@ -137,7 +132,6 @@ public class Player : BaseUnit
         _shooting.Deactivate();
         _shooting.enabled = false;
         
-        PlayerDiedEvent ev = new PlayerDiedEvent();
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new PlayerDiedEvent());
     }
 }

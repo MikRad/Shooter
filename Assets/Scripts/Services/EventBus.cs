@@ -48,11 +48,11 @@ public class EventBus
         binding?.Remove(callback);
     }
     
-    public void RaiseEvent<TEvent>(object sender, ref TEvent ev) where TEvent : IEvent
+    public void RaiseEvent<TEvent>(object sender, TEvent ev) where TEvent : IEvent
     {
-        EventBinding<TEvent> binding = GetBinding(ref ev);
+        EventBinding<TEvent> binding = GetBinding(ev);
         
-        binding?.Raise(ref ev);
+        binding?.Raise(ev);
     }
 
     private EventBinding<TEvent> GetBinding<TEvent>() where TEvent : IEvent
@@ -65,7 +65,7 @@ public class EventBus
         return null;
     }
     
-    private EventBinding<TEvent> GetBinding<TEvent>(ref TEvent ev) where TEvent : IEvent
+    private EventBinding<TEvent> GetBinding<TEvent>(TEvent ev) where TEvent : IEvent
     {
         Type eventType = ev.GetType();
         

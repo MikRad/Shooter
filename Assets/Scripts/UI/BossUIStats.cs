@@ -29,7 +29,7 @@ public class BossUIStats : UIView
         _healthBar.SetValue(1f);
     }
     
-    private void HandleEnemyBossHealthChanged(ref EnemyBossHealthChangedEvent ev)
+    private void HandleEnemyBossHealthChanged(EnemyBossHealthChangedEvent ev)
     {
         _healthBar.SetValue(ev.HealthFullness);
     }

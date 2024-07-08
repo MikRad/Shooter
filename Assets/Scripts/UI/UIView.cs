@@ -1,13 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(UITweener))]
 public abstract class UIView : MonoBehaviour
 {
     protected UITweener _tweener;
     
-    public event Action<UIEventType, object> OnUserEvent;
-
     protected virtual void Awake()
     {
         _tweener = GetComponent<UITweener>();
@@ -27,10 +24,5 @@ public abstract class UIView : MonoBehaviour
     protected virtual void HandleHideCompleted()
     {
         SetActive(false);
-    }
-
-    protected void InvokeOnUserEvent(UIEventType eventType, object param)
-    {
-        OnUserEvent?.Invoke(eventType, param);
     }
 }

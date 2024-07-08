@@ -34,12 +34,12 @@ public class PlayerUIStats : UIView
         _ammoBar.SetValue(1f);
     }
     
-    private void HandlePlayerHealthChanged(ref PlayerHealthChangedEvent ev)
+    private void HandlePlayerHealthChanged(PlayerHealthChangedEvent ev)
     {
         _healthBar.SetValue(ev.HealthFullness);
     }
     
-    private void HandlePlayerAmmoChanged(ref PlayerAmmoChangedEvent ev)
+    private void HandlePlayerAmmoChanged(PlayerAmmoChangedEvent ev)
     {
         _ammoBar.SetValue(ev.AmmoFullness);
     }

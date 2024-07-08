@@ -54,26 +54,53 @@ public class Game : MonoBehaviour
 
     private void AddServicesEventHandlers()
     {
-        _uiViewsController.AddUIEventSubscriber(UIEventType.LevelCompletedContinueClick, GoToNextLevel);
-        _uiViewsController.AddUIEventSubscriber(UIEventType.GameOverPlayAgainClick, RestartLevel);
-        _uiViewsController.AddUIEventSubscriber(UIEventType.GameOverExitClick, ExitGame);
-        _uiViewsController.AddUIEventSubscriber(UIEventType.GameCompletedPlayAgainClick, StartNewGame);
-        _uiViewsController.AddUIEventSubscriber(UIEventType.GameCompletedExitClick, ExitGame);
-
+        EventBus.Get.Subscribe<LevelCompletedPanelClosedEvent>(HandleLevelCompletedPanelClosed);
+        EventBus.Get.Subscribe<GameOverPanelClosedEvent>(HandleGameOverPanelClosed);
+        EventBus.Get.Subscribe<GameCompletedPanelClosedEvent>(HandleGameCompletedPanelClosed);
+        
         EventBus.Get.Subscribe<LevelCompletedEvent>(HandleLevelCompleted);
         EventBus.Get.Subscribe<LevelFailedEvent>(HandleLevelFailed);
     }
     
     private void RemoveServicesEventHandlers()
     {
-        _uiViewsController.RemoveUIEventSubscriber(UIEventType.LevelCompletedContinueClick, GoToNextLevel);
-        _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameOverPlayAgainClick, RestartLevel);
-        _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameOverExitClick, ExitGame);
-        _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameCompletedPlayAgainClick, StartNewGame);
-        _uiViewsController.RemoveUIEventSubscriber(UIEventType.GameCompletedExitClick, ExitGame);
-
+        EventBus.Get.Unsubscribe<LevelCompletedPanelClosedEvent>(HandleLevelCompletedPanelClosed);
+        EventBus.Get.Unsubscribe<GameOverPanelClosedEvent>(HandleGameOverPanelClosed);
+        EventBus.Get.Unsubscribe<GameCompletedPanelClosedEvent>(HandleGameCompletedPanelClosed);
+        
         EventBus.Get.Unsubscribe<LevelCompletedEvent>(HandleLevelCompleted);
         EventBus.Get.Unsubscribe<LevelFailedEvent>(HandleLevelFailed);
+    }
+
+    private void HandleLevelCompletedPanelClosed()
+    {
+        GoToNextLevel();
+    }
+    
+    private void HandleGameOverPanelClosed(GameOverPanelClosedEvent ev)
+    {
+        switch (ev.Action)
+        {
+            case GameOverPanel.UserAction.PlayAgain:
+                RestartLevel();
+                break;
+            case GameOverPanel.UserAction.Exit:
+                ExitGame();
+                break;
+        }
+    }
+
+    private void HandleGameCompletedPanelClosed(GameCompletedPanelClosedEvent ev)
+    {
+        switch (ev.Action)
+        {
+            case GameCompletedPanel.UserAction.PlayAgain:
+                StartNewGame();
+                break;
+            case GameCompletedPanel.UserAction.Exit:
+                ExitGame();
+                break;
+        }
     }
 
     private void HandleLevelFailed()
@@ -119,7 +146,7 @@ public class Game : MonoBehaviour
         _uiViewsController.ShowUIView(UIViewType.GameCompletedPanel);
     }
 
-    private void GoToNextLevel(object param)
+    private void GoToNextLevel()
     {
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
@@ -132,17 +159,17 @@ public class Game : MonoBehaviour
         }
     }
 
-    private void RestartLevel(object param)
+    private void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void StartNewGame(object param)
+    private void StartNewGame()
     {
         SceneManager.LoadScene(0);
     }
     
-    private void ExitGame(object param)
+    private void ExitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UIViewsController : MonoBehaviour
@@ -16,14 +15,15 @@ public class UIViewsController : MonoBehaviour
     
     private readonly Dictionary<UIViewType, UIView> _uiViewsMap = new Dictionary<UIViewType, UIView>();
 
-    private readonly Dictionary<UIEventType, List<Action<object>>> _uiEventsSubscribersMap =
-        new Dictionary<UIEventType, List<Action<object>>>();
+    // private readonly Dictionary<UIEventType, List<Action<object>>> _uiEventsSubscribersMap =
+    //     new Dictionary<UIEventType, List<Action<object>>>();
 
     protected void Awake()
     {
         CreateUIViewsMap();
     }
 
+    /*
     private void OnEnable()
     {
         AddUIViewsHandlers();
@@ -33,6 +33,7 @@ public class UIViewsController : MonoBehaviour
     {
         RemoveUIViewsHandlers();
     }
+    */
 
     public void ShowUIView(UIViewType viewType)
     {
@@ -44,6 +45,7 @@ public class UIViewsController : MonoBehaviour
         _uiViewsMap[viewType].Hide();
     }
 
+    /*
     public void AddUIEventSubscriber(UIEventType eventType, Action<object> eventSubscriber)
     {
         if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
@@ -58,7 +60,9 @@ public class UIViewsController : MonoBehaviour
 
         _uiEventsSubscribersMap.Add(eventType, new List<Action<object>>() { eventSubscriber });
     }
+    */
 
+    /*
     public void RemoveUIEventSubscriber(UIEventType eventType, Action<object> eventSubscriber)
     {
         if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
@@ -69,6 +73,7 @@ public class UIViewsController : MonoBehaviour
             }
         }
     }
+    */
 
     public void ResetPlayerUIStats()
     {
@@ -82,6 +87,7 @@ public class UIViewsController : MonoBehaviour
         bossUIStats?.Reset();
     }
     
+    /*
     private void AddUIViewsHandlers()
     {
         foreach (KeyValuePair<UIViewType, UIView> mapEntry in _uiViewsMap)
@@ -97,7 +103,9 @@ public class UIViewsController : MonoBehaviour
             mapEntry.Value.OnUserEvent -= HandleUIViewEvent;
         }
     }
+    */
 
+    /*
     private void HandleUIViewEvent(UIEventType eventType, object param)
     {
         if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
@@ -105,7 +113,9 @@ public class UIViewsController : MonoBehaviour
             NotifySubscribers(subscribers, param);
         }
     }
+    */
 
+    /*
     private void NotifySubscribers(IEnumerable<Action<object>> subscribers, object param)
     {
         foreach (Action<object> subscriber in subscribers)
@@ -113,6 +123,7 @@ public class UIViewsController : MonoBehaviour
             subscriber?.Invoke(param);
         }
     }
+    */
 
     private void CreateUIViewsMap()
     {

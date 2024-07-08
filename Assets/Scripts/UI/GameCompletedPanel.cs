@@ -7,7 +7,7 @@ public class GameCompletedPanel : UIViewInteractable
     [SerializeField] private Button _playAgainButton;
     [SerializeField] private Button _exitButton;
 
-    private UIEventType _userEventType = UIEventType.Undefined;
+    private UserAction _userAction;
 
     protected override void AddElementsListeners()
     {
@@ -30,23 +30,30 @@ public class GameCompletedPanel : UIViewInteractable
     private void PlayAgainClickHandler()
     {
         Hide();
-        
-        _userEventType = UIEventType.GameCompletedPlayAgainClick;
+
+        _userAction = UserAction.PlayAgain;
     }
 
     private void ExitClickHandler()
     {
         Hide();
         
-        _userEventType = UIEventType.GameCompletedExitClick;
+        _userAction = UserAction.Exit;
     }
 
     protected override void HandleHideCompleted()
     {
         base.HandleHideCompleted();
-        
-        InvokeOnUserEvent(_userEventType, null);
 
-        _userEventType = UIEventType.Undefined;
+        EventBus.Get.RaiseEvent(this, new GameCompletedPanelClosedEvent(_userAction));
+        
+        _userAction = UserAction.Undefined;
+    }
+    
+    public enum UserAction
+    {
+        Undefined,
+        PlayAgain,
+        Exit
     }
 }

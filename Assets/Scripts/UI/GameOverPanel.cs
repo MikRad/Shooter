@@ -7,8 +7,8 @@ public class GameOverPanel : UIViewInteractable
     [SerializeField] private Button _playAgainButton;
     [SerializeField] private Button _exitButton;
 
-    private UIEventType _userEventType = UIEventType.Undefined;
-
+    private UserAction _userAction;
+    
     protected override void AddElementsListeners()
     {
         _playAgainButton.onClick.AddListener(PlayAgainClickHandler);
@@ -30,23 +30,30 @@ public class GameOverPanel : UIViewInteractable
     private void PlayAgainClickHandler()
     {
         Hide();
-        
-        _userEventType = UIEventType.GameOverPlayAgainClick;
+
+        _userAction = UserAction.PlayAgain;
     }
 
     private void ExitClickHandler()
     {
         Hide();
         
-        _userEventType = UIEventType.GameOverExitClick;
+        _userAction = UserAction.Exit;
     }
 
     protected override void HandleHideCompleted()
     {
         base.HandleHideCompleted();
         
-        InvokeOnUserEvent(_userEventType, null);
-
-        _userEventType = UIEventType.Undefined;
+        EventBus.Get.RaiseEvent(this, new GameOverPanelClosedEvent(_userAction));
+            
+        _userAction = UserAction.Undefined;
+    }
+    
+    public enum UserAction
+    {
+        Undefined,
+        PlayAgain,
+        Exit
     }
 }

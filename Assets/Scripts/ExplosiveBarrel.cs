@@ -64,8 +64,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     
     private void AddExplosionVfx()
     {
-        VfxNeededEvent ev = new VfxNeededEvent(_vfxType, _cachedTransform);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new VfxNeededEvent(_vfxType, _cachedTransform));
     }
     
     private void OnDrawGizmos()
@@ -85,7 +84,6 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     {
         int rndIdx = Random.Range(0, _explosionSfxTypes.Length);
         
-        SfxNeededEvent ev = new SfxNeededEvent(_explosionSfxTypes[rndIdx]);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new SfxNeededEvent(_explosionSfxTypes[rndIdx]));
     }
 }
