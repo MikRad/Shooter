@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -22,28 +21,12 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     private DamageDealer _damageDealer;
     private Transform _cachedTransform;
     
-    private VfxSpawner _vfxSpawner;
-    private AudioController _audioController;
-
-    public static event Action<ExplosiveBarrel> OnCreated; 
-
     private void Awake()
     {
         _cachedTransform = transform;
         _damageDealer = GetComponent<DamageDealer>();
     }
 
-    private void Start()
-    {
-        OnCreated?.Invoke(this);
-    }
-
-    public void Init(DIContainer diContainer)
-    {
-        _vfxSpawner = diContainer.Resolve<VfxSpawner>();
-        _audioController = diContainer.Resolve<AudioController>();
-    }
-    
     public void HandleDamage(int damageAmount)
     {
         _healthAmount -= damageAmount;
@@ -81,7 +64,8 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     
     private void AddExplosionVfx()
     {
-        _vfxSpawner.SpawnVfx(_vfxType, _cachedTransform.position, Quaternion.identity);
+        VfxNeededEvent ev = new VfxNeededEvent(_vfxType, _cachedTransform);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
     
     private void OnDrawGizmos()
@@ -100,6 +84,8 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     private void PlayExplosionSfx()
     {
         int rndIdx = Random.Range(0, _explosionSfxTypes.Length);
-        _audioController.PlaySfx(_explosionSfxTypes[rndIdx]);
+        
+        SfxNeededEvent ev = new SfxNeededEvent(_explosionSfxTypes[rndIdx]);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 }

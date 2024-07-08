@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
@@ -55,10 +54,8 @@ public abstract class EnemyUnit : BaseUnit
         _stateMachine.Update();
     }
 
-    public override void Init(DIContainer diContainer)
+    public virtual void Init(DIContainer diContainer)
     {
-        base.Init(diContainer);
-        
         _pickupItemGenerator.Init(diContainer.Resolve<PickupItemSpawner>());
     }
 

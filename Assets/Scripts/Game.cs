@@ -76,12 +76,12 @@ public class Game : MonoBehaviour
         EventBus.Get.Unsubscribe<LevelFailedEvent>(HandleLevelFailed);
     }
 
-    private void HandleLevelFailed(ref LevelFailedEvent ev)
+    private void HandleLevelFailed()
     {
         StartCoroutine(UpdateGameOverDelay());
     }
 
-    private void HandleLevelCompleted(ref LevelCompletedEvent ev)
+    private void HandleLevelCompleted()
     {
         StartCoroutine(UpdateLevelCompletedDelay());
     }

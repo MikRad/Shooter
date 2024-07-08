@@ -61,6 +61,6 @@ public class BaseShooting : MonoBehaviour
 
     private void PlayShotSfx()
     {
-        _fxHolder.PlayShootSfx();
+        _fxHolder.AddShootSfx();
     }
 }

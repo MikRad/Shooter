@@ -36,11 +36,6 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
         _health.FillMaxHealth();
     }
 
-    public virtual void Init(DIContainer diContainer)
-    {
-        _fxHolder.Init(diContainer.Resolve<AudioController>(), diContainer.Resolve<VfxSpawner>());
-    }
-    
     public virtual void HandleDamage(int damageAmount)
     {
         _health.ChangeHealth(-damageAmount);
@@ -51,8 +46,8 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
             return;
         }
 
-        _fxHolder.AddDamagedVfx(_cachedTransform.position, _cachedTransform.rotation);
-        _fxHolder.PlayDamagedSfx();
+        _fxHolder.AddDamagedVfx(_cachedTransform);
+        _fxHolder.AddDamagedSfx();
     }
 
     public virtual void Deactivate()
@@ -63,7 +58,7 @@ public abstract class BaseUnit : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         PlayDeathAnimation();
-        _fxHolder.PlayDeathSfx();
+        _fxHolder.AddDeathSfx();
 
         _bodyCollider.enabled = false;
         _spriteRenderer.sortingOrder = 0;

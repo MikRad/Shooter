@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class VfxSpawner : MonoBehaviour
@@ -13,6 +14,13 @@ public class VfxSpawner : MonoBehaviour
     private void Awake()
     {
         FillVfxPoolsMap();
+        
+        EventBus.Get.Subscribe<VfxNeededEvent>(HandleVfxNeeded);
+    }
+
+    private void OnDestroy()
+    {
+        EventBus.Get.Unsubscribe<VfxNeededEvent>(HandleVfxNeeded);
     }
 
     public void SpawnVfx(VfxType vfxType, Vector3 position, Quaternion rotation)
@@ -25,6 +33,11 @@ public class VfxSpawner : MonoBehaviour
         {
             Debug.Log($"There is no pool for vfx of type {vfxType} !");
         }
+    }
+    
+    private void HandleVfxNeeded(ref VfxNeededEvent ev)
+    {
+        SpawnVfx(ev.VfxType, ev.TargetTransform.position, ev.TargetTransform.rotation);
     }
     
     private void FillVfxPoolsMap()

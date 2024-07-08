@@ -10,65 +10,63 @@ public class UnitFxHolder : MonoBehaviour
     [Header("Vfx")]
     [SerializeField] private VfxType[] _damagedVfxTypes;
 
-    protected AudioController _audioController;
-    protected VfxSpawner _vfxSpawner;
-
-    public void Init(AudioController audioController, VfxSpawner vfxSpawner)
+    public void AddDamagedVfx(Transform target)
     {
-        _audioController = audioController;
-        _vfxSpawner = vfxSpawner;
-    }
-
-    public void AddDamagedVfx(Vector3 position, Quaternion rotation)
-    {
-        PlayRandomVfx(_damagedVfxTypes, position, rotation);
+        AddRandomVfx(_damagedVfxTypes, target);
     }
     
-    public void PlayDamagedSfx()
+    public void AddDamagedSfx()
     {
-        PlayRandomSfx(_damagedSfxTypes);
+        AddRandomSfx(_damagedSfxTypes);
     }
     
-    public void PlayDeathSfx()
+    public void AddDeathSfx()
     {
-        PlayRandomSfx(_deathSfxTypes);
+        AddRandomSfx(_deathSfxTypes);
     }
     
-    public void PlayShootSfx()
+    public void AddShootSfx()
     {
-        PlayRandomSfx(_shootSfxTypes);
+        AddRandomSfx(_shootSfxTypes);
     }
 
-    public void PlayHealthCollectSfx()
+    public void AddHealthCollectSfx()
     {
-        _audioController.PlaySfx(SfxType.HealthCollect);    
+        SfxNeededEvent ev = new SfxNeededEvent(SfxType.HealthCollect);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
     
-    public void PlayGunMagazineCollectSfx()
+    public void AddGunMagazineCollectSfx()
     {
-        _audioController.PlaySfx(SfxType.GunMagazineCollect);    
+        SfxNeededEvent ev = new SfxNeededEvent(SfxType.GunMagazineCollect);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
     
-    public void PlayNoAmmoSfx()
+    public void AddNoAmmoSfx()
     {
-        _audioController.PlaySfx(SfxType.NoAmmo);    
+        SfxNeededEvent ev = new SfxNeededEvent(SfxType.NoAmmo);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
 
-    private void PlayRandomSfx(SfxType[] sfxTypeArray)
+    private void AddRandomSfx(SfxType[] sfxTypeArray)
     {
         if (IsNotEmpty(sfxTypeArray))
         {
             int rndIdx = Random.Range(0, sfxTypeArray.Length);
-            _audioController.PlaySfx(sfxTypeArray[rndIdx]);
+            
+            SfxNeededEvent ev = new SfxNeededEvent(sfxTypeArray[rndIdx]);
+            EventBus.Get.RaiseEvent(this, ref ev);
         }
     }
     
-    private void PlayRandomVfx(VfxType[] vfxTypeArray, Vector3 position, Quaternion rotation)
+    private void AddRandomVfx(VfxType[] vfxTypeArray, Transform target)
     {
         if (IsNotEmpty(vfxTypeArray))
         {
             int rndIdx = Random.Range(0, vfxTypeArray.Length);
-            _vfxSpawner.SpawnVfx(vfxTypeArray[rndIdx], position, rotation);
+            
+            VfxNeededEvent ev = new VfxNeededEvent(vfxTypeArray[rndIdx], target);
+            EventBus.Get.RaiseEvent(this, ref ev);
         }
     }
     

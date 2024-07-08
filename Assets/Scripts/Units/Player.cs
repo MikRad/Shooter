@@ -34,10 +34,8 @@ public class Player : BaseUnit
         CheckAttackPossibility();
     }
 
-    public override void Init(DIContainer diContainer)
+    public void Init(DIContainer diContainer)
     {
-        base.Init(diContainer);
-        
         _playerInput = diContainer.Resolve<IPlayerInput>();
         BulletSpawner bulletSpawner = diContainer.Resolve<BulletSpawner>();
         _movement.Init(_playerInput);
@@ -67,7 +65,7 @@ public class Player : BaseUnit
             return false;
         
         _health.ChangeHealth(healthItem.HealthAmount);
-        _fxHolder.PlayHealthCollectSfx();
+        _fxHolder.AddHealthCollectSfx();
         
         PlayerHealthChangedEvent ev = new PlayerHealthChangedEvent(_health.HealthFullness);
         EventBus.Get.RaiseEvent(this, ref ev);
@@ -81,7 +79,7 @@ public class Player : BaseUnit
             return false;
 
         _shooting.AddAmmo(gunMagazine.AmmoAmount);
-        _fxHolder.PlayGunMagazineCollectSfx();
+        _fxHolder.AddGunMagazineCollectSfx();
         
         PlayerAmmoChangedEvent ev = new PlayerAmmoChangedEvent(_shooting.AmmoFullness);
         EventBus.Get.RaiseEvent(this, ref ev);
@@ -126,7 +124,7 @@ public class Player : BaseUnit
         }
         else
         {
-            _fxHolder.PlayNoAmmoSfx();
+            _fxHolder.AddNoAmmoSfx();
         }
     }
     

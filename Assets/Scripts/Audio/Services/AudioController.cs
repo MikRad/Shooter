@@ -38,15 +38,18 @@ public class AudioController : MonoBehaviour
         _musicTrackSource.volume = _musicVolume;
         _musicTrackSource.loop = false;
 
+        EventBus.Get.Subscribe<SfxNeededEvent>(HandleSfxNeeded);
         // PlayRandomTrack();
     }
 
     private void OnDestroy()
     {
+        EventBus.Get.Unsubscribe<SfxNeededEvent>(HandleSfxNeeded);
+        
         SaveAudioParams();
     }
 
-/*    private void Update()
+    /*    private void Update()
     {
         if (_musicTrackSource.isPlaying)
             return;
@@ -104,6 +107,11 @@ public class AudioController : MonoBehaviour
         _musicTrackSource.Play();
     }
 
+    private void HandleSfxNeeded(ref SfxNeededEvent ev)
+    {
+        PlaySfx(ev.SfxType);
+    }
+    
     private void ReadAudioParams()
     {
         if (PlayerPrefs.HasKey(MusicVolumeKey))

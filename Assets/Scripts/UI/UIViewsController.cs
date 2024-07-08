@@ -70,35 +70,16 @@ public class UIViewsController : MonoBehaviour
         }
     }
 
-    public void SetPlayerUIHealthFullness(float healthFullness)
-    {
-        PlayerUIStats playerUIStats = _uiViewsMap[UIViewType.PlayerUIStats] as PlayerUIStats;
-        playerUIStats?.SetHealthFullness(healthFullness);
-    }
-    
-    public void SetPlayerUIAmmoFullness(float ammoFullness)
-    {
-        PlayerUIStats playerUIStats = _uiViewsMap[UIViewType.PlayerUIStats] as PlayerUIStats;
-        playerUIStats?.SetAmmoFullness(ammoFullness);
-    }
-    
     public void ResetPlayerUIStats()
     {
         PlayerUIStats playerUIStats = _uiViewsMap[UIViewType.PlayerUIStats] as PlayerUIStats;
-        playerUIStats?.SetHealthFullness(1f);
-        playerUIStats?.SetAmmoFullness(1f);
-    }
-    
-    public void SetBossUIHealthFullness(float healthFullness)
-    { 
-        BossUIStats bossUIStats = _uiViewsMap[UIViewType.BossUIStats] as BossUIStats;
-        bossUIStats?.SetHealthFullness(healthFullness);
+        playerUIStats?.Reset();
     }
     
     public void ResetBossUIStats()
     {
         BossUIStats bossUIStats = _uiViewsMap[UIViewType.BossUIStats] as BossUIStats;
-        bossUIStats?.SetHealthFullness(1f);
+        bossUIStats?.Reset();
     }
     
     private void AddUIViewsHandlers()

@@ -1,11 +1,13 @@
 ﻿public class EventHandler
 {
-    public object Callback { get; }
+    public object CallbackWithArg { get; }
+    public object CallbackNoArgs { get; }
     public int Priority { get; }
     
-    public EventHandler(object callback, int priority)
+    public EventHandler(object callbackWithArg, object callbackNoArgs, int priority)
     {
-        Callback = callback;
+        CallbackWithArg = callbackWithArg;
+        CallbackNoArgs = callbackNoArgs;
         Priority = priority;
     }
 }

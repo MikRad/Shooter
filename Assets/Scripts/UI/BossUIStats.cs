@@ -4,7 +4,19 @@ public class BossUIStats : UIView
 {
     [Header("UI elements")]
     [SerializeField] private UIProgressBar _healthBar;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        EventBus.Get.Subscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
+    }
+
+    private void OnDestroy()
+    {
+        EventBus.Get.Unsubscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
+    }
+
     public override void Show()
     {
         SetActive(true);
@@ -12,8 +24,13 @@ public class BossUIStats : UIView
         _tweener.Show();
     }
 
-    public void SetHealthFullness(float healthFullness)
+    public void Reset()
     {
-        _healthBar.SetValue(healthFullness);
+        _healthBar.SetValue(1f);
+    }
+    
+    private void HandleEnemyBossHealthChanged(ref EnemyBossHealthChangedEvent ev)
+    {
+        _healthBar.SetValue(ev.HealthFullness);
     }
 }

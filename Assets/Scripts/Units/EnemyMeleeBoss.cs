@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
+public class EnemyMeleeBoss : EnemyMeleeUnit
 {
     [SerializeField] private UnitAnimationState[] _attackVariants;
     
@@ -14,17 +13,14 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
 
     public bool IsFinallyDead => _lifesNumber == 0;
     
-    public event Action OnDied;
-    public event Action<float> OnHealthChanged;
-    public event Action<bool> OnActivated;
-
     public void Resurrect()
     {
         _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Resurrect));
         
-        _health.FillMaxHealth();        
-        OnHealthChanged?.Invoke(_health.HealthFullness);
-
+        _health.FillMaxHealth();
+        EnemyBossHealthChangedEvent ev = new EnemyBossHealthChangedEvent(_health.HealthFullness);
+        EventBus.Get.RaiseEvent(this, ref ev);
+            
         _bodyCollider.enabled = true;
         _movement.enabled = true;
     }
@@ -33,7 +29,8 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
     {
         base.HandleDamage(damageValue);
         
-        OnHealthChanged?.Invoke(_health.HealthFullness);
+        EnemyBossHealthChangedEvent ev = new EnemyBossHealthChangedEvent(_health.HealthFullness);
+        EventBus.Get.RaiseEvent(this, ref ev);
     }
     
     protected override void InitStateMachine()
@@ -67,7 +64,8 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
         
         if (IsFinallyDead)
         {
-            OnDied?.Invoke();
+            EnemyBossDiedEvent ev = new EnemyBossDiedEvent();
+            EventBus.Get.RaiseEvent(this, ref ev);
         }
     }
 
@@ -76,7 +74,9 @@ public class EnemyMeleeBoss : EnemyMeleeUnit, IBossConditionChecker
         if (_isActivated != activationFlag)
         {
             _isActivated = activationFlag;
-            OnActivated?.Invoke(_isActivated);
+            
+            EnemyBossActivationEvent ev = new EnemyBossActivationEvent(_isActivated);
+            EventBus.Get.RaiseEvent(this, ref ev);
         }
     }
 }
