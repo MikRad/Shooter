@@ -45,8 +45,7 @@ public abstract class EnemyUnit : BaseUnit
     {
         base.Start();
 
-        EnemyCreatedEvent ev = new EnemyCreatedEvent(this);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new EnemyCreatedEvent(this));
     }
     
     protected virtual void Update()
@@ -129,7 +128,7 @@ public abstract class EnemyUnit : BaseUnit
         _stateMachine.SetState(IsPatrolRole ? EnemyStateType.Patrol : EnemyStateType.Idle);
     }
     
-    private void HandlePlayerCreated(ref PlayerCreatedEvent ev)
+    private void HandlePlayerCreated(PlayerCreatedEvent ev)
     {
         _player = ev.Player;
         

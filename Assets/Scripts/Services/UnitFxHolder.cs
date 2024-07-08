@@ -32,20 +32,17 @@ public class UnitFxHolder : MonoBehaviour
 
     public void AddHealthCollectSfx()
     {
-        SfxNeededEvent ev = new SfxNeededEvent(SfxType.HealthCollect);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new SfxNeededEvent(SfxType.HealthCollect));
     }
     
     public void AddGunMagazineCollectSfx()
     {
-        SfxNeededEvent ev = new SfxNeededEvent(SfxType.GunMagazineCollect);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new SfxNeededEvent(SfxType.GunMagazineCollect));
     }
     
     public void AddNoAmmoSfx()
     {
-        SfxNeededEvent ev = new SfxNeededEvent(SfxType.NoAmmo);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new SfxNeededEvent(SfxType.NoAmmo));
     }
 
     private void AddRandomSfx(SfxType[] sfxTypeArray)
@@ -54,8 +51,7 @@ public class UnitFxHolder : MonoBehaviour
         {
             int rndIdx = Random.Range(0, sfxTypeArray.Length);
             
-            SfxNeededEvent ev = new SfxNeededEvent(sfxTypeArray[rndIdx]);
-            EventBus.Get.RaiseEvent(this, ref ev);
+            EventBus.Get.RaiseEvent(this, new SfxNeededEvent(sfxTypeArray[rndIdx]));
         }
     }
     
@@ -65,8 +61,7 @@ public class UnitFxHolder : MonoBehaviour
         {
             int rndIdx = Random.Range(0, vfxTypeArray.Length);
             
-            VfxNeededEvent ev = new VfxNeededEvent(vfxTypeArray[rndIdx], target);
-            EventBus.Get.RaiseEvent(this, ref ev);
+            EventBus.Get.RaiseEvent(this, new VfxNeededEvent(vfxTypeArray[rndIdx], target));
         }
     }
     

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UIViewsController : MonoBehaviour
@@ -16,22 +15,9 @@ public class UIViewsController : MonoBehaviour
     
     private readonly Dictionary<UIViewType, UIView> _uiViewsMap = new Dictionary<UIViewType, UIView>();
 
-    private readonly Dictionary<UIEventType, List<Action<object>>> _uiEventsSubscribersMap =
-        new Dictionary<UIEventType, List<Action<object>>>();
-
     protected void Awake()
     {
         CreateUIViewsMap();
-    }
-
-    private void OnEnable()
-    {
-        AddUIViewsHandlers();
-    }
-
-    private void OnDisable()
-    {
-        RemoveUIViewsHandlers();
     }
 
     public void ShowUIView(UIViewType viewType)
@@ -42,32 +28,6 @@ public class UIViewsController : MonoBehaviour
     public void HideUIView(UIViewType viewType)
     {
         _uiViewsMap[viewType].Hide();
-    }
-
-    public void AddUIEventSubscriber(UIEventType eventType, Action<object> eventSubscriber)
-    {
-        if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
-        {
-            if (!subscribers.Contains(eventSubscriber))
-            {
-                subscribers.Add(eventSubscriber);
-            }
-
-            return;
-        }
-
-        _uiEventsSubscribersMap.Add(eventType, new List<Action<object>>() { eventSubscriber });
-    }
-
-    public void RemoveUIEventSubscriber(UIEventType eventType, Action<object> eventSubscriber)
-    {
-        if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
-        {
-            if (subscribers.Contains(eventSubscriber))
-            {
-                subscribers.Remove(eventSubscriber);
-            }
-        }
     }
 
     public void ResetPlayerUIStats()
@@ -82,38 +42,6 @@ public class UIViewsController : MonoBehaviour
         bossUIStats?.Reset();
     }
     
-    private void AddUIViewsHandlers()
-    {
-        foreach (KeyValuePair<UIViewType, UIView> mapEntry in _uiViewsMap)
-        {
-            mapEntry.Value.OnUserEvent += HandleUIViewEvent;
-        }
-    }
-    
-    private void RemoveUIViewsHandlers()
-    {
-        foreach (KeyValuePair<UIViewType, UIView> mapEntry in _uiViewsMap)
-        {
-            mapEntry.Value.OnUserEvent -= HandleUIViewEvent;
-        }
-    }
-
-    private void HandleUIViewEvent(UIEventType eventType, object param)
-    {
-        if (_uiEventsSubscribersMap.TryGetValue(eventType, out List<Action<object>> subscribers))
-        {
-            NotifySubscribers(subscribers, param);
-        }
-    }
-
-    private void NotifySubscribers(IEnumerable<Action<object>> subscribers, object param)
-    {
-        foreach (Action<object> subscriber in subscribers)
-        {
-            subscriber?.Invoke(param);
-        }
-    }
-
     private void CreateUIViewsMap()
     {
         _uiViewsMap.Add(UIViewType.PlayerUIStats, Instantiate(_playerUIStatsPrefab, _canvasTransform));

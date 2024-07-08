@@ -18,8 +18,7 @@ public class EnemyMeleeBoss : EnemyMeleeUnit
         _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Resurrect));
         
         _health.FillMaxHealth();
-        EnemyBossHealthChangedEvent ev = new EnemyBossHealthChangedEvent(_health.HealthFullness);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new EnemyBossHealthChangedEvent(_health.HealthFullness));
             
         _bodyCollider.enabled = true;
         _movement.enabled = true;
@@ -29,8 +28,7 @@ public class EnemyMeleeBoss : EnemyMeleeUnit
     {
         base.HandleDamage(damageValue);
         
-        EnemyBossHealthChangedEvent ev = new EnemyBossHealthChangedEvent(_health.HealthFullness);
-        EventBus.Get.RaiseEvent(this, ref ev);
+        EventBus.Get.RaiseEvent(this, new EnemyBossHealthChangedEvent(_health.HealthFullness));
     }
     
     protected override void InitStateMachine()
@@ -64,8 +62,7 @@ public class EnemyMeleeBoss : EnemyMeleeUnit
         
         if (IsFinallyDead)
         {
-            EnemyBossDiedEvent ev = new EnemyBossDiedEvent();
-            EventBus.Get.RaiseEvent(this, ref ev);
+            EventBus.Get.RaiseEvent(this, new EnemyBossDiedEvent());
         }
     }
 
@@ -75,8 +72,7 @@ public class EnemyMeleeBoss : EnemyMeleeUnit
         {
             _isActivated = activationFlag;
             
-            EnemyBossActivationEvent ev = new EnemyBossActivationEvent(_isActivated);
-            EventBus.Get.RaiseEvent(this, ref ev);
+            EventBus.Get.RaiseEvent(this, new EnemyBossActivationEvent(_isActivated));
         }
     }
 }

@@ -107,7 +107,7 @@ public class AudioController : MonoBehaviour
         _musicTrackSource.Play();
     }
 
-    private void HandleSfxNeeded(ref SfxNeededEvent ev)
+    private void HandleSfxNeeded(SfxNeededEvent ev)
     {
         PlaySfx(ev.SfxType);
     }
