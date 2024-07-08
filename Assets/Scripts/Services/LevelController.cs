@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private Player _player;
-    
+    [SerializeField] private CinemachineVirtualCamera _cmCamera;
+
+    private Player _player;
     private readonly LinkedList<EnemyUnit> _enemyList = new LinkedList<EnemyUnit>();
     
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
+    private PlayerFactory _playerFactory;
     
     private void Awake()
     {
@@ -23,7 +26,8 @@ public class LevelController : MonoBehaviour
     public void Init(DIContainer diContainer)
     {
         _diContainer = diContainer;
-        
+
+        _playerFactory = _diContainer.Resolve<PlayerFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
         
         InitUIStats();
@@ -31,6 +35,7 @@ public class LevelController : MonoBehaviour
     
     private void AddEventHandlers()
     {
+        EventBus.Get.Subscribe<PlayerStartPointCreatedEvent>(HandlePlayerStartPointCreated);
         EventBus.Get.Subscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Subscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Subscribe<EnemyCreatedEvent>(HandleEnemyCreated);
@@ -41,6 +46,7 @@ public class LevelController : MonoBehaviour
 
     private void RemoveEventHandlers()
     {
+        EventBus.Get.Unsubscribe<PlayerStartPointCreatedEvent>(HandlePlayerStartPointCreated);
         EventBus.Get.Unsubscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandleEnemyCreated);
@@ -49,12 +55,16 @@ public class LevelController : MonoBehaviour
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
     }
 
+    private void HandlePlayerStartPointCreated(PlayerStartPointCreatedEvent ev)
+    {
+        _playerFactory.CreatePlayer(ev.Position);        
+    }
+    
     private void HandlePlayerCreated(PlayerCreatedEvent ev)
     {
         _player = ev.Player;
-        _player.Init(_diContainer);
-        
-        _diContainer.RegisterInstance(_player);
+        _cmCamera.Follow = _player.transform;
+        // _player.Init(_diContainer);
     }
     
     private void HandlePlayerDied()

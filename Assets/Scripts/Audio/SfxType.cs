@@ -38,4 +38,8 @@ public enum SfxType
     ZombieBossDamaged6 = 35,
     ZombieBossDeath1 = 36,
     ZombieBossDeath2 = 37,
+    BarrelHit1 = 38,
+    BarrelHit2 = 39,
+    BarrelHit3 = 40,
+    ObstacleHit = 41
 }

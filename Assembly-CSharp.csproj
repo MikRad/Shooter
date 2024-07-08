@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Units\EnemyMoveType.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntry.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerDiedEvent.cs" />
+    <Compile Include="Assets\Scripts\Events\GameCompletedPanelClosedEvent.cs" />
     <Compile Include="Assets\Scripts\Abstractions\IExplosive.cs" />
     <Compile Include="Assets\Scripts\UI\UIViewInteractable.cs" />
     <Compile Include="Assets\Scripts\Events\VfxNeededEvent.cs" />
@@ -139,7 +140,10 @@
     <Compile Include="Assets\Scripts\Services\PickupItemSpawner.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
-    <Compile Include="Assets\Scripts\Events\GameCompletedPanelClosedEvent.cs" />
+    <Compile Include="Assets\Scripts\Factories\PlayerStartPoint.cs" />
+    <Compile Include="Assets\Scripts\Events\PlayerStartPointCreatedEvent.cs" />
+    <Compile Include="Assets\Scripts\Factories\PlayerFactory.cs" />
+    <Compile Include="Assets\Scripts\Factories\Config\PlayerFactoryConfig.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

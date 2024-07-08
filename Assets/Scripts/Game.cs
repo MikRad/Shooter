@@ -16,12 +16,15 @@ public class Game : MonoBehaviour
     private VfxSpawner _vfxSpawner;
     private DIContainer _diContainer;
 
-    private void Start()
+    private void Awake()
     {
         FindServices();
         RegisterServices();
         AddServicesEventHandlers();
+    }
 
+    private void Start()
+    {
         _levelController.Init(_diContainer);
     }
 
@@ -45,6 +48,7 @@ public class Game : MonoBehaviour
         _diContainer.RegisterInstance(_pickupItemSpawner);
         _diContainer.RegisterInstance(_vfxSpawner);
         _diContainer.RegisterSingleton<IPlayerInput>((c) => new DesktopPlayerInput());
+        _diContainer.RegisterSingleton<PlayerFactory>((c) => new PlayerFactory(c));
     }
     
     private void OnDestroy()
