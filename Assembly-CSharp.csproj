@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\BulletType.cs" />
-    <Compile Include="Assets\Scripts\Units\EnemyPatrolPoint.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateMeleeAttack.cs" />
     <Compile Include="Assets\Scripts\Units\Animation\UnitAnimationState.cs" />
     <Compile Include="Assets\Scripts\Events\EnemyBossActivationEvent.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateReturn.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerHealthChangedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverPanel.cs" />
+    <Compile Include="Assets\Scripts\Units\EnemyType.cs" />
     <Compile Include="Assets\Scripts\ExplosiveBarrel.cs" />
     <Compile Include="Assets\Scripts\Events\SfxNeededEvent.cs" />
     <Compile Include="Assets\Scripts\Units\Abstractions\EnemyUnit.cs" />
@@ -93,20 +93,23 @@
     <Compile Include="Assets\Scripts\Units\BaseShooting.cs" />
     <Compile Include="Assets\Scripts\UI\LevelCompletedPanel.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerUIStats.cs" />
+    <Compile Include="Assets\Scripts\Factories\Config\EnemyFactoryConfig.cs" />
     <Compile Include="Assets\Scripts\Services\EventBus.cs" />
     <Compile Include="Assets\Scripts\PickupItems\GunMagazineItem.cs" />
     <Compile Include="Assets\Scripts\Services\BulletSpawner.cs" />
     <Compile Include="Assets\Scripts\Utils\Pool.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyShootingUnit.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Scripts\DI\DIEntrySingleton.cs" />
+    <Compile Include="Assets\Scripts\Factories\EnemyCreateInfo.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateShootingAttack.cs" />
+    <Compile Include="Assets\Scripts\DI\DIEntrySingleton.cs" />
     <Compile Include="Assets\Scripts\Services\UnitFxHolder.cs" />
     <Compile Include="Assets\Scripts\Factories\PlayerStartPoint.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxType.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMoveType.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntry.cs" />
     <Compile Include="Assets\Scripts\Factories\Config\PlayerFactoryConfig.cs" />
+    <Compile Include="Assets\Scripts\Factories\EnemyFactory.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerDiedEvent.cs" />
     <Compile Include="Assets\Scripts\Events\GameCompletedPanelClosedEvent.cs" />
     <Compile Include="Assets\Scripts\Abstractions\IExplosive.cs" />
@@ -119,7 +122,9 @@
     <Compile Include="Assets\Scripts\Input\DesktopPlayerInput.cs" />
     <Compile Include="Assets\Scripts\DamageDealer.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateAttack.cs" />
+    <Compile Include="Assets\Scripts\PickupItems\PickupItemAnimator.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerAmmoChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\Units\EnemyPatrolPoint.cs" />
     <Compile Include="Assets\Scripts\Units\Player.cs" />
     <Compile Include="Assets\Scripts\UI\UIProgressBar.cs" />
     <Compile Include="Assets\Scripts\DI\DIContainer.cs" />
@@ -133,6 +138,7 @@
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateIdle.cs" />
     <Compile Include="Assets\Scripts\Vfx\BloodVfx.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateBossRagePursuit.cs" />
+    <Compile Include="Assets\Scripts\Factories\EnemyStartPointData.cs" />
     <Compile Include="Assets\Scripts\Factories\PlayerFactory.cs" />
     <Compile Include="Assets\Scripts\Services\LevelController.cs" />
     <Compile Include="Assets\Scripts\Units\MeleeAnimationHandler.cs" />
@@ -144,8 +150,6 @@
     <Compile Include="Assets\Scripts\Services\PickupItemSpawner.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
-    <Compile Include="Assets\Scripts\PickupItems\PickupItemAnimator.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitType.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

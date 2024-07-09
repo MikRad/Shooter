@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Bits: 2432
   _vfxType: 1
   _explosionSfxTypes: 090000000a000000
-  _hitSfxTypes: 260000002700000028000000
+  _hitSfxTypes: 2600000027000000280000002a000000
 --- !u!114 &5263633728385485084
 MonoBehaviour:
   m_ObjectHideFlags: 0

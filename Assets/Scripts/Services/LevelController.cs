@@ -12,6 +12,7 @@ public class LevelController : MonoBehaviour
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
     private PlayerFactory _playerFactory;
+    private EnemyFactory _enemyFactory;
     
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class LevelController : MonoBehaviour
         _diContainer = diContainer;
 
         _playerFactory = _diContainer.Resolve<PlayerFactory>();
+        _enemyFactory = _diContainer.Resolve<EnemyFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
 
         CreateUnits();
@@ -55,13 +57,31 @@ public class LevelController : MonoBehaviour
 
     private void CreateUnits()
     {
+        EnemyPatrolPoint[] enemyPatrolPoints = FindObjectsOfType<EnemyPatrolPoint>();
+        EnemyStartPointData[] enemyStartPointDatas = FindObjectsOfType<EnemyStartPointData>();
         PlayerStartPoint playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+        
         _player = _playerFactory.CreatePlayer(playerStartPoint.transform.position);
         _cmCamera.Follow = _player.transform;
+
+        _enemyFactory.InitAllPatrolPositions(enemyPatrolPoints);
+        
+        foreach (EnemyStartPointData data in enemyStartPointDatas)
+        {
+            EnemyUnit enemy = _enemyFactory.CreateEnemy(data);
+            _enemyList.AddLast(enemy);
+
+            Destroy(data.gameObject);
+        }
+
+        foreach (EnemyPatrolPoint point in enemyPatrolPoints)
+        {
+            Destroy(point.gameObject);
+        }
         
         Destroy(playerStartPoint.gameObject);
     }
-    
+
     private void HandlePlayerDied()
     {
         EventBus.Get.RaiseEvent(this, new LevelFailedEvent());
@@ -71,7 +91,7 @@ public class LevelController : MonoBehaviour
     {
         EnemyUnit enemy = ev.Enemy;
         
-        enemy.Init(_diContainer);
+        // enemy.Init(_diContainer);
         _enemyList.AddLast(enemy);
     }
 

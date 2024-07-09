@@ -48,7 +48,8 @@ public class Game : MonoBehaviour
         _diContainer.RegisterInstance(_pickupItemSpawner);
         _diContainer.RegisterInstance(_vfxSpawner);
         _diContainer.RegisterSingleton<IPlayerInput>((c) => new DesktopPlayerInput());
-        _diContainer.RegisterSingleton<PlayerFactory>((c) => new PlayerFactory(c));
+        _diContainer.RegisterSingleton((c) => new PlayerFactory(c));
+        _diContainer.RegisterSingleton((c) => new EnemyFactory(c));
     }
     
     private void OnDestroy()

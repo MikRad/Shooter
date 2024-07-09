@@ -45,13 +45,13 @@ public class BaseShooting : MonoBehaviour
     private void CreateBullet()
     {
         _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, _bodyTransform.rotation);
-        PlayShotSfx();
+        AddShootSfx();
     }
     
     private void CreateBullet(Quaternion rotation)
     {
         _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, rotation);
-        PlayShotSfx();
+        AddShootSfx();
     }
 
     private void PlayShootAnimation()
@@ -59,7 +59,7 @@ public class BaseShooting : MonoBehaviour
         _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Attack));
     }
 
-    private void PlayShotSfx()
+    private void AddShootSfx()
     {
         _fxHolder.AddShootSfx();
     }
