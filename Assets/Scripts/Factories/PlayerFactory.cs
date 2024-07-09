@@ -13,12 +13,14 @@ public class PlayerFactory
         LoadConfig();
     }
 
-    public void CreatePlayer(Vector3 position)
+    public Player CreatePlayer(Vector3 position)
     {
         Player player = GameObject.Instantiate(_config.playerPrefab, position, Quaternion.identity);
         player.Init(_diContainer);
         
         _diContainer.RegisterInstance(player);
+
+        return player;
     }
 
     private void LoadConfig()

@@ -62,8 +62,8 @@ MonoBehaviour:
   _obstaclesMask:
     serializedVersion: 2
     m_Bits: 6144
-  _pursuitRadius: 20
-  _targetDetectionVisionRadius: 18
+  _pursuitRadius: 18
+  _targetDetectionVisionRadius: 16
   _targetDetectionAnywayRadius: 10
   _attackRadius: 2
   _rageDuration: 6

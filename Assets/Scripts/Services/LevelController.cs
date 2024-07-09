@@ -29,14 +29,14 @@ public class LevelController : MonoBehaviour
 
         _playerFactory = _diContainer.Resolve<PlayerFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
+
+        CreateUnits();
         
         InitUIStats();
     }
-    
+
     private void AddEventHandlers()
     {
-        EventBus.Get.Subscribe<PlayerStartPointCreatedEvent>(HandlePlayerStartPointCreated);
-        EventBus.Get.Subscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Subscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Subscribe<EnemyCreatedEvent>(HandleEnemyCreated);
         
@@ -46,8 +46,6 @@ public class LevelController : MonoBehaviour
 
     private void RemoveEventHandlers()
     {
-        EventBus.Get.Unsubscribe<PlayerStartPointCreatedEvent>(HandlePlayerStartPointCreated);
-        EventBus.Get.Unsubscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandleEnemyCreated);
 
@@ -55,16 +53,13 @@ public class LevelController : MonoBehaviour
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
     }
 
-    private void HandlePlayerStartPointCreated(PlayerStartPointCreatedEvent ev)
+    private void CreateUnits()
     {
-        _playerFactory.CreatePlayer(ev.Position);        
-    }
-    
-    private void HandlePlayerCreated(PlayerCreatedEvent ev)
-    {
-        _player = ev.Player;
+        PlayerStartPoint playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+        _player = _playerFactory.CreatePlayer(playerStartPoint.transform.position);
         _cmCamera.Follow = _player.transform;
-        // _player.Init(_diContainer);
+        
+        Destroy(playerStartPoint.gameObject);
     }
     
     private void HandlePlayerDied()
