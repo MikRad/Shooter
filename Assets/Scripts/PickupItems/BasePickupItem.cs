@@ -1,11 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PickupItemAnimator))]
 public abstract class BasePickupItem : MonoBehaviour
 {
     [Header("Base settings")]
     [SerializeField] private PickupItemType _pickupItemType;
 
     private Transform _cachedTransform;
+    
     public PickupItemType Type => _pickupItemType;
 
     private void Awake()

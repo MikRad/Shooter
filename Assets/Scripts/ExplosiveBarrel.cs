@@ -17,6 +17,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
 
     [Header("Explosion Sfx")]
     [SerializeField] private SfxType[] _explosionSfxTypes;
+    [SerializeField] private SfxType[] _hitSfxTypes;
     
     private DamageDealer _damageDealer;
     private Transform _cachedTransform;
@@ -30,6 +31,9 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
     public void HandleDamage(int damageAmount)
     {
         _healthAmount -= damageAmount;
+        
+        AddHitSfx();
+        
         if (_healthAmount <= 0)
         {
             Explode();
@@ -57,7 +61,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
         }
         
         AddExplosionVfx();
-        PlayExplosionSfx();
+        AddExplosionSfx();
         
         Destroy(gameObject);
     }
@@ -80,10 +84,28 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable, IExplosive
         HandleDamage(damageAmount);
     }
 
-    private void PlayExplosionSfx()
+    private void AddHitSfx()
     {
-        int rndIdx = Random.Range(0, _explosionSfxTypes.Length);
+        if (IsNotEmpty(_hitSfxTypes))
+        {
+            int rndIdx = Random.Range(0, _hitSfxTypes.Length);
         
-        EventBus.Get.RaiseEvent(this, new SfxNeededEvent(_explosionSfxTypes[rndIdx]));
+            EventBus.Get.RaiseEvent(this, new SfxNeededEvent(_hitSfxTypes[rndIdx]));
+        }
+    }
+    
+    private void AddExplosionSfx()
+    {
+        if (IsNotEmpty(_explosionSfxTypes))
+        {
+            int rndIdx = Random.Range(0, _explosionSfxTypes.Length);
+        
+            EventBus.Get.RaiseEvent(this, new SfxNeededEvent(_explosionSfxTypes[rndIdx]));
+        }
+    }
+    
+    private bool IsNotEmpty<T>(T[] array)
+    {
+        return (array != null && array.Length > 0);
     }
 }

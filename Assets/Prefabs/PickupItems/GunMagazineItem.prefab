@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4879721548949827879}
   - component: {fileID: 904434689746462793}
   - component: {fileID: 904434689746462792}
+  - component: {fileID: 6097272754500268020}
   m_Layer: 10
   m_Name: GunMagazineItem
   m_TagString: Item
@@ -126,3 +127,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.86126447, y: 0.2439766}
   m_EdgeRadius: 0
+--- !u!114 &6097272754500268020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904434689746462795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b742d1e4d8bf0b543a864645dc989f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enableRotation: 1
+  _rotationDuration: 2
+  _rotationAxis: {x: 0, y: 0, z: 1}
+  _enablePulsation: 0
+  _pulsationDuration: 0.5
+  _pulsationScale: {x: 1.2, y: 1.2, z: 1}

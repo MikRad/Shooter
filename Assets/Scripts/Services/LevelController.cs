@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private Player _player;
-    
+    [SerializeField] private CinemachineVirtualCamera _cmCamera;
+
+    private Player _player;
     private readonly LinkedList<EnemyUnit> _enemyList = new LinkedList<EnemyUnit>();
     
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
+    private PlayerFactory _playerFactory;
     
     private void Awake()
     {
@@ -23,15 +26,17 @@ public class LevelController : MonoBehaviour
     public void Init(DIContainer diContainer)
     {
         _diContainer = diContainer;
-        
+
+        _playerFactory = _diContainer.Resolve<PlayerFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
+
+        CreateUnits();
         
         InitUIStats();
     }
-    
+
     private void AddEventHandlers()
     {
-        EventBus.Get.Subscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Subscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Subscribe<EnemyCreatedEvent>(HandleEnemyCreated);
         
@@ -41,7 +46,6 @@ public class LevelController : MonoBehaviour
 
     private void RemoveEventHandlers()
     {
-        EventBus.Get.Unsubscribe<PlayerCreatedEvent>(HandlePlayerCreated);
         EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandlePlayerDied);
         EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandleEnemyCreated);
 
@@ -49,12 +53,13 @@ public class LevelController : MonoBehaviour
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
     }
 
-    private void HandlePlayerCreated(PlayerCreatedEvent ev)
+    private void CreateUnits()
     {
-        _player = ev.Player;
-        _player.Init(_diContainer);
+        PlayerStartPoint playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+        _player = _playerFactory.CreatePlayer(playerStartPoint.transform.position);
+        _cmCamera.Follow = _player.transform;
         
-        _diContainer.RegisterInstance(_player);
+        Destroy(playerStartPoint.gameObject);
     }
     
     private void HandlePlayerDied()

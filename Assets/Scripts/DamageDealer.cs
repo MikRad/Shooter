@@ -12,5 +12,9 @@ public class DamageDealer : MonoBehaviour
         {
             damageable.HandleDamage(_damageAmount);
         }
+        else
+        {
+            EventBus.Get.RaiseEvent(this, new SfxNeededEvent(SfxType.ObstacleHit));
+        }
     }
 }
