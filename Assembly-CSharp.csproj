@@ -44,6 +44,7 @@
     <Compile Include="Assets\Scripts\BulletType.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateMeleeAttack.cs" />
     <Compile Include="Assets\Scripts\Units\Animation\UnitAnimationState.cs" />
+    <Compile Include="Assets\Scripts\Services\Config\SceneLoaderConfig.cs" />
     <Compile Include="Assets\Scripts\Events\EnemyBossActivationEvent.cs" />
     <Compile Include="Assets\Scripts\Input\IPlayerInput.cs" />
     <Compile Include="Assets\Scripts\UI\BossUIStats.cs" />
@@ -65,14 +66,17 @@
     <Compile Include="Assets\Scripts\Events\EnemyCreatedEvent.cs" />
     <Compile Include="Assets\Scripts\Events\GameOverPanelClosedEvent.cs" />
     <Compile Include="Assets\Scripts\Vfx\VfxType.cs" />
+    <Compile Include="Assets\Scripts\UI\LevelLoadProgressPanel.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStatePatrol.cs" />
     <Compile Include="Assets\Scripts\Services\PickupItemGenerator.cs" />
     <Compile Include="Assets\Scripts\Audio\Services\AudioController.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateReturn.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerHealthChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\Factories\UIViewFactory.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverPanel.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyType.cs" />
     <Compile Include="Assets\Scripts\ExplosiveBarrel.cs" />
+    <Compile Include="Assets\Scripts\Services\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Events\SfxNeededEvent.cs" />
     <Compile Include="Assets\Scripts\Units\Abstractions\EnemyUnit.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateRagePursuit.cs" />
@@ -80,6 +84,7 @@
     <Compile Include="Assets\Scripts\UI\UIViewsController.cs" />
     <Compile Include="Assets\Scripts\Events\PlayerCreatedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Tween\UITweener.cs" />
+    <Compile Include="Assets\Scripts\Factories\Config\UIViewFactoryConfig.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntryTransient.cs" />
     <Compile Include="Assets\Scripts\Vfx\BaseVfx.cs" />
     <Compile Include="Assets\Scripts\UI\Tween\UITween.cs" />
@@ -100,8 +105,8 @@
     <Compile Include="Assets\Scripts\Utils\Pool.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyShootingUnit.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateShootingAttack.cs" />
     <Compile Include="Assets\Scripts\DI\DIEntrySingleton.cs" />
+    <Compile Include="Assets\Scripts\Units\EnemyStates\EnemyStateShootingAttack.cs" />
     <Compile Include="Assets\Scripts\Services\UnitFxHolder.cs" />
     <Compile Include="Assets\Scripts\Factories\PlayerStartPoint.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxType.cs" />
@@ -149,8 +154,6 @@
     <Compile Include="Assets\Scripts\Services\PickupItemSpawner.cs" />
     <Compile Include="Assets\Scripts\Units\EnemyMeleeBoss.cs" />
     <Compile Include="Assets\Scripts\Audio\SfxInfo.cs" />
-    <Compile Include="Assets\Scripts\Factories\UIViewFactory.cs" />
-    <Compile Include="Assets\Scripts\Factories\Config\UIViewFactoryConfig.cs" />
     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

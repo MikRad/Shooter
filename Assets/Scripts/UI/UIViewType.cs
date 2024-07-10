@@ -5,4 +5,5 @@
     LevelCompletedPanel,
     GameCompletedPanel,
     GameOverPanel,
+    LevelLoadProgress,
 }

@@ -14,10 +14,12 @@ public class EnemyStartPointData : MonoBehaviour
     public EnemyType EnemyType => _enemyType;
     public bool IsPatrol => _isPatrol;
 
+    /*
     private void OnValidate()
     {
         UpdateIcon();
     }
+    */
 
     private void UpdateIcon()
     {

@@ -37,6 +37,12 @@ public class UIViewsController : MonoBehaviour
         BossUIStats bossUIStats = _uiViewsMap[UIViewType.BossUIStats] as BossUIStats;
         bossUIStats?.Reset();
     }
+
+    public void SetLevelLoadProgress(float progressValue)
+    {
+        LevelLoadProgressPanel levelLoadPanel = _uiViewsMap[UIViewType.LevelLoadProgress] as LevelLoadProgressPanel; 
+        levelLoadPanel?.SetProgressValue(progressValue);
+    }
     
     private void CreateUIViewsMap()
     {

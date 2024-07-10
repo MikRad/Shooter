@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
     [Header("Panel delays")]
     [SerializeField] private float _gameOverPanelDelay = 2f;
     [SerializeField] private float _nextLevelPanelDelay = 1f;
+    [SerializeField] private float _minSceneLoadTime = 2f;
 
     private UIViewsController _uiViewsController;
     private LevelController _levelController;
@@ -14,7 +15,10 @@ public class Game : MonoBehaviour
     private BulletSpawner _bulletSpawner;
     private PickupItemSpawner _pickupItemSpawner;
     private VfxSpawner _vfxSpawner;
+    private SceneLoader _sceneLoader;
     private DIContainer _diContainer;
+
+    private static int _levelNumber = 1;
 
     private void Awake()
     {
@@ -37,6 +41,7 @@ public class Game : MonoBehaviour
         _bulletSpawner = GetComponentInChildren<BulletSpawner>();
         _pickupItemSpawner = GetComponentInChildren<PickupItemSpawner>();
         _vfxSpawner = GetComponentInChildren<VfxSpawner>();
+        _sceneLoader = GetComponentInChildren<SceneLoader>();
     }
 
     private void RegisterServices()
@@ -155,15 +160,21 @@ public class Game : MonoBehaviour
 
     private void GoToNextLevel()
     {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            ShowGameCompletedPanel();
-        }
+        // int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        
+        _levelNumber++;
+        
+        _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        
+        // if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
+        // {
+        //     SceneManager.LoadScene(nextSceneIndex);
+        // }
+        // else
+        // {
+        //     ShowGameCompletedPanel();
+        // }
     }
 
     private void RestartLevel()
@@ -174,6 +185,17 @@ public class Game : MonoBehaviour
     private void StartNewGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+
+    private void OnLevelLoadProgress(float progressValue)
+    {
+        _uiViewsController.SetLevelLoadProgress(progressValue);
+    }
+    
+    private void OnLevelLoadCompleted()
+    {
+        _uiViewsController.HideUIView(UIViewType.LevelLoadProgress);
     }
     
     private void ExitGame()
