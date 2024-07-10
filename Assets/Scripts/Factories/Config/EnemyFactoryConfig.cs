@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyFactoryConfig", menuName = "ScriptableObjects/EnemyFactoryConfig", order = 1)]
@@ -29,5 +30,12 @@ public class EnemyFactoryConfig : ScriptableObject
         {
             _enemyPrefabsMap.TryAdd(info._type, info._enemyPrefab);
         }
+    }
+    
+    [Serializable]
+    private struct EnemyCreateInfo
+    {
+        public EnemyType _type;
+        public EnemyUnit _enemyPrefab;
     }
 }

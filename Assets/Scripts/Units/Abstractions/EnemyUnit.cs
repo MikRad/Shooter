@@ -24,7 +24,7 @@ public abstract class EnemyUnit : BaseUnit
     private List<Vector3> _patrolPositions = new List<Vector3>();
     
     protected Player _player;
-    protected PickupItemGenerator _pickupItemGenerator;
+    private PickupItemGenerator _pickupItemGenerator;
     
     public bool IsPatrolRole { get; private set;}
     
@@ -102,15 +102,9 @@ public abstract class EnemyUnit : BaseUnit
     {
         _patrolPositions = patrolPositions;
     }
-    
-    protected void InitStates()
+
+    private void InitStates()
     {
-        // for (int i = 0; i < _patrolPointsTransform.childCount; i++)
-        // {
-        //     _patrolPoints.Add(_patrolPointsTransform.GetChild(i).position);
-        // }
-        // Destroy(_patrolPointsTransform.gameObject);
-        
         _startPosition = _cachedTransform.position;
         IsPatrolRole = (_patrolPositions.Count >= 2);
         
@@ -185,7 +179,6 @@ public abstract class EnemyUnit : BaseUnit
         Gizmos.DrawRay(position, rayRight * _targetDetectionVisionRadius);
 
 #if UNITY_EDITOR
-
         if (UnityEditor.EditorApplication.isPlaying)
         {
             Gizmos.color = Color.magenta;
@@ -197,17 +190,6 @@ public abstract class EnemyUnit : BaseUnit
                     Gizmos.DrawLine(_patrolPositions[i], _patrolPositions[0]);
             }
         }
-        // else
-        // {
-        //     Gizmos.color = Color.magenta;
-        //     for (int i = 0; i < _patrolPointsTransform.childCount; i++)
-        //     {
-        //         if ((i + 1) < _patrolPointsTransform.childCount)
-        //             Gizmos.DrawLine(_patrolPointsTransform.GetChild(i).position, _patrolPointsTransform.GetChild(i + 1).position);
-        //         else
-        //             Gizmos.DrawLine(_patrolPointsTransform.GetChild(i).position, _patrolPointsTransform.GetChild(0).position);
-        //     }
-        // }
 #endif
     }
 }

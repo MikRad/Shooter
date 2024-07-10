@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
+        _uiViewsController.Init(_diContainer);
         _levelController.Init(_diContainer);
     }
 
@@ -50,6 +51,7 @@ public class Game : MonoBehaviour
         _diContainer.RegisterSingleton<IPlayerInput>((c) => new DesktopPlayerInput());
         _diContainer.RegisterSingleton((c) => new PlayerFactory(c));
         _diContainer.RegisterSingleton((c) => new EnemyFactory(c));
+        _diContainer.RegisterSingleton((_) => new UIViewFactory());
     }
     
     private void OnDestroy()

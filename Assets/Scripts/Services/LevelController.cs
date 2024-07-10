@@ -40,7 +40,6 @@ public class LevelController : MonoBehaviour
     private void AddEventHandlers()
     {
         EventBus.Get.Subscribe<PlayerDiedEvent>(HandlePlayerDied);
-        EventBus.Get.Subscribe<EnemyCreatedEvent>(HandleEnemyCreated);
         
         EventBus.Get.Subscribe<EnemyBossActivationEvent>(HandleBossActivation);
         EventBus.Get.Subscribe<EnemyBossDiedEvent>(HandleBossDeath);
@@ -49,7 +48,6 @@ public class LevelController : MonoBehaviour
     private void RemoveEventHandlers()
     {
         EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandlePlayerDied);
-        EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandleEnemyCreated);
 
         EventBus.Get.Unsubscribe<EnemyBossActivationEvent>(HandleBossActivation);
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
@@ -87,14 +85,6 @@ public class LevelController : MonoBehaviour
         EventBus.Get.RaiseEvent(this, new LevelFailedEvent());
     }
     
-    private void HandleEnemyCreated(EnemyCreatedEvent ev)
-    {
-        EnemyUnit enemy = ev.Enemy;
-        
-        // enemy.Init(_diContainer);
-        _enemyList.AddLast(enemy);
-    }
-
     private void InitUIStats()
     {
         _uiViewsController.ResetPlayerUIStats();
