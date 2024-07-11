@@ -9,6 +9,8 @@ public class SceneLoaderConfig : ScriptableObject
 
     private readonly Dictionary<int, string> _levelLoadInfosMap = new Dictionary<int, string>();
 
+    public int LevelsNumberTotal => _levelLoadInfos.Length;
+    
     private void OnEnable()
     {
         FillLevelLoadInfosMap();

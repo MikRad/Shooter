@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera _cmCamera;
+    [SerializeField] private CinemachineVirtualCamera _cmCameraPrefab;
 
     private Player _player;
-    private readonly LinkedList<EnemyUnit> _enemyList = new LinkedList<EnemyUnit>();
+    private readonly List<EnemyUnit> _enemyList = new List<EnemyUnit>();
     
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
     private PlayerFactory _playerFactory;
     private EnemyFactory _enemyFactory;
+    private CinemachineVirtualCamera _cmCamera;
     
     private void Awake()
     {
@@ -31,10 +32,6 @@ public class LevelController : MonoBehaviour
         _playerFactory = _diContainer.Resolve<PlayerFactory>();
         _enemyFactory = _diContainer.Resolve<EnemyFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
-
-        CreateUnits();
-        
-        InitUIStats();
     }
 
     private void AddEventHandlers()
@@ -53,6 +50,17 @@ public class LevelController : MonoBehaviour
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
     }
 
+    public void PrepareLevel()
+    {
+        _enemyList.Clear();
+        _player = null;
+
+        _cmCamera = Instantiate(_cmCameraPrefab);
+        
+        CreateUnits();
+        InitUIStats();
+    }
+    
     private void CreateUnits()
     {
         EnemyPatrolPoint[] enemyPatrolPoints = FindObjectsOfType<EnemyPatrolPoint>();
@@ -67,7 +75,7 @@ public class LevelController : MonoBehaviour
         foreach (EnemyStartPointData data in enemyStartPointDatas)
         {
             EnemyUnit enemy = _enemyFactory.CreateEnemy(data);
-            _enemyList.AddLast(enemy);
+            _enemyList.Add(enemy);
 
             Destroy(data.gameObject);
         }

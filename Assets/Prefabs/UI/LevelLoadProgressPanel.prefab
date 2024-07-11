@@ -335,7 +335,7 @@ MonoBehaviour:
     _easeType: 1
     _startValue: {x: 0, y: 0, z: 0}
     _endValue: {x: 1, y: 0, z: 0}
-    _duration: 0.5
+    _duration: 0.4
     _delay: 0
   _hideTweens:
   - _targetTransform: {fileID: 8924020965048148496}
@@ -343,7 +343,7 @@ MonoBehaviour:
     _easeType: 1
     _startValue: {x: 1, y: 0, z: 0}
     _endValue: {x: 0, y: 0, z: 0}
-    _duration: 1
+    _duration: 0.6
     _delay: 0
 --- !u!225 &6903497954542138450
 CanvasGroup:

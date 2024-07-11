@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class VfxSpawner : MonoBehaviour
@@ -44,8 +43,7 @@ public class VfxSpawner : MonoBehaviour
     {
         foreach (BaseVfx vfx in _vfxPrefabs)
         {
-            if (!_vfxPoolsMap.ContainsKey(vfx.Type))
-                _vfxPoolsMap.Add(vfx.Type, new Pool<BaseVfx>(vfx, _vfxPoolSize, _vfxContainer));
+            _vfxPoolsMap.TryAdd(vfx.Type, new Pool<BaseVfx>(vfx, _vfxPoolSize, _vfxContainer));
         }
     }
 }

@@ -6,5 +6,9 @@ public class Boot : MonoBehaviour
 
     private void Start()
     {
+        Game game = Instantiate(_gamePrefab);
+        DontDestroyOnLoad(game);
+        
+        game.Init();
     }
 }

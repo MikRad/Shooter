@@ -17,8 +17,6 @@ public class PlayerFactory
     {
         Player player = GameObject.Instantiate(_config.playerPrefab, position, Quaternion.identity);
         player.Init(_diContainer);
-        
-        _diContainer.RegisterInstance(player);
 
         return player;
     }

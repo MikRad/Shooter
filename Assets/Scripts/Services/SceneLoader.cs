@@ -9,12 +9,14 @@ public class SceneLoader : MonoBehaviour
     private SceneLoaderConfig _config;
     private AsyncOperation _asyncOperation;
 
+    public int MaxLevelNumber => _config.LevelsNumberTotal;
+    
     private void Awake()
     {
         LoadConfig();
     }
 
-    public void LoadLevel(int levelNumber, Action<float> onProgress, Action onComplete, float minLoadTime)
+    public void LoadLevel(int levelNumber, Action<float> onProgress, Action onCompleted, float minLoadTime)
     {
         string sceneName = _config.GetLevelSceneName(levelNumber);
 
@@ -29,21 +31,22 @@ public class SceneLoader : MonoBehaviour
             return;
         }
         
-        StartCoroutine(LoadSceneCoroutine(sceneName, onProgress, onComplete, minLoadTime));
+        StartCoroutine(LoadSceneCoroutine(sceneName, onProgress, onCompleted, minLoadTime));
     }
 
-    private IEnumerator LoadSceneCoroutine(string sceneName, Action<float> onProgress, Action onComplete, float minLoadTime)
+    private IEnumerator LoadSceneCoroutine(string sceneName, Action<float> onProgress, Action onCompleted, float minLoadTime)
     {
         float startTime = Time.time;
 
         _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        _asyncOperation.allowSceneActivation = false;
 
         if (_asyncOperation == null)
         {
             Debug.LogError($"Failed to load scene {sceneName} !");
             yield break;
         }
+        
+        _asyncOperation.allowSceneActivation = false;
 
         while (!_asyncOperation.isDone)
         {
@@ -52,16 +55,12 @@ public class SceneLoader : MonoBehaviour
                 _asyncOperation.allowSceneActivation = true;
             }
 
-            if (_asyncOperation.allowSceneActivation && _asyncOperation.isDone)
-            {
-                onComplete?.Invoke();
-                _asyncOperation = null;
-                yield break;
-            }
-
             onProgress?.Invoke(_asyncOperation.progress / 0.9f);
             yield return null;
         }
+        
+        onCompleted?.Invoke();
+        _asyncOperation = null;
     }
     
     private void LoadConfig()

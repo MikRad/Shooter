@@ -10,7 +10,7 @@ public class EnemyFactory
     private readonly List<Vector3> _allPatrolPositions = new List<Vector3>();
     
     private const int MinPatrolPointsNumber = 2;
-    private const int DefaultPatrolPointsNumber = 5;
+    private const int DefaultPatrolPointsNumber = 4;
     
     public EnemyFactory(DIContainer diContainer)
     {

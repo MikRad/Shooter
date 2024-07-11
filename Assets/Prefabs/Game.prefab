@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOverPanelDelay: 2
   _nextLevelPanelDelay: 1
+  _minSceneLoadTime: 2
 --- !u!1 &7314417905002766197
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d4c098b05d4a1d8f15cb31b79046c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cmCamera: {fileID: 0}
+  _cmCameraPrefab: {fileID: 8788555559204252893, guid: e4ee24fcf666fd7458da50dbc2a85a80, type: 3}
 --- !u!1 &8775136678031821335
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f20ce4721635c4fbc98a8bc9768332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: f5a000246dbcb0648ac833e0fb8072d1, type: 2}
 --- !u!1001 &874977110613435358
 PrefabInstance:
   m_ObjectHideFlags: 0

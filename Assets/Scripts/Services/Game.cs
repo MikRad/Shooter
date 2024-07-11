@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,19 +19,24 @@ public class Game : MonoBehaviour
     private SceneLoader _sceneLoader;
     private DIContainer _diContainer;
 
-    private static int _levelNumber = 1;
+    private int _levelNumber;
 
-    private void Awake()
+    private void OnDestroy()
+    {
+        RemoveEventHandlers();
+    }
+    
+    public void Init()
     {
         FindServices();
         RegisterServices();
-        AddServicesEventHandlers();
-    }
-
-    private void Start()
-    {
-        _uiViewsController.Init(_diContainer);
-        _levelController.Init(_diContainer);
+        InitServices();
+        AddEventHandlers();
+        
+        _levelNumber = 1;
+        
+        _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
     }
 
     private void FindServices()
@@ -53,18 +59,19 @@ public class Game : MonoBehaviour
         _diContainer.RegisterInstance(_bulletSpawner);
         _diContainer.RegisterInstance(_pickupItemSpawner);
         _diContainer.RegisterInstance(_vfxSpawner);
-        _diContainer.RegisterSingleton<IPlayerInput>((c) => new DesktopPlayerInput());
+        _diContainer.RegisterSingleton<IPlayerInput>((_) => new DesktopPlayerInput());
         _diContainer.RegisterSingleton((c) => new PlayerFactory(c));
         _diContainer.RegisterSingleton((c) => new EnemyFactory(c));
         _diContainer.RegisterSingleton((_) => new UIViewFactory());
     }
     
-    private void OnDestroy()
+    private void InitServices()
     {
-        RemoveServicesEventHandlers();
+        _uiViewsController.Init(_diContainer);
+        _levelController.Init(_diContainer);
     }
-
-    private void AddServicesEventHandlers()
+    
+    private void AddEventHandlers()
     {
         EventBus.Get.Subscribe<LevelCompletedPanelClosedEvent>(HandleLevelCompletedPanelClosed);
         EventBus.Get.Subscribe<GameOverPanelClosedEvent>(HandleGameOverPanelClosed);
@@ -74,7 +81,7 @@ public class Game : MonoBehaviour
         EventBus.Get.Subscribe<LevelFailedEvent>(HandleLevelFailed);
     }
     
-    private void RemoveServicesEventHandlers()
+    private void RemoveEventHandlers()
     {
         EventBus.Get.Unsubscribe<LevelCompletedPanelClosedEvent>(HandleLevelCompletedPanelClosed);
         EventBus.Get.Unsubscribe<GameOverPanelClosedEvent>(HandleGameOverPanelClosed);
@@ -153,38 +160,37 @@ public class Game : MonoBehaviour
         _uiViewsController.ShowUIView(UIViewType.GameOverPanel);
     }
     
-    private void ShowGameCompletedPanel()
-    {
-        _uiViewsController.ShowUIView(UIViewType.GameCompletedPanel);
-    }
+    // private void ShowGameCompletedPanel()
+    // {
+    //     _uiViewsController.ShowUIView(UIViewType.GameCompletedPanel);
+    // }
 
     private void GoToNextLevel()
     {
-        // int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        
         _levelNumber++;
-        
-        _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime * 2);
-        
-        // if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
-        // {
-        //     SceneManager.LoadScene(nextSceneIndex);
-        // }
-        // else
-        // {
-        //     ShowGameCompletedPanel();
-        // }
+
+        if (_levelNumber <= _sceneLoader.MaxLevelNumber)
+        {
+            _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
+            _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        }
+        else
+        {
+            _uiViewsController.ShowUIView(UIViewType.GameCompletedPanel);
+        }
     }
 
     private void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
     }
 
     private void StartNewGame()
     {
-        SceneManager.LoadScene(0);
+        _levelNumber = 1;
+        _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
     }
 
 
@@ -196,6 +202,8 @@ public class Game : MonoBehaviour
     private void OnLevelLoadCompleted()
     {
         _uiViewsController.HideUIView(UIViewType.LevelLoadProgress);
+        
+        _levelController.PrepareLevel();
     }
     
     private void ExitGame()
