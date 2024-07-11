@@ -165,7 +165,7 @@ public class Game : MonoBehaviour
         _levelNumber++;
         
         _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime * 2);
         
         // if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
         // {

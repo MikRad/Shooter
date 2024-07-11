@@ -6,8 +6,9 @@ public class AudioController : MonoBehaviour
 {
     private const string MusicVolumeKey = "ZombieShooterMusicVolumeKey";
     private const string SfxVolumeKey = "ZombieShooterSfxVolumeKey";
+    private const string SettingsPath = "Configs/AudioSettings";
 
-    [SerializeField] private AudioSettings _settings;
+    private AudioSettings _settings;
 
     private AudioSource _musicTrackSource;
     
@@ -32,6 +33,8 @@ public class AudioController : MonoBehaviour
 
     protected void Awake()
     {
+        LoadConfig();
+        
         ReadAudioParams();
 
         _musicTrackSource = GetComponent<AudioSource>();
@@ -124,5 +127,10 @@ public class AudioController : MonoBehaviour
     {
         PlayerPrefs.SetFloat(MusicVolumeKey, _musicVolume);
         PlayerPrefs.SetFloat(SfxVolumeKey, _sfxVolume);
+    }
+
+    private void LoadConfig()
+    {
+        _settings = Resources.Load<AudioSettings>(SettingsPath);        
     }
 }
