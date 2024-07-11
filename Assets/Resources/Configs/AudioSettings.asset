@@ -223,4 +223,14 @@ MonoBehaviour:
     _type: 41
     _volume: 0.2
     _pitch: 0.3
+  - _name: BarrelHit4
+    _clip: {fileID: 8300000, guid: 33d3d25ee6b930d4cbe06e043834e577, type: 3}
+    _type: 42
+    _volume: 0.2
+    _pitch: 0.6
+  - _name: GunCaseDrop
+    _clip: {fileID: 8300000, guid: f8d085f34a9edd24eba8e58d242a4679, type: 3}
+    _type: 43
+    _volume: 0.6
+    _pitch: 1.1
   _musicTracks: []

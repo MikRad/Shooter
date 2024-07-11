@@ -38,10 +38,7 @@ public class AudioSettings : ScriptableObject
         foreach (SfxInfo sfxInfo in _sfxInfos)
         {
             SfxType type = sfxInfo._type;
-            if(!_sfxInfosMap.ContainsKey(type))
-            {
-                _sfxInfosMap.Add(type, sfxInfo);
-            }
+            _sfxInfosMap.TryAdd(type, sfxInfo);
         }
     }
 

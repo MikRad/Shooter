@@ -41,5 +41,7 @@ public enum SfxType
     BarrelHit1 = 38,
     BarrelHit2 = 39,
     BarrelHit3 = 40,
-    ObstacleHit = 41
+    ObstacleHit = 41,
+    BarrelHit4 = 42,
+    GunCaseDrop = 43,
 }

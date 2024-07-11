@@ -32,8 +32,7 @@ public class BulletSpawner : MonoBehaviour
     {
         foreach (Bullet bullet in _bulletPrefabs)
         {
-            if (!_bulletPoolsMap.ContainsKey(bullet.Type))
-                _bulletPoolsMap.Add(bullet.Type, new Pool<Bullet>(bullet, _bulletPoolSize, _bulletsContainer));
+            _bulletPoolsMap.TryAdd(bullet.Type, new Pool<Bullet>(bullet, _bulletPoolSize, _bulletsContainer));
         }
     }
 }

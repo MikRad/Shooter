@@ -116,6 +116,7 @@ public class Player : BaseUnit
             _shooting.Shoot();
             
             EventBus.Get.RaiseEvent(this, new PlayerAmmoChangedEvent(_shooting.AmmoFullness));
+            EventBus.Get.RaiseEvent(this, new SfxNeededEvent(SfxType.GunCaseDrop));
         }
         else
         {

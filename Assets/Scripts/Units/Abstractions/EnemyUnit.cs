@@ -17,17 +17,14 @@ public abstract class EnemyUnit : BaseUnit
     [SerializeField] protected float _attackRadius = 10f;
     [SerializeField] protected float _rageDuration = 5f;
     
-    [Header("Movement")]
-    [SerializeField] protected Transform _patrolPointsTransform;
-    
     protected EnemyMovement _movement;
     private Vector3 _startPosition;
     
     protected EnemyStateMachine _stateMachine;
-    private readonly List<Vector3> _patrolPoints = new List<Vector3>();
+    private List<Vector3> _patrolPositions = new List<Vector3>();
     
     protected Player _player;
-    protected PickupItemGenerator _pickupItemGenerator;
+    private PickupItemGenerator _pickupItemGenerator;
     
     public bool IsPatrolRole { get; private set;}
     
@@ -101,16 +98,15 @@ public abstract class EnemyUnit : BaseUnit
         base.HandleDamage(damageAmount);
     }
 
-    protected void InitStatesAndPositions()
+    public void SetPatrolPositions(List<Vector3> patrolPositions)
     {
-        for (int i = 0; i < _patrolPointsTransform.childCount; i++)
-        {
-            _patrolPoints.Add(_patrolPointsTransform.GetChild(i).position);
-        }
-        Destroy(_patrolPointsTransform.gameObject);
-        
+        _patrolPositions = patrolPositions;
+    }
+
+    private void InitStates()
+    {
         _startPosition = _cachedTransform.position;
-        IsPatrolRole = (_patrolPoints.Count >= 2);
+        IsPatrolRole = (_patrolPositions.Count >= 2);
         
         InitStateMachine();
     }
@@ -119,7 +115,7 @@ public abstract class EnemyUnit : BaseUnit
     {
         _stateMachine = new EnemyStateMachine();
         _stateMachine.AddState(EnemyStateType.Idle, new EnemyStateIdle(this, _stateMachine, _movement));
-        _stateMachine.AddState(EnemyStateType.Patrol, new EnemyStatePatrol(this, _stateMachine, _movement, _patrolPoints));
+        _stateMachine.AddState(EnemyStateType.Patrol, new EnemyStatePatrol(this, _stateMachine, _movement, _patrolPositions));
         _stateMachine.AddState(EnemyStateType.ReturnToStartPosition, new EnemyStateReturn(this, _stateMachine, _movement, _startPosition));
         _stateMachine.AddState(EnemyStateType.Pursuit, new EnemyStatePursuit(this, _stateMachine, _movement, _player.Transform));
         _stateMachine.AddState(EnemyStateType.RagePursuit, new EnemyStateRagePursuit(this, _stateMachine, _movement, _player.Transform, _rageDuration));
@@ -132,7 +128,7 @@ public abstract class EnemyUnit : BaseUnit
     {
         _player = ev.Player;
         
-        InitStatesAndPositions();
+        InitStates();
     }
     
     private bool IsPlayerVisible()
@@ -183,27 +179,15 @@ public abstract class EnemyUnit : BaseUnit
         Gizmos.DrawRay(position, rayRight * _targetDetectionVisionRadius);
 
 #if UNITY_EDITOR
-
         if (UnityEditor.EditorApplication.isPlaying)
         {
             Gizmos.color = Color.magenta;
-            for (int i = 0; i < _patrolPoints.Count; i++)
+            for (int i = 0; i < _patrolPositions.Count; i++)
             {
-                if ((i + 1) < _patrolPoints.Count)
-                    Gizmos.DrawLine(_patrolPoints[i], _patrolPoints[i + 1]);
+                if ((i + 1) < _patrolPositions.Count)
+                    Gizmos.DrawLine(_patrolPositions[i], _patrolPositions[i + 1]);
                 else
-                    Gizmos.DrawLine(_patrolPoints[i], _patrolPoints[0]);
-            }
-        }
-        else
-        {
-            Gizmos.color = Color.magenta;
-            for (int i = 0; i < _patrolPointsTransform.childCount; i++)
-            {
-                if ((i + 1) < _patrolPointsTransform.childCount)
-                    Gizmos.DrawLine(_patrolPointsTransform.GetChild(i).position, _patrolPointsTransform.GetChild(i + 1).position);
-                else
-                    Gizmos.DrawLine(_patrolPointsTransform.GetChild(i).position, _patrolPointsTransform.GetChild(0).position);
+                    Gizmos.DrawLine(_patrolPositions[i], _patrolPositions[0]);
             }
         }
 #endif

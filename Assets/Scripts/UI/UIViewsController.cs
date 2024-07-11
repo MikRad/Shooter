@@ -6,20 +6,16 @@ public class UIViewsController : MonoBehaviour
     [Header("Container")]
     [SerializeField] private Transform _canvasTransform;
     
-    [Header("Prefabs")] 
-    [SerializeField] private PlayerUIStats _playerUIStatsPrefab;
-    [SerializeField] private BossUIStats _bossUIStatsPrefab;
-    [SerializeField] private LevelCompletedPanel _levelCompletedPanelPrefab;
-    [SerializeField] private GameOverPanel _gameOverPanelPrefab;
-    [SerializeField] private GameCompletedPanel _gameCompletedPanelPrefab;
-    
     private readonly Dictionary<UIViewType, UIView> _uiViewsMap = new Dictionary<UIViewType, UIView>();
+    private UIViewFactory _uiViewFactory;
 
-    protected void Awake()
+    public void Init(DIContainer diContainer)
     {
+        _uiViewFactory = diContainer.Resolve<UIViewFactory>();
+        
         CreateUIViewsMap();
     }
-
+    
     public void ShowUIView(UIViewType viewType)
     {
         _uiViewsMap[viewType].Show();
@@ -41,13 +37,20 @@ public class UIViewsController : MonoBehaviour
         BossUIStats bossUIStats = _uiViewsMap[UIViewType.BossUIStats] as BossUIStats;
         bossUIStats?.Reset();
     }
+
+    public void SetLevelLoadProgress(float progressValue)
+    {
+        LevelLoadProgressPanel levelLoadPanel = _uiViewsMap[UIViewType.LevelLoadProgress] as LevelLoadProgressPanel; 
+        levelLoadPanel?.SetProgressValue(progressValue);
+    }
     
     private void CreateUIViewsMap()
     {
-        _uiViewsMap.Add(UIViewType.PlayerUIStats, Instantiate(_playerUIStatsPrefab, _canvasTransform));
-        _uiViewsMap.Add(UIViewType.BossUIStats, Instantiate(_bossUIStatsPrefab, _canvasTransform));
-        _uiViewsMap.Add(UIViewType.LevelCompletedPanel, Instantiate(_levelCompletedPanelPrefab, _canvasTransform));
-        _uiViewsMap.Add(UIViewType.GameOverPanel, Instantiate(_gameOverPanelPrefab, _canvasTransform));
-        _uiViewsMap.Add(UIViewType.GameCompletedPanel, Instantiate(_gameCompletedPanelPrefab, _canvasTransform));
+        UIViewFactoryConfig.UIViewCreateInfo[] infos = _uiViewFactory.GetUIViewCreateInfos();
+
+        foreach (UIViewFactoryConfig.UIViewCreateInfo info in infos)
+        {
+            _uiViewsMap.TryAdd(info.type, Instantiate(info.viewPrefab, _canvasTransform));
+        }
     }
 }

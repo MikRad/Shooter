@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera _cmCamera;
+    [SerializeField] private CinemachineVirtualCamera _cmCameraPrefab;
 
     private Player _player;
-    private readonly LinkedList<EnemyUnit> _enemyList = new LinkedList<EnemyUnit>();
+    private readonly List<EnemyUnit> _enemyList = new List<EnemyUnit>();
     
     private UIViewsController _uiViewsController;
     private DIContainer _diContainer;
     private PlayerFactory _playerFactory;
+    private EnemyFactory _enemyFactory;
+    private CinemachineVirtualCamera _cmCamera;
     
     private void Awake()
     {
@@ -28,17 +30,13 @@ public class LevelController : MonoBehaviour
         _diContainer = diContainer;
 
         _playerFactory = _diContainer.Resolve<PlayerFactory>();
+        _enemyFactory = _diContainer.Resolve<EnemyFactory>();
         _uiViewsController = _diContainer.Resolve<UIViewsController>();
-
-        CreateUnits();
-        
-        InitUIStats();
     }
 
     private void AddEventHandlers()
     {
         EventBus.Get.Subscribe<PlayerDiedEvent>(HandlePlayerDied);
-        EventBus.Get.Subscribe<EnemyCreatedEvent>(HandleEnemyCreated);
         
         EventBus.Get.Subscribe<EnemyBossActivationEvent>(HandleBossActivation);
         EventBus.Get.Subscribe<EnemyBossDiedEvent>(HandleBossDeath);
@@ -47,34 +45,54 @@ public class LevelController : MonoBehaviour
     private void RemoveEventHandlers()
     {
         EventBus.Get.Unsubscribe<PlayerDiedEvent>(HandlePlayerDied);
-        EventBus.Get.Unsubscribe<EnemyCreatedEvent>(HandleEnemyCreated);
 
         EventBus.Get.Unsubscribe<EnemyBossActivationEvent>(HandleBossActivation);
         EventBus.Get.Unsubscribe<EnemyBossDiedEvent>(HandleBossDeath);
     }
 
+    public void PrepareLevel()
+    {
+        _enemyList.Clear();
+        _player = null;
+
+        _cmCamera = Instantiate(_cmCameraPrefab);
+        
+        CreateUnits();
+        InitUIStats();
+    }
+    
     private void CreateUnits()
     {
+        EnemyPatrolPoint[] enemyPatrolPoints = FindObjectsOfType<EnemyPatrolPoint>();
+        EnemyStartPointData[] enemyStartPointDatas = FindObjectsOfType<EnemyStartPointData>();
         PlayerStartPoint playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+        
         _player = _playerFactory.CreatePlayer(playerStartPoint.transform.position);
         _cmCamera.Follow = _player.transform;
+
+        _enemyFactory.InitAllPatrolPositions(enemyPatrolPoints);
+        
+        foreach (EnemyStartPointData data in enemyStartPointDatas)
+        {
+            EnemyUnit enemy = _enemyFactory.CreateEnemy(data);
+            _enemyList.Add(enemy);
+
+            Destroy(data.gameObject);
+        }
+
+        foreach (EnemyPatrolPoint point in enemyPatrolPoints)
+        {
+            Destroy(point.gameObject);
+        }
         
         Destroy(playerStartPoint.gameObject);
     }
-    
+
     private void HandlePlayerDied()
     {
         EventBus.Get.RaiseEvent(this, new LevelFailedEvent());
     }
     
-    private void HandleEnemyCreated(EnemyCreatedEvent ev)
-    {
-        EnemyUnit enemy = ev.Enemy;
-        
-        enemy.Init(_diContainer);
-        _enemyList.AddLast(enemy);
-    }
-
     private void InitUIStats()
     {
         _uiViewsController.ResetPlayerUIStats();

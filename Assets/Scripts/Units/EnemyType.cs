@@ -1,6 +1,6 @@
-﻿public enum UnitType
+﻿public enum EnemyType
 {
-    Player = 0,
+    EvilGirl = 0,
     ZombieMale1 = 1,
     ZombieMale2 = 2,
     ZombieFemale1 = 3,
