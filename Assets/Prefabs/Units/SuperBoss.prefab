@@ -66,7 +66,7 @@ MonoBehaviour:
   _attackRadius: 2.75
   _rageDuration: 9
   _damageAmount: 4
-  _attackVariants: 
+  _attackVariants: 03000000040000000500000006000000
   _lifesNumber: 3
   _resurrectionDelay: 1.5
 --- !u!114 &665579318288634994

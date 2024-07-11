@@ -343,7 +343,7 @@ MonoBehaviour:
     _easeType: 1
     _startValue: {x: 1, y: 0, z: 0}
     _endValue: {x: 0, y: 0, z: 0}
-    _duration: 0.6
+    _duration: 0.75
     _delay: 0
 --- !u!225 &6903497954542138450
 CanvasGroup:

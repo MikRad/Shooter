@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PickupItemGenerator : MonoBehaviour
 {
@@ -41,4 +43,14 @@ public class PickupItemGenerator : MonoBehaviour
             }
         }
     }
+    
+    [Serializable]
+    private struct PickupGenerationInfo
+    {
+        public PickupItemType itemType;
+
+        [Range(1, 10)]
+        public int probabilityWeight;
+    }
+    
 }
