@@ -8,7 +8,7 @@ public class EventBus
 
     public static EventBus Get => _instance ??= new EventBus();
 
-    public void Subscribe<TEvent>(EventCallback<TEvent> callback, int priority = 0) where TEvent : IEvent
+    public void Subscribe<TEvent>(EventCallback<TEvent> callback, int priority = 0) where TEvent : struct, IEvent
     {
         EventBinding<TEvent> binding = GetBinding<TEvent>();
 
@@ -21,7 +21,7 @@ public class EventBus
         binding.Add(callback, priority);
     }
     
-    public void Subscribe<TEvent>(Action callback, int priority = 0) where TEvent : IEvent
+    public void Subscribe<TEvent>(Action callback, int priority = 0) where TEvent : struct, IEvent
     {
         EventBinding<TEvent> binding = GetBinding<TEvent>();
 
@@ -34,28 +34,28 @@ public class EventBus
         binding.Add(callback, priority);
     }
     
-    public void Unsubscribe<TEvent>(EventCallback<TEvent> callback) where TEvent : IEvent
+    public void Unsubscribe<TEvent>(EventCallback<TEvent> callback) where TEvent : struct, IEvent
     {
         EventBinding<TEvent> binding = GetBinding<TEvent>();
 
         binding?.Remove(callback);
     }
 
-    public void Unsubscribe<TEvent>(Action callback) where TEvent : IEvent
+    public void Unsubscribe<TEvent>(Action callback) where TEvent : struct, IEvent
     {
         EventBinding<TEvent> binding = GetBinding<TEvent>();
 
         binding?.Remove(callback);
     }
     
-    public void RaiseEvent<TEvent>(object sender, TEvent ev) where TEvent : IEvent
+    public void RaiseEvent<TEvent>(object sender, TEvent ev) where TEvent : struct, IEvent
     {
         EventBinding<TEvent> binding = GetBinding(ev);
         
         binding?.Raise(ev);
     }
 
-    private EventBinding<TEvent> GetBinding<TEvent>() where TEvent : IEvent
+    private EventBinding<TEvent> GetBinding<TEvent>() where TEvent : struct, IEvent
     {
         Type eventType = typeof(TEvent);
         
@@ -65,7 +65,7 @@ public class EventBus
         return null;
     }
     
-    private EventBinding<TEvent> GetBinding<TEvent>(TEvent ev) where TEvent : IEvent
+    private EventBinding<TEvent> GetBinding<TEvent>(TEvent ev) where TEvent : struct, IEvent
     {
         Type eventType = ev.GetType();
         

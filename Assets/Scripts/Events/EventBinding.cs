@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public delegate void EventCallback<T>(T raisedEvent) where T : IEvent;
+public delegate void EventCallback<T>(T raisedEvent) where T : struct, IEvent;
 
-public class EventBinding<T> where T : IEvent
+public class EventBinding<T> where T : struct, IEvent
 {
     private List<EventHandler> Handlers { get; set; } = new List<EventHandler>();
 
