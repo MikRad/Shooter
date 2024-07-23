@@ -16,7 +16,7 @@ public class SceneLoader : MonoBehaviour
         LoadConfig();
     }
 
-    public void LoadLevel(int levelNumber, Action<float> onProgress, Action onCompleted, float minLoadTime)
+    public void LoadLevel(int levelNumber, Action<float> onProgress, Action onCompleted)
     {
         string sceneName = _config.GetLevelSceneName(levelNumber);
 
@@ -31,13 +31,11 @@ public class SceneLoader : MonoBehaviour
             return;
         }
         
-        StartCoroutine(LoadSceneCoroutine(sceneName, onProgress, onCompleted, minLoadTime));
+        StartCoroutine(LoadSceneCoroutine(sceneName, onProgress, onCompleted));
     }
 
-    private IEnumerator LoadSceneCoroutine(string sceneName, Action<float> onProgress, Action onCompleted, float minLoadTime)
+    private IEnumerator LoadSceneCoroutine(string sceneName, Action<float> onProgress, Action onCompleted)
     {
-        float startTime = Time.time;
-
         _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         if (_asyncOperation == null)
@@ -47,15 +45,19 @@ public class SceneLoader : MonoBehaviour
         }
         
         _asyncOperation.allowSceneActivation = false;
-
+        float loadProgress = 0f;
+        
         while (!_asyncOperation.isDone)
         {
-            if (_asyncOperation.progress >= 0.9f && Time.time - startTime >= minLoadTime)
+            loadProgress = Mathf.MoveTowards(loadProgress, _asyncOperation.progress, Time.deltaTime);
+            
+            if (loadProgress >= 0.9f)
             {
+                loadProgress = 1f;
                 _asyncOperation.allowSceneActivation = true;
             }
 
-            onProgress?.Invoke(_asyncOperation.progress / 0.9f);
+            onProgress?.Invoke(loadProgress);
             yield return null;
         }
         

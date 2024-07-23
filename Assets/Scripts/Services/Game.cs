@@ -1,14 +1,11 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
     [Header("Panel delays")]
     [SerializeField] private float _gameOverPanelDelay = 2f;
     [SerializeField] private float _nextLevelPanelDelay = 1f;
-    [SerializeField] private float _minSceneLoadTime = 2f;
 
     private UIViewsController _uiViewsController;
     private LevelController _levelController;
@@ -36,7 +33,7 @@ public class Game : MonoBehaviour
         _levelNumber = 1;
         
         _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted);
     }
 
     private void FindServices()
@@ -160,11 +157,6 @@ public class Game : MonoBehaviour
         _uiViewsController.ShowUIView(UIViewType.GameOverPanel);
     }
     
-    // private void ShowGameCompletedPanel()
-    // {
-    //     _uiViewsController.ShowUIView(UIViewType.GameCompletedPanel);
-    // }
-
     private void GoToNextLevel()
     {
         _levelNumber++;
@@ -172,7 +164,7 @@ public class Game : MonoBehaviour
         if (_levelNumber <= _sceneLoader.MaxLevelNumber)
         {
             _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-            _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+            _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted);
         }
         else
         {
@@ -183,14 +175,14 @@ public class Game : MonoBehaviour
     private void RestartLevel()
     {
         _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted);
     }
 
     private void StartNewGame()
     {
         _levelNumber = 1;
         _uiViewsController.ShowUIView(UIViewType.LevelLoadProgress);
-        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted, _minSceneLoadTime);
+        _sceneLoader.LoadLevel(_levelNumber, OnLevelLoadProgress, OnLevelLoadCompleted);
     }
 
 
