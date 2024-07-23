@@ -6,4 +6,5 @@
     GameCompletedPanel,
     GameOverPanel,
     LevelLoadProgress,
+    ControlsInfoPanel,
 }

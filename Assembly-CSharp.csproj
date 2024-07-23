@@ -97,6 +97,7 @@
     <Compile Include="Assets\Scripts\Events\IEvent.cs" />
     <Compile Include="Assets\Scripts\UI\UIView.cs" />
     <Compile Include="Assets\Scripts\Units\BaseShooting.cs" />
+    <Compile Include="Assets\Scripts\UI\ControlsInfoView.cs" />
     <Compile Include="Assets\Scripts\UI\LevelCompletedPanel.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerUIStats.cs" />
     <Compile Include="Assets\Scripts\Factories\Config\EnemyFactoryConfig.cs" />

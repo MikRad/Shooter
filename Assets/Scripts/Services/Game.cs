@@ -196,6 +196,11 @@ public class Game : MonoBehaviour
         _uiViewsController.HideUIView(UIViewType.LevelLoadProgress);
         
         _levelController.PrepareLevel();
+
+        if (_levelNumber == 1)
+        {
+            _uiViewsController.ShowUIView(UIViewType.ControlsInfoPanel);
+        }
     }
     
     private void ExitGame()
