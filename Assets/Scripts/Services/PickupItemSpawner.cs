@@ -1,39 +1,44 @@
 ﻿using System.Collections.Generic;
+using PickupItems;
 using UnityEngine;
+using Utils;
 
-public class PickupItemSpawner : MonoBehaviour
+namespace Services
 {
-    [Header("Base settings")]
-    [SerializeField] private Transform _itemsContainer;
-    [SerializeField] private BasePickupItem[] _itemPrefabs;
-    [SerializeField] private int _itemPoolSize = 10;
-
-    private readonly Dictionary<PickupItemType, Pool<BasePickupItem>> _itemPoolsMap = new Dictionary<PickupItemType, Pool<BasePickupItem>>();
-
-    private void Awake()
+    public class PickupItemSpawner : MonoBehaviour
     {
-        FillItemPoolsMap();
-    }
+        [Header("Base settings")]
+        [SerializeField] private Transform _itemsContainer;
+        [SerializeField] private BasePickupItem[] _itemPrefabs;
+        [SerializeField] private int _itemPoolSize = 10;
 
-    public void SpawnItem(PickupItemType pickupItemType, Vector3 position)
-    {
-        if (_itemPoolsMap.TryGetValue(pickupItemType, out Pool<BasePickupItem> itemPool))
+        private readonly Dictionary<PickupItemType, Pool<BasePickupItem>> _itemPoolsMap = new Dictionary<PickupItemType, Pool<BasePickupItem>>();
+
+        private void Awake()
         {
-            itemPool.GetFreeElement().Init(position, Quaternion.identity);
+            FillItemPoolsMap();
         }
-        else
+
+        public void SpawnItem(PickupItemType pickupItemType, Vector3 position)
         {
-            Debug.LogWarning($"There is no pool for item of type {pickupItemType} !");
-        }
-    }
-    
-    private void FillItemPoolsMap()
-    {
-        foreach (BasePickupItem item in _itemPrefabs)
-        {
-            if (!_itemPoolsMap.ContainsKey(item.Type))
+            if (_itemPoolsMap.TryGetValue(pickupItemType, out Pool<BasePickupItem> itemPool))
             {
-                _itemPoolsMap.Add(item.Type, new Pool<BasePickupItem>(item, _itemPoolSize, _itemsContainer));
+                itemPool.GetFreeElement().Init(position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning($"There is no pool for item of type {pickupItemType} !");
+            }
+        }
+    
+        private void FillItemPoolsMap()
+        {
+            foreach (BasePickupItem item in _itemPrefabs)
+            {
+                if (!_itemPoolsMap.ContainsKey(item.Type))
+                {
+                    _itemPoolsMap.Add(item.Type, new Pool<BasePickupItem>(item, _itemPoolSize, _itemsContainer));
+                }
             }
         }
     }

@@ -1,28 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIProgressBar : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private Image _progressImage;
-    [SerializeField] private float _valueChangeTime = 1.5f;
-
-    private float _targetValue = 1f;
-    private float _currentValueChangeTime;
-
-    private void Update()
+    public class UIProgressBar : MonoBehaviour
     {
-        if (_currentValueChangeTime < _valueChangeTime)
+        [SerializeField] private Image _progressImage;
+        [SerializeField] private float _valueChangeTime = 1.5f;
+
+        private float _targetValue = 1f;
+        private float _currentValueChangeTime;
+
+        private void Update()
         {
-            _currentValueChangeTime += Time.deltaTime;
-            _progressImage.fillAmount = Mathf.Lerp(_progressImage.fillAmount, _targetValue, _currentValueChangeTime / _valueChangeTime);
+            if (_currentValueChangeTime < _valueChangeTime)
+            {
+                _currentValueChangeTime += Time.deltaTime;
+                _progressImage.fillAmount = Mathf.Lerp(_progressImage.fillAmount, _targetValue, _currentValueChangeTime / _valueChangeTime);
+            }
         }
-    }
 
-    public void SetValue(float value)
-    {
-        value = Mathf.Clamp(value, 0f, 1f);
+        public void SetValue(float value)
+        {
+            value = Mathf.Clamp(value, 0f, 1f);
 
-        _targetValue = value;
-        _currentValueChangeTime = 0f;
+            _targetValue = value;
+            _currentValueChangeTime = 0f;
+        }
     }
 }

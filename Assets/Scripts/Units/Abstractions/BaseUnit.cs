@@ -1,72 +1,78 @@
+using Services;
+using Units.Animation;
 using UnityEngine;
+using Vfx.Services;
 
-[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), 
- RequireComponent(typeof(UnitHealth)), RequireComponent(typeof(UnitFxHolder))]
-public abstract class BaseUnit : MonoBehaviour, IDamageable
+namespace Units.Abstractions
 {
-    [Header("Attack")]
-    [SerializeField] protected float _attackDelay = 1.0f;
-    
-    [Header("Movement")]
-    [SerializeField] protected Transform _bodyTransform;
-
-    protected UnitHealth _health;
-    private SpriteRenderer _spriteRenderer;
-    protected Collider2D _bodyCollider;
-    protected Transform _cachedTransform;
-    protected Animator _animator;
-    
-    protected UnitFxHolder _fxHolder;
-    
-    public bool IsDead => !_health.HasHealth;
-    
-    protected virtual void Awake()
+    [RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), 
+     RequireComponent(typeof(UnitHealth)), RequireComponent(typeof(UnitFxHolder))]
+    public abstract class BaseUnit : MonoBehaviour, IDamageable
     {
-        _bodyCollider = GetComponent<Collider2D>();
-        _health = GetComponent<UnitHealth>();
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _animator = GetComponentInChildren<Animator>();
-        _fxHolder = GetComponent<UnitFxHolder>();
-        
-        _cachedTransform = transform;
-    }
+        [Header("Attack")]
+        [SerializeField] protected float _attackDelay = 1.0f;
+    
+        [Header("Movement")]
+        [SerializeField] protected Transform _bodyTransform;
 
-    protected virtual void Start()
-    {
-        _health.FillMaxHealth();
-    }
-
-    public virtual void HandleDamage(int damageAmount)
-    {
-        _health.ChangeHealth(-damageAmount);
-
-        if (!_health.HasHealth)
+        protected UnitHealth _health;
+        private SpriteRenderer _spriteRenderer;
+        protected Collider2D _bodyCollider;
+        protected Transform _cachedTransform;
+        protected Animator _animator;
+    
+        protected UnitFxHolder _fxHolder;
+    
+        public bool IsDead => !_health.HasHealth;
+    
+        protected virtual void Awake()
         {
-            Die();
-            return;
+            _bodyCollider = GetComponent<Collider2D>();
+            _health = GetComponent<UnitHealth>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            _animator = GetComponentInChildren<Animator>();
+            _fxHolder = GetComponent<UnitFxHolder>();
+        
+            _cachedTransform = transform;
         }
 
-        _fxHolder.AddDamagedVfx(_cachedTransform);
-        _fxHolder.AddDamagedSfx();
-    }
+        protected virtual void Start()
+        {
+            _health.FillMaxHealth();
+        }
 
-    public virtual void Deactivate()
-    {
-        enabled = false;
-    }
-    
-    protected virtual void Die()
-    {
-        PlayDeathAnimation();
-        _fxHolder.AddDeathSfx();
+        public virtual void HandleDamage(int damageAmount)
+        {
+            _health.ChangeHealth(-damageAmount);
 
-        _bodyCollider.enabled = false;
-        _spriteRenderer.sortingOrder = 0;
-        _health.HideHealthBar();
-    }
+            if (!_health.HasHealth)
+            {
+                Die();
+                return;
+            }
+
+            _fxHolder.AddDamagedVfx(_cachedTransform);
+            _fxHolder.AddDamagedSfx();
+        }
+
+        public virtual void Deactivate()
+        {
+            enabled = false;
+        }
     
-    private void PlayDeathAnimation()
-    {
-        _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Death));
+        protected virtual void Die()
+        {
+            PlayDeathAnimation();
+            _fxHolder.AddDeathSfx();
+
+            _bodyCollider.enabled = false;
+            _spriteRenderer.sortingOrder = 0;
+            _health.HideHealthBar();
+        }
+    
+        private void PlayDeathAnimation()
+        {
+            _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Death));
+        }
     }
 }

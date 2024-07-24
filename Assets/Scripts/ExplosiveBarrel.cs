@@ -1,6 +1,10 @@
 using System.Collections;
+using Audio;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Events.Services;
+using Events.Services.Fx;
+using Vfx;
 
 [RequireComponent(typeof(DamageDealer))]
 [RequireComponent(typeof(Collider2D))]

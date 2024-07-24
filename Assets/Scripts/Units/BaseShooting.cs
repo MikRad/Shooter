@@ -1,66 +1,72 @@
-﻿using UnityEngine;
+﻿using Services;
+using Units.Animation;
+using UnityEngine;
+using Vfx.Services;
 
-public class BaseShooting : MonoBehaviour
+namespace Units
 {
-    [Header("Base settings")]
-    [SerializeField] protected Transform _bodyTransform;
+    public class BaseShooting : MonoBehaviour
+    {
+        [Header("Base settings")]
+        [SerializeField] protected Transform _bodyTransform;
     
-    [Header("Shooting")]
-    [SerializeField] protected BulletType _bulletType;
-    [SerializeField] protected Transform _bulletSpawnPoint;
+        [Header("Shooting")]
+        [SerializeField] protected BulletType _bulletType;
+        [SerializeField] protected Transform _bulletSpawnPoint;
 
-    protected Animator _animator;
-    protected BulletSpawner _bulletSpawner;
+        protected Animator _animator;
+        protected BulletSpawner _bulletSpawner;
 
-    protected UnitFxHolder _fxHolder; 
+        protected UnitFxHolder _fxHolder; 
 
-    public Vector3 BulletSpawnPosition => _bulletSpawnPoint.position;
+        public Vector3 BulletSpawnPosition => _bulletSpawnPoint.position;
 
-    protected virtual void Awake()
-    {
-        _animator = GetComponentInChildren<Animator>();
-    }
+        protected virtual void Awake()
+        {
+            _animator = GetComponentInChildren<Animator>();
+        }
 
-    public void Init(BulletSpawner bulletSpawner, UnitFxHolder fxHolder)
-    {
-        _bulletSpawner = bulletSpawner;
-        _fxHolder = fxHolder;
-    }
+        public void Init(BulletSpawner bulletSpawner, UnitFxHolder fxHolder)
+        {
+            _bulletSpawner = bulletSpawner;
+            _fxHolder = fxHolder;
+        }
     
-    public virtual void Shoot()
-    {
-        CreateBullet();
-        PlayShootAnimation();
-    }
+        public virtual void Shoot()
+        {
+            CreateBullet();
+            PlayShootAnimation();
+        }
 
-    public void ShootAt(in Vector3 targetPosition)
-    {
-        Vector3 direction = targetPosition - _bulletSpawnPoint.position;
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
+        public void ShootAt(in Vector3 targetPosition)
+        {
+            Vector3 direction = targetPosition - _bulletSpawnPoint.position;
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
         
-        CreateBullet(rotation);
-        PlayShootAnimation();
-    }
+            CreateBullet(rotation);
+            PlayShootAnimation();
+        }
     
-    private void CreateBullet()
-    {
-        _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, _bodyTransform.rotation);
-        AddShootSfx();
-    }
+        private void CreateBullet()
+        {
+            _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, _bodyTransform.rotation);
+            AddShootSfx();
+        }
     
-    private void CreateBullet(Quaternion rotation)
-    {
-        _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, rotation);
-        AddShootSfx();
-    }
+        private void CreateBullet(Quaternion rotation)
+        {
+            _bulletSpawner.SpawnBullet(_bulletType, _bulletSpawnPoint.position, rotation);
+            AddShootSfx();
+        }
 
-    private void PlayShootAnimation()
-    {
-        _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Attack));
-    }
+        private void PlayShootAnimation()
+        {
+            _animator.SetTrigger(UnitAnimationIdHelper.GetId(UnitAnimationState.Attack));
+        }
 
-    private void AddShootSfx()
-    {
-        _fxHolder.AddShootSfx();
+        private void AddShootSfx()
+        {
+            _fxHolder.AddShootSfx();
+        }
     }
 }

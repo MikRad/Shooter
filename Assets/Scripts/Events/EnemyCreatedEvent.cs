@@ -1,9 +1,14 @@
-﻿public struct EnemyCreatedEvent : IEvent
+﻿using Units.Abstractions;
+
+namespace Events.Services
 {
-    public EnemyUnit Enemy { get; private set; }
-    
-    public EnemyCreatedEvent(EnemyUnit enemy)
+    public struct EnemyCreatedEvent : IEvent
     {
-        Enemy = enemy;
+        public EnemyUnit Enemy { get; private set; }
+    
+        public EnemyCreatedEvent(EnemyUnit enemy)
+        {
+            Enemy = enemy;
+        }
     }
 }

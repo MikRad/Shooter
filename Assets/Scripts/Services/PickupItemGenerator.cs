@@ -1,56 +1,60 @@
 ﻿using System;
+using PickupItems;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PickupItemGenerator : MonoBehaviour
+namespace Services
 {
-    [Header("Item generation")]
-    [Range(0, 100)]
-    [SerializeField] private int _itemGenerationProbability;
-    [SerializeField] private PickupGenerationInfo[] _pickupGenerationInfos;
-    
-    private PickupItemSpawner _pickupItemSpawner;
-
-    public void Init(PickupItemSpawner itemSpawner)
+    public class PickupItemGenerator : MonoBehaviour
     {
-        _pickupItemSpawner = itemSpawner;
-    }
+        [Header("Item generation")]
+        [Range(0, 100)]
+        [SerializeField] private int _itemGenerationProbability;
+        [SerializeField] private PickupGenerationInfo[] _pickupGenerationInfos;
     
-    public void TryGenerateItem(Vector3 position)
-    {
-        if ((_pickupGenerationInfos == null) || (_pickupGenerationInfos.Length == 0))
-            return;
+        private PickupItemSpawner _pickupItemSpawner;
 
-        int randProbability = Random.Range(1, 101);
-        if(randProbability <= _itemGenerationProbability)
+        public void Init(PickupItemSpawner itemSpawner)
         {
-            int totalWeight = 0;
-            foreach (PickupGenerationInfo info in _pickupGenerationInfos)
-            {
-                totalWeight += info.probabilityWeight;
-            }
+            _pickupItemSpawner = itemSpawner;
+        }
+    
+        public void TryGenerateItem(Vector3 position)
+        {
+            if ((_pickupGenerationInfos == null) || (_pickupGenerationInfos.Length == 0))
+                return;
 
-            int randWeight = Random.Range(0, totalWeight + 1);
-            int cumulativeWeight = 0;
-            for (int i = 0; i < _pickupGenerationInfos.Length; i++)
+            int randProbability = Random.Range(1, 101);
+            if(randProbability <= _itemGenerationProbability)
             {
-                cumulativeWeight += _pickupGenerationInfos[i].probabilityWeight;
-                if (cumulativeWeight >= randWeight)
+                int totalWeight = 0;
+                foreach (PickupGenerationInfo info in _pickupGenerationInfos)
                 {
-                    _pickupItemSpawner.SpawnItem(_pickupGenerationInfos[i].itemType, position);
-                    return;
+                    totalWeight += info.probabilityWeight;
+                }
+
+                int randWeight = Random.Range(0, totalWeight + 1);
+                int cumulativeWeight = 0;
+                for (int i = 0; i < _pickupGenerationInfos.Length; i++)
+                {
+                    cumulativeWeight += _pickupGenerationInfos[i].probabilityWeight;
+                    if (cumulativeWeight >= randWeight)
+                    {
+                        _pickupItemSpawner.SpawnItem(_pickupGenerationInfos[i].itemType, position);
+                        return;
+                    }
                 }
             }
         }
-    }
     
-    [Serializable]
-    private struct PickupGenerationInfo
-    {
-        public PickupItemType itemType;
+        [Serializable]
+        private struct PickupGenerationInfo
+        {
+            public PickupItemType itemType;
 
-        [Range(1, 10)]
-        public int probabilityWeight;
-    }
+            [Range(1, 10)]
+            public int probabilityWeight;
+        }
     
+    }
 }

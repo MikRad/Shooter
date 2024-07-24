@@ -1,9 +1,12 @@
-﻿public struct EnemyBossHealthChangedEvent : IEvent
+﻿namespace Events.Services
 {
-    public float HealthFullness { get; private set; }
-    
-    public EnemyBossHealthChangedEvent(float healthFullness)
+    public struct EnemyBossHealthChangedEvent : IEvent
     {
-        HealthFullness = healthFullness;
+        public float HealthFullness { get; private set; }
+    
+        public EnemyBossHealthChangedEvent(float healthFullness)
+        {
+            HealthFullness = healthFullness;
+        }
     }
 }

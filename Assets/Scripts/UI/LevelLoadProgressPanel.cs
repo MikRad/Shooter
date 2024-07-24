@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelLoadProgressPanel : UIView
+namespace UI
 {
-    [SerializeField] private Image _loadProgress;
+    public class LevelLoadProgressPanel : UIView
+    {
+        [SerializeField] private Image _loadProgress;
     
-    public override void Show()
-    {
-        _loadProgress.fillAmount = 0f;
+        public override void Show()
+        {
+            _loadProgress.fillAmount = 0f;
         
-        SetActive(true);
+            SetActive(true);
 
-        _tweener.Show();
-    }
+            _tweener.Show();
+        }
 
-    public void SetProgressValue(float progressValue)
-    {
-        _loadProgress.fillAmount = progressValue;
+        public void SetProgressValue(float progressValue)
+        {
+            _loadProgress.fillAmount = progressValue;
+        }
     }
 }

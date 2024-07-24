@@ -1,3 +1,6 @@
-﻿public struct EnemyBossDiedEvent : IEvent
+﻿namespace Events.Services
 {
+    public struct EnemyBossDiedEvent : IEvent
+    {
+    }
 }

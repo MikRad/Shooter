@@ -1,16 +1,20 @@
+using Units.Player;
 using UnityEngine;
 
-public class HealthItem : BasePickupItem
+namespace PickupItems
 {
-    [SerializeField] private int _healthAmount = 10;
-
-    public int HealthAmount => _healthAmount;
-
-    protected override void HandleCollecting(Player player)
+    public class HealthItem : BasePickupItem
     {
-        if (player.TryCollectHealth(this))
+        [SerializeField] private int _healthAmount = 10;
+
+        public int HealthAmount => _healthAmount;
+
+        protected override void HandleCollecting(Player player)
         {
-            Remove();
+            if (player.TryCollectHealth(this))
+            {
+                Remove();
+            }
         }
     }
 }

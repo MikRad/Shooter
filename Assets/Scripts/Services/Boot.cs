@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class Boot : MonoBehaviour
+namespace Services
 {
-    [SerializeField] private Game _gamePrefab;
-
-    private void Start()
+    public class Boot : MonoBehaviour
     {
-        Game game = Instantiate(_gamePrefab);
-        DontDestroyOnLoad(game);
+        [SerializeField] private Game _gamePrefab;
+
+        private void Start()
+        {
+            Game game = Instantiate(_gamePrefab);
+            DontDestroyOnLoad(game);
         
-        game.Init();
+            game.Init();
+        }
     }
 }

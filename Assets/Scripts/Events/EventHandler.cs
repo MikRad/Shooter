@@ -1,13 +1,16 @@
-﻿public class EventHandler
+﻿namespace Events.Services
 {
-    public object CallbackWithArg { get; }
-    public object CallbackNoArgs { get; }
-    public int Priority { get; }
-    
-    public EventHandler(object callbackWithArg, object callbackNoArgs, int priority)
+    public class EventHandler
     {
-        CallbackWithArg = callbackWithArg;
-        CallbackNoArgs = callbackNoArgs;
-        Priority = priority;
+        public object CallbackWithArg { get; }
+        public object CallbackNoArgs { get; }
+        public int Priority { get; }
+    
+        public EventHandler(object callbackWithArg, object callbackNoArgs, int priority)
+        {
+            CallbackWithArg = callbackWithArg;
+            CallbackNoArgs = callbackNoArgs;
+            Priority = priority;
+        }
     }
 }

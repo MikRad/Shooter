@@ -1,6 +1,9 @@
-﻿public enum PickupItemType
+﻿namespace PickupItems
 {
-    Undefined,
-    Health,
-    GunMagazine,
+    public enum PickupItemType
+    {
+        Undefined,
+        Health,
+        GunMagazine,
+    }
 }

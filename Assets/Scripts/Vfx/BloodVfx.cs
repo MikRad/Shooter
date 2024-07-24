@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(ParticleSystem))]
-public class BloodVfx : BaseVfx
+namespace Vfx
 {
-    private ParticleSystem _particles;
+    [RequireComponent(typeof(ParticleSystem))]
+    public class BloodVfx : BaseVfx
+    {
+        private ParticleSystem _particles;
     
-    protected override void Awake()
-    {
-        base.Awake();
+        protected override void Awake()
+        {
+            base.Awake();
         
-        _particles = GetComponent<ParticleSystem>();
-    }
+            _particles = GetComponent<ParticleSystem>();
+        }
 
-    public override void Init(Vector3 position, Quaternion rotation)
-    {
-        base.Init(position, rotation);
+        public override void Init(Vector3 position, Quaternion rotation)
+        {
+            base.Init(position, rotation);
 
-        _particles.Play();
+            _particles.Play();
+        }
     }
 }

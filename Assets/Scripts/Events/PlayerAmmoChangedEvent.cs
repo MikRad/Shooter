@@ -1,9 +1,12 @@
-﻿public struct PlayerAmmoChangedEvent : IEvent
+﻿namespace Events.Services
 {
-    public float AmmoFullness { get; private set; }
-    
-    public PlayerAmmoChangedEvent(float ammoFullness)
+    public struct PlayerAmmoChangedEvent : IEvent
     {
-        AmmoFullness = ammoFullness;
+        public float AmmoFullness { get; private set; }
+    
+        public PlayerAmmoChangedEvent(float ammoFullness)
+        {
+            AmmoFullness = ammoFullness;
+        }
     }
 }

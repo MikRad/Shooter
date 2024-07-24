@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-public class DesktopPlayerInput : IPlayerInput
+namespace Input
 {
-    public Vector2 Axes => new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-    public Vector3 AimPosition => Input.mousePosition;
-    public bool IsFirePressed => Input.GetButton("Fire1");
+    public class DesktopPlayerInput : IPlayerInput
+    {
+        public Vector2 Axes => new Vector2(UnityEngine.Input.GetAxis("Horizontal"), UnityEngine.Input.GetAxis("Vertical"));
+        public Vector3 AimPosition => UnityEngine.Input.mousePosition;
+        public bool IsFirePressed => UnityEngine.Input.GetButton("Fire1");
+    }
 }

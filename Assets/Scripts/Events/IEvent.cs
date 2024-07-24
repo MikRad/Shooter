@@ -1,3 +1,6 @@
-﻿public interface IEvent
+﻿namespace Events.Services
 {
+    public interface IEvent
+    {
+    }
 }

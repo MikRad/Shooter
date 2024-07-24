@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using Units.Player;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerFactoryConfig", menuName = "ScriptableObjects/PlayerFactoryConfig", order = 1)]
-public class PlayerFactoryConfig : ScriptableObject
+namespace Factories.Config
 {
-    public Player playerPrefab;
+    [CreateAssetMenu(fileName = "PlayerFactoryConfig", menuName = "ScriptableObjects/PlayerFactoryConfig", order = 1)]
+    public class PlayerFactoryConfig : ScriptableObject
+    {
+        public Player playerPrefab;
+    }
 }

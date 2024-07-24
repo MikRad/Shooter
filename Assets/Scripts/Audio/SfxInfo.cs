@@ -1,18 +1,21 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class SfxInfo
+namespace Audio
 {
-    [HideInInspector]
-    [SerializeField] private string _name;
-    public AudioClip _clip;
-    public SfxType _type;
-    public float _volume = 1f;
-    public float _pitch = 1f;
-
-    public void UpdateName()
+    [Serializable]
+    public class SfxInfo
     {
-        _name = _type.ToString();
+        [HideInInspector]
+        [SerializeField] private string _name;
+        public AudioClip _clip;
+        public SfxType _type;
+        public float _volume = 1f;
+        public float _pitch = 1f;
+
+        public void UpdateName()
+        {
+            _name = _type.ToString();
+        }
     }
 }

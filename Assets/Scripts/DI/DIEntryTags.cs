@@ -1,4 +1,7 @@
-﻿public class DIEntryTags
+﻿namespace DI
 {
-    // public const string SomeKey = "SomeKey";
+    public class DIEntryTags
+    {
+        // public const string SomeKey = "SomeKey";
+    }
 }

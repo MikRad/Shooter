@@ -1,9 +1,14 @@
-﻿public struct PlayerCreatedEvent : IEvent
+﻿using Units.Player;
+
+namespace Events.Services
 {
-    public Player Player { get; private set; }
-    
-    public PlayerCreatedEvent(Player player)
+    public struct PlayerCreatedEvent : IEvent
     {
-        Player = player;
+        public Player Player { get; private set; }
+    
+        public PlayerCreatedEvent(Player player)
+        {
+            Player = player;
+        }
     }
 }

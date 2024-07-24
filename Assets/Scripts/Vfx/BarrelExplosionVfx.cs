@@ -1,8 +1,11 @@
-public class BarrelExplosionVfx : BaseVfx
+namespace Vfx
 {
-    // Used in animation event
-    public void Release()
+    public class BarrelExplosionVfx : BaseVfx
     {
-        Remove();
+        // Used in animation event
+        public void Release()
+        {
+            Remove();
+        }
     }
 }

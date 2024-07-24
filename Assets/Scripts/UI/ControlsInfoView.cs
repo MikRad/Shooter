@@ -1,14 +1,17 @@
-﻿public class ControlsInfoView : UIView
+﻿namespace UI
 {
-    public override void Show()
+    public class ControlsInfoView : UIView
     {
-        SetActive(true);
+        public override void Show()
+        {
+            SetActive(true);
 
-        _tweener.Show(OnShowCompleted);
-    }
+            _tweener.Show(OnShowCompleted);
+        }
 
-    private void OnShowCompleted()
-    {
-        SetActive(false);
+        private void OnShowCompleted()
+        {
+            SetActive(false);
+        }
     }
 }

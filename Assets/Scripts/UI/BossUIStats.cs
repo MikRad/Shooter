@@ -1,36 +1,40 @@
-﻿using UnityEngine;
+﻿using Events.Services;
+using UnityEngine;
 
-public class BossUIStats : UIView
+namespace UI
 {
-    [Header("UI elements")]
-    [SerializeField] private UIProgressBar _healthBar;
-
-    protected override void Awake()
+    public class BossUIStats : UIView
     {
-        base.Awake();
+        [Header("UI elements")]
+        [SerializeField] private UIProgressBar _healthBar;
+
+        protected override void Awake()
+        {
+            base.Awake();
         
-        EventBus.Get.Subscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
-    }
+            EventBus.Get.Subscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
+        }
 
-    private void OnDestroy()
-    {
-        EventBus.Get.Unsubscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
-    }
+        private void OnDestroy()
+        {
+            EventBus.Get.Unsubscribe<EnemyBossHealthChangedEvent>(HandleEnemyBossHealthChanged);
+        }
 
-    public override void Show()
-    {
-        SetActive(true);
+        public override void Show()
+        {
+            SetActive(true);
 
-        _tweener.Show();
-    }
+            _tweener.Show();
+        }
 
-    public void Reset()
-    {
-        _healthBar.SetValue(1f);
-    }
+        public void Reset()
+        {
+            _healthBar.SetValue(1f);
+        }
     
-    private void HandleEnemyBossHealthChanged(EnemyBossHealthChangedEvent ev)
-    {
-        _healthBar.SetValue(ev.HealthFullness);
+        private void HandleEnemyBossHealthChanged(EnemyBossHealthChangedEvent ev)
+        {
+            _healthBar.SetValue(ev.HealthFullness);
+        }
     }
 }

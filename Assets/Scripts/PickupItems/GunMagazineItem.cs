@@ -1,16 +1,20 @@
+using Units.Player;
 using UnityEngine;
 
-public class GunMagazineItem : BasePickupItem
+namespace PickupItems
 {
-    [SerializeField] private int _ammoAmount = 50;
-
-    public int AmmoAmount => _ammoAmount;
-
-    protected override void HandleCollecting(Player player)
+    public class GunMagazineItem : BasePickupItem
     {
-        if (player.TryCollectAmmo(this))
+        [SerializeField] private int _ammoAmount = 50;
+
+        public int AmmoAmount => _ammoAmount;
+
+        protected override void HandleCollecting(Player player)
         {
-            Remove();
+            if (player.TryCollectAmmo(this))
+            {
+                Remove();
+            }
         }
     }
 }

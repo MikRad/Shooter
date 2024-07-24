@@ -1,28 +1,32 @@
 ﻿using System;
+using DI.Services;
 
-public abstract class DIEntry
+namespace DI
 {
-    protected DIContainer DiContainer { get; }
-
-    protected DIEntry(DIContainer diContainer)
+    public abstract class DIEntry
     {
-        DiContainer = diContainer;
-    }
+        protected DIContainer DiContainer { get; }
+
+        protected DIEntry(DIContainer diContainer)
+        {
+            DiContainer = diContainer;
+        }
         
-    public T Resolve<T>()
-    {
-        return ((DIEntry<T>)this).Resolve();
+        public T Resolve<T>()
+        {
+            return ((DIEntry<T>)this).Resolve();
+        }
     }
-}
     
-public abstract class DIEntry<T> : DIEntry
-{
-    protected Func<DIContainer, T> Factory { get; }
-
-    protected DIEntry(DIContainer diContainer, Func<DIContainer, T> factory) : base(diContainer)
+    public abstract class DIEntry<T> : DIEntry
     {
-        Factory = factory;
-    }
+        protected Func<DIContainer, T> Factory { get; }
 
-    public abstract T Resolve();
+        protected DIEntry(DIContainer diContainer, Func<DIContainer, T> factory) : base(diContainer)
+        {
+            Factory = factory;
+        }
+
+        public abstract T Resolve();
+    }
 }

@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
 
-public class MeleeAnimationHandler : MonoBehaviour
+namespace Units
 {
-    public event Action OnAttackPerformed;
-
-    // Used in animation event
-    private void PerformAttack()
+    public class MeleeAnimationHandler : MonoBehaviour
     {
-        OnAttackPerformed?.Invoke();
+        public event Action OnAttackPerformed;
+
+        // Used in animation event
+        private void PerformAttack()
+        {
+            OnAttackPerformed?.Invoke();
+        }
     }
 }

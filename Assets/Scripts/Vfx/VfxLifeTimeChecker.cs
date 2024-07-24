@@ -2,25 +2,28 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class VfxLifeTimeChecker : MonoBehaviour
+namespace Vfx
 {
-    [SerializeField] private float _lifeTime = 1.5f;
-
-    private Coroutine _lifeTimeUpdater;
-
-    public event Action OnLifeTimeExpired;
-    
-    public void Init()
+    public class VfxLifeTimeChecker : MonoBehaviour
     {
-        _lifeTimeUpdater = StartCoroutine(UpdateLifeTime());
-    }
-    
-    private IEnumerator UpdateLifeTime()
-    {
-        yield return new WaitForSeconds(_lifeTime);
+        [SerializeField] private float _lifeTime = 1.5f;
 
-        StopCoroutine(_lifeTimeUpdater);
+        private Coroutine _lifeTimeUpdater;
+
+        public event Action OnLifeTimeExpired;
+    
+        public void Init()
+        {
+            _lifeTimeUpdater = StartCoroutine(UpdateLifeTime());
+        }
+    
+        private IEnumerator UpdateLifeTime()
+        {
+            yield return new WaitForSeconds(_lifeTime);
+
+            StopCoroutine(_lifeTimeUpdater);
         
-        OnLifeTimeExpired?.Invoke();
+            OnLifeTimeExpired?.Invoke();
+        }
     }
 }

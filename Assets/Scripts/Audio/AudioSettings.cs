@@ -2,74 +2,77 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[ CreateAssetMenu (fileName = nameof(AudioSettings), menuName = "Audio/Audio settings")]
-public class AudioSettings : ScriptableObject
+namespace Audio
 {
-    [SerializeField] private SfxInfo[] _sfxInfos;
-    [SerializeField] private AudioClip[] _musicTracks;
-
-    private int _currentMusicTrackNumber;
-
-    private readonly Dictionary<SfxType, SfxInfo> _sfxInfosMap = new Dictionary<SfxType, SfxInfo>();
-
-    private void OnEnable()
+    [ CreateAssetMenu (fileName = nameof(AudioSettings), menuName = "Audio/Audio settings")]
+    public class AudioSettings : ScriptableObject
     {
-        FillMap();
-    }
+        [SerializeField] private SfxInfo[] _sfxInfos;
+        [SerializeField] private AudioClip[] _musicTracks;
 
-    private void OnValidate()
-    {
-        if (_sfxInfos == null)
-            return;
+        private int _currentMusicTrackNumber;
 
-        foreach (SfxInfo sfxInfo in _sfxInfos)
+        private readonly Dictionary<SfxType, SfxInfo> _sfxInfosMap = new Dictionary<SfxType, SfxInfo>();
+
+        private void OnEnable()
         {
-            sfxInfo.UpdateName();
+            FillMap();
         }
-    }
 
-    private void FillMap()
-    {
-        _sfxInfosMap.Clear();
-
-        if (_sfxInfos == null)
-            return;
-
-        foreach (SfxInfo sfxInfo in _sfxInfos)
+        private void OnValidate()
         {
-            SfxType type = sfxInfo._type;
-            _sfxInfosMap.TryAdd(type, sfxInfo);
+            if (_sfxInfos == null)
+                return;
+
+            foreach (SfxInfo sfxInfo in _sfxInfos)
+            {
+                sfxInfo.UpdateName();
+            }
         }
-    }
 
-    public AudioClip GetAudioClip(SfxType type)
-    {
-        return _sfxInfosMap.TryGetValue(type, out SfxInfo info) ? info._clip : null;
-    }
+        private void FillMap()
+        {
+            _sfxInfosMap.Clear();
 
-    public SfxInfo GetSfxInfo(SfxType type)
-    {
-        return _sfxInfosMap.TryGetValue(type, out SfxInfo info) ? info : null;
-    }
+            if (_sfxInfos == null)
+                return;
 
-    public AudioClip GetRandomMusicTrack()
-    {
-        if ((_musicTracks == null) || (_musicTracks.Length == 0)) 
-            return null;
+            foreach (SfxInfo sfxInfo in _sfxInfos)
+            {
+                SfxType type = sfxInfo._type;
+                _sfxInfosMap.TryAdd(type, sfxInfo);
+            }
+        }
 
-        _currentMusicTrackNumber = Random.Range(0, _musicTracks.Length);
-        return _musicTracks[_currentMusicTrackNumber];
-    }
+        public AudioClip GetAudioClip(SfxType type)
+        {
+            return _sfxInfosMap.TryGetValue(type, out SfxInfo info) ? info._clip : null;
+        }
 
-    public AudioClip GetNextMusicTrack()
-    {
-        if ((_musicTracks == null) || (_musicTracks.Length == 0))
-            return null;
+        public SfxInfo GetSfxInfo(SfxType type)
+        {
+            return _sfxInfosMap.TryGetValue(type, out SfxInfo info) ? info : null;
+        }
 
-        _currentMusicTrackNumber++;
-        if (_currentMusicTrackNumber >= _musicTracks.Length)
-            _currentMusicTrackNumber = 0;
+        public AudioClip GetRandomMusicTrack()
+        {
+            if ((_musicTracks == null) || (_musicTracks.Length == 0)) 
+                return null;
 
-        return _musicTracks[_currentMusicTrackNumber];
+            _currentMusicTrackNumber = Random.Range(0, _musicTracks.Length);
+            return _musicTracks[_currentMusicTrackNumber];
+        }
+
+        public AudioClip GetNextMusicTrack()
+        {
+            if ((_musicTracks == null) || (_musicTracks.Length == 0))
+                return null;
+
+            _currentMusicTrackNumber++;
+            if (_currentMusicTrackNumber >= _musicTracks.Length)
+                _currentMusicTrackNumber = 0;
+
+            return _musicTracks[_currentMusicTrackNumber];
+        }
     }
 }

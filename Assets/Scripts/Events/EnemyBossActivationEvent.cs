@@ -1,9 +1,12 @@
-﻿public struct EnemyBossActivationEvent : IEvent
+﻿namespace Events.Services
 {
-    public bool IsActivated { get; private set; }
-    
-    public EnemyBossActivationEvent(bool isActivated)
+    public struct EnemyBossActivationEvent : IEvent
     {
-        IsActivated = isActivated;
+        public bool IsActivated { get; private set; }
+    
+        public EnemyBossActivationEvent(bool isActivated)
+        {
+            IsActivated = isActivated;
+        }
     }
 }

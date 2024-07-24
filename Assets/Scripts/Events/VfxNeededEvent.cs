@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
+using Vfx;
 
-public struct VfxNeededEvent : IEvent
+namespace Events.Services.Fx
 {
-    public VfxType VfxType { get; private set; }
-    public Transform TargetTransform { get; private set; }
-    
-    public VfxNeededEvent(VfxType vfxType, Transform targetTransform)
+    public struct VfxNeededEvent : IEvent
     {
-        VfxType = vfxType;
-        TargetTransform = targetTransform;
+        public VfxType VfxType { get; private set; }
+        public Transform TargetTransform { get; private set; }
+    
+        public VfxNeededEvent(VfxType vfxType, Transform targetTransform)
+        {
+            VfxType = vfxType;
+            TargetTransform = targetTransform;
+        }
     }
 }

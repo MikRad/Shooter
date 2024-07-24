@@ -1,9 +1,14 @@
-﻿public struct SfxNeededEvent : IEvent
+﻿using Audio;
+
+namespace Events.Services
 {
-    public SfxType SfxType { get; private set; }
-    
-    public SfxNeededEvent(SfxType sfxType)
+    public struct SfxNeededEvent : IEvent
     {
-        SfxType = sfxType;
+        public SfxType SfxType { get; private set; }
+    
+        public SfxNeededEvent(SfxType sfxType)
+        {
+            SfxType = sfxType;
+        }
     }
 }

@@ -1,58 +1,61 @@
 using System.Collections.Generic;
+using Events.Services;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioController : MonoBehaviour
+namespace Audio.Services
 {
-    private const string MusicVolumeKey = "ZombieShooterMusicVolumeKey";
-    private const string SfxVolumeKey = "ZombieShooterSfxVolumeKey";
-    private const string SettingsPath = "Configs/AudioSettings";
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioController : MonoBehaviour
+    {
+        private const string MusicVolumeKey = "ZombieShooterMusicVolumeKey";
+        private const string SfxVolumeKey = "ZombieShooterSfxVolumeKey";
+        private const string SettingsPath = "Configs/AudioSettings";
 
-    private AudioSettings _settings;
+        private AudioSettings _settings;
 
-    private AudioSource _musicTrackSource;
+        private AudioSource _musicTrackSource;
     
-    private float _musicVolume = 1f;
-    private float _sfxVolume = 1f;
+        private float _musicVolume = 1f;
+        private float _sfxVolume = 1f;
 
-    private readonly List<GameAudioSource> _activeSfxSources = new List<GameAudioSource>();
+        private readonly List<GameAudioSource> _activeSfxSources = new List<GameAudioSource>();
 
-    public float MusicVolume { get => _musicVolume; set{ _musicVolume = value; _musicTrackSource.volume = _musicVolume; } }
-    public float SfxVolume
-    {
-        get => _sfxVolume; 
-        set
+        public float MusicVolume { get => _musicVolume; set{ _musicVolume = value; _musicTrackSource.volume = _musicVolume; } }
+        public float SfxVolume
         {
-            _sfxVolume = value; 
-            foreach (GameAudioSource sfxSource in _activeSfxSources)
+            get => _sfxVolume; 
+            set
             {
-                sfxSource.SetVolume(_sfxVolume);
-            }
-        } 
-    }
+                _sfxVolume = value; 
+                foreach (GameAudioSource sfxSource in _activeSfxSources)
+                {
+                    sfxSource.SetVolume(_sfxVolume);
+                }
+            } 
+        }
 
-    protected void Awake()
-    {
-        LoadConfig();
+        protected void Awake()
+        {
+            LoadConfig();
         
-        ReadAudioParams();
+            ReadAudioParams();
 
-        _musicTrackSource = GetComponent<AudioSource>();
-        _musicTrackSource.volume = _musicVolume;
-        _musicTrackSource.loop = false;
+            _musicTrackSource = GetComponent<AudioSource>();
+            _musicTrackSource.volume = _musicVolume;
+            _musicTrackSource.loop = false;
 
-        EventBus.Get.Subscribe<SfxNeededEvent>(HandleSfxNeeded);
-        // PlayRandomTrack();
-    }
+            EventBus.Get.Subscribe<SfxNeededEvent>(HandleSfxNeeded);
+            // PlayRandomTrack();
+        }
 
-    private void OnDestroy()
-    {
-        EventBus.Get.Unsubscribe<SfxNeededEvent>(HandleSfxNeeded);
+        private void OnDestroy()
+        {
+            EventBus.Get.Unsubscribe<SfxNeededEvent>(HandleSfxNeeded);
         
-        SaveAudioParams();
-    }
+            SaveAudioParams();
+        }
 
-    /*    private void Update()
+        /*    private void Update()
     {
         if (_musicTrackSource.isPlaying)
             return;
@@ -60,77 +63,78 @@ public class AudioController : MonoBehaviour
         PlayNextTrack();
     }*/
 
-    public void PlaySfx(SfxType sfxType, Transform targetTransform = null)
-    {
-        if ((targetTransform != null) && (!targetTransform.gameObject.activeSelf))
+        public void PlaySfx(SfxType sfxType, Transform targetTransform = null)
         {
-            Debug.LogWarning("Target gameobject for sfx is not active !");
-            return;
+            if ((targetTransform != null) && (!targetTransform.gameObject.activeSelf))
+            {
+                Debug.LogWarning("Target gameobject for sfx is not active !");
+                return;
+            }
+
+            GameAudioSource audioSrc = CreateAudioSource(targetTransform);
+            SetupAudioSource(audioSrc, _settings.GetSfxInfo(sfxType));
+            audioSrc.Play();
         }
 
-        GameAudioSource audioSrc = CreateAudioSource(targetTransform);
-        SetupAudioSource(audioSrc, _settings.GetSfxInfo(sfxType));
-        audioSrc.Play();
-    }
+        private GameAudioSource CreateAudioSource(Transform targetTransform)
+        {
+            Transform transformForAudioSrc = (targetTransform == null) ? transform : targetTransform;
+            GameAudioSource audioSrc = transformForAudioSrc.gameObject.AddComponent<GameAudioSource>();
+            audioSrc.SetOnKillCallback(OnAudioSourceKilled);
+            _activeSfxSources.Add(audioSrc);
 
-    private GameAudioSource CreateAudioSource(Transform targetTransform)
-    {
-        Transform transformForAudioSrc = (targetTransform == null) ? transform : targetTransform;
-        GameAudioSource audioSrc = transformForAudioSrc.gameObject.AddComponent<GameAudioSource>();
-        audioSrc.SetOnKillCallback(OnAudioSourceKilled);
-        _activeSfxSources.Add(audioSrc);
+            return audioSrc;
+        }
 
-        return audioSrc;
-    }
+        private void OnAudioSourceKilled(GameAudioSource aSource)
+        {
+            _activeSfxSources.Remove(aSource);
+        }
 
-    private void OnAudioSourceKilled(GameAudioSource aSource)
-    {
-        _activeSfxSources.Remove(aSource);
-    }
+        private void SetupAudioSource(GameAudioSource audioSrc, SfxInfo sfxInfo)
+        {
+            audioSrc.Setup(sfxInfo, _sfxVolume);
+        }
 
-    private void SetupAudioSource(GameAudioSource audioSrc, SfxInfo sfxInfo)
-    {
-        audioSrc.Setup(sfxInfo, _sfxVolume);
-    }
+        private AudioClip GetAudioClip(SfxType type)
+        {
+            return _settings.GetAudioClip(type);
+        }
 
-    private AudioClip GetAudioClip(SfxType type)
-    {
-        return _settings.GetAudioClip(type);
-    }
+        private void PlayRandomTrack()
+        {
+            _musicTrackSource.clip = _settings.GetRandomMusicTrack();
+            _musicTrackSource.Play();
+        }
 
-    private void PlayRandomTrack()
-    {
-        _musicTrackSource.clip = _settings.GetRandomMusicTrack();
-        _musicTrackSource.Play();
-    }
+        private void PlayNextTrack()
+        {
+            _musicTrackSource.clip = _settings.GetNextMusicTrack();
+            _musicTrackSource.Play();
+        }
 
-    private void PlayNextTrack()
-    {
-        _musicTrackSource.clip = _settings.GetNextMusicTrack();
-        _musicTrackSource.Play();
-    }
-
-    private void HandleSfxNeeded(SfxNeededEvent ev)
-    {
-        PlaySfx(ev.SfxType);
-    }
+        private void HandleSfxNeeded(SfxNeededEvent ev)
+        {
+            PlaySfx(ev.SfxType);
+        }
     
-    private void ReadAudioParams()
-    {
-        if (PlayerPrefs.HasKey(MusicVolumeKey))
-            _musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey);
-        if (PlayerPrefs.HasKey(SfxVolumeKey))
-            _sfxVolume = PlayerPrefs.GetFloat(SfxVolumeKey);
-    }
+        private void ReadAudioParams()
+        {
+            if (PlayerPrefs.HasKey(MusicVolumeKey))
+                _musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey);
+            if (PlayerPrefs.HasKey(SfxVolumeKey))
+                _sfxVolume = PlayerPrefs.GetFloat(SfxVolumeKey);
+        }
 
-    private void SaveAudioParams()
-    {
-        PlayerPrefs.SetFloat(MusicVolumeKey, _musicVolume);
-        PlayerPrefs.SetFloat(SfxVolumeKey, _sfxVolume);
-    }
+        private void SaveAudioParams()
+        {
+            PlayerPrefs.SetFloat(MusicVolumeKey, _musicVolume);
+            PlayerPrefs.SetFloat(SfxVolumeKey, _sfxVolume);
+        }
 
-    private void LoadConfig()
-    {
-        _settings = Resources.Load<AudioSettings>(SettingsPath);        
+        private void LoadConfig()
+        {
+            _settings = Resources.Load<AudioSettings>(SettingsPath);        
+        }
     }
 }

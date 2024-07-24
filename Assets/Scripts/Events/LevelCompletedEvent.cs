@@ -1,3 +1,6 @@
-﻿public struct LevelCompletedEvent : IEvent
+﻿namespace Events.Services
 {
+    public struct LevelCompletedEvent : IEvent
+    {
+    }
 }
