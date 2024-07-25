@@ -1,6 +1,6 @@
 ﻿using Audio;
 
-namespace Events.Services
+namespace Events
 {
     public struct SfxNeededEvent : IEvent
     {

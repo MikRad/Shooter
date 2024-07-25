@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Events;
+using Events.Fx;
 using Events.Services;
-using Events.Services.Fx;
 using UnityEngine;
 using Utils;
 

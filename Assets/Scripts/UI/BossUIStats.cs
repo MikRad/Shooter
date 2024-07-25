@@ -1,4 +1,5 @@
-﻿using Events.Services;
+﻿using Events;
+using Events.Services;
 using UnityEngine;
 
 namespace UI

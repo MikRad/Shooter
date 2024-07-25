@@ -1,6 +1,6 @@
 ﻿using UI;
 
-namespace Events.Services.UI
+namespace Events.UI
 {
     public struct LevelCompletedPanelClosedEvent : IEvent
     {

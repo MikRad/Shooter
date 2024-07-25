@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Events.Services
+namespace Events
 {
     public delegate void EventCallback<T>(T raisedEvent) where T : struct, IEvent;
 

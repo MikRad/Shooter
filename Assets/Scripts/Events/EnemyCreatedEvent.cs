@@ -1,6 +1,6 @@
 ﻿using Units.Abstractions;
 
-namespace Events.Services
+namespace Events
 {
     public struct EnemyCreatedEvent : IEvent
     {

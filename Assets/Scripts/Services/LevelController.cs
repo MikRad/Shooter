@@ -2,6 +2,7 @@
 using Cinemachine;
 using DI;
 using DI.Services;
+using Events;
 using Events.Services;
 using Factories;
 using Factories.Utils;

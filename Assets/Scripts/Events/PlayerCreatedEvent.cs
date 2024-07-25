@@ -1,6 +1,6 @@
 ﻿using Units.Player;
 
-namespace Events.Services
+namespace Events
 {
     public struct PlayerCreatedEvent : IEvent
     {

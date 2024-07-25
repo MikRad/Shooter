@@ -1,6 +1,7 @@
 ﻿using Audio;
+using Events;
+using Events.Fx;
 using Events.Services;
-using Events.Services.Fx;
 using UnityEngine;
 
 namespace Vfx.Services

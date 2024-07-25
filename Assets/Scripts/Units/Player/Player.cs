@@ -1,6 +1,7 @@
 using Audio;
 using DI;
 using DI.Services;
+using Events;
 using Events.Services;
 using Input;
 using PickupItems;

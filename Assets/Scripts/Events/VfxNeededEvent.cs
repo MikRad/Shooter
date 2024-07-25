@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Vfx;
 
-namespace Events.Services.Fx
+namespace Events.Fx
 {
     public struct VfxNeededEvent : IEvent
     {

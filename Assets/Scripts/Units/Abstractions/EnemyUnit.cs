@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DI;
 using DI.Services;
+using Events;
 using Events.Services;
 using Services;
 using Units.Enemy;
