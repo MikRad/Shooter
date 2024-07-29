@@ -27,7 +27,7 @@ namespace Factories
             LoadConfig();
         }
 
-        public EnemyUnit CreateEnemy(EnemyStartPointData data)
+        public EnemyUnit CreateEnemy(EnemyStartPoint data)
         {
             EnemyUnit enemy = Object.Instantiate(_config.GetPrefab(data.EnemyType), data.transform.position, Quaternion.identity);
             enemy.Init(_diContainer);
@@ -40,7 +40,7 @@ namespace Factories
             return enemy;
         }
 
-        private void InitEnemyPatrolPositions(EnemyUnit enemy, EnemyStartPointData data)
+        private void InitEnemyPatrolPositions(EnemyUnit enemy, EnemyStartPoint data)
         {
             List<Vector3> positions = new List<Vector3>();
 

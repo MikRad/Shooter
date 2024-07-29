@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cinemachine;
-using DI;
 using DI.Services;
 using Events;
 using Events.Services;
@@ -75,20 +74,33 @@ namespace Services
     
         private void CreateUnits()
         {
-            EnemyPatrolPoint[] enemyPatrolPoints = FindObjectsOfType<EnemyPatrolPoint>();
-            EnemyStartPointData[] enemyStartPointDatas = FindObjectsOfType<EnemyStartPointData>();
-            PlayerStartPoint playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+            FindUnitsInitialPoints(out EnemyStartPoint[] enemyStartPoints, out PlayerStartPoint playerStartPoint, out EnemyPatrolPoint[] enemyPatrolPoints);
         
             _player = _playerFactory.CreatePlayer(playerStartPoint.transform.position);
             _cmCamera.Follow = _player.transform;
 
             _enemyFactory.InitAllPatrolPositions(enemyPatrolPoints);
         
-            foreach (EnemyStartPointData data in enemyStartPointDatas)
+            foreach (EnemyStartPoint data in enemyStartPoints)
             {
                 EnemyUnit enemy = _enemyFactory.CreateEnemy(data);
                 _enemyList.Add(enemy);
+            }
+            
+            ReleaseUnitsInitialPoints(enemyStartPoints, playerStartPoint, enemyPatrolPoints);
+        }
 
+        private void FindUnitsInitialPoints(out EnemyStartPoint[] enemyStartPoints, out PlayerStartPoint playerStartPoint, out EnemyPatrolPoint[] enemyPatrolPoints)
+        {
+            enemyPatrolPoints = FindObjectsOfType<EnemyPatrolPoint>();
+            enemyStartPoints = FindObjectsOfType<EnemyStartPoint>();
+            playerStartPoint = FindObjectOfType<PlayerStartPoint>();
+        }
+        
+        private void ReleaseUnitsInitialPoints(EnemyStartPoint[] enemyStartPoints, PlayerStartPoint playerStartPoint, EnemyPatrolPoint[] enemyPatrolPoints)
+        {
+            foreach (EnemyStartPoint data in enemyStartPoints)
+            {
                 Destroy(data.gameObject);
             }
 
@@ -99,7 +111,7 @@ namespace Services
         
             Destroy(playerStartPoint.gameObject);
         }
-
+        
         private void HandlePlayerDied()
         {
             EventBus.Get.RaiseEvent(this, new LevelFailedEvent());

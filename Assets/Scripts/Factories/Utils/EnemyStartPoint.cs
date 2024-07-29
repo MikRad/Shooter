@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Factories.Utils
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class EnemyStartPointData : MonoBehaviour
+    public class EnemyStartPoint : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private EnemyType _enemyType;
