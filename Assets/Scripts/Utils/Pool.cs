@@ -60,7 +60,9 @@ namespace Utils
     
         private void InitPool(int poolSize)
         {
-            _pool = new List<T>();
+            int poolCapacity = (IsAutoExpand) ? poolSize * 2 : poolSize;
+            
+            _pool = new List<T>(poolCapacity);
 
             for (int i = 0; i < poolSize; i++)
                 CreateElement();

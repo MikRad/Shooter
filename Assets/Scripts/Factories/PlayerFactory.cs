@@ -1,5 +1,4 @@
-﻿using DI;
-using DI.Services;
+﻿using DI.Services;
 using Factories.Config;
 using Units.Player;
 using UnityEngine;
@@ -10,13 +9,14 @@ namespace Factories
     {
         private const string ConfigPath = "Configs/PlayerFactoryConfig";
         private readonly DIContainer _diContainer;
-        private PlayerFactoryConfig _config;
+        private readonly PlayerFactoryConfig _config;
     
         public PlayerFactory(DIContainer diContainer)
         {
             _diContainer = diContainer;
-        
-            LoadConfig();
+
+            IResourcesDataProvider dataProvider = _diContainer.Resolve<IResourcesDataProvider>();
+            _config = dataProvider.LoadResource<PlayerFactoryConfig>(ConfigPath);
         }
 
         public Player CreatePlayer(Vector3 position)
@@ -25,11 +25,6 @@ namespace Factories
             player.Init(_diContainer);
 
             return player;
-        }
-
-        private void LoadConfig()
-        {
-            _config = Resources.Load<PlayerFactoryConfig>(ConfigPath);        
         }
     }
 }

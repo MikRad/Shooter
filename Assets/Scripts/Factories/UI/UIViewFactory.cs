@@ -1,4 +1,6 @@
-﻿using Factories.Config.UI;
+﻿using System.Collections.Generic;
+using Factories.Config.UI;
+using UI;
 using UnityEngine;
 
 namespace Factories.UI
@@ -6,21 +8,38 @@ namespace Factories.UI
     public class UIViewFactory
     {
         private const string ConfigPath = "Configs/UIViewFactoryConfig";
-        private UIViewFactoryConfig _config;
+        private readonly UIViewFactoryConfig _config;
+        private readonly Dictionary<UIViewType, UIView> _uiViewPrefabsMap = new Dictionary<UIViewType, UIView>();
     
-        public UIViewFactory()
+        public UIViewFactory(IResourcesDataProvider dataProvider)
         {
-            LoadConfig();
+            _config = dataProvider.LoadResource<UIViewFactoryConfig>(ConfigPath);
+            
+            FillPrefabsMap();
         }
 
-        public UIViewFactoryConfig.UIViewCreateInfo[] GetUIViewCreateInfos()
+        public IEnumerable<UIViewType> GetUIViewTypes()
         {
-            return _config.UIViewCreateInfos;
+            return _uiViewPrefabsMap.Keys;
         }
     
-        private void LoadConfig()
+        public UIView Create(UIViewType viewType, Transform canvasTransform)
         {
-            _config = Resources.Load<UIViewFactoryConfig>(ConfigPath);        
+            UIView view = null;
+            if (_uiViewPrefabsMap.TryGetValue(viewType, out UIView prefab))
+            {
+                view = Object.Instantiate(prefab, canvasTransform);
+            }
+
+            return view;
+        }
+        
+        private void FillPrefabsMap()
+        {
+            foreach (UIViewFactoryConfig.UIViewCreateInfo info in _config.UIViewCreateInfos)
+            {
+                _uiViewPrefabsMap.TryAdd(info.type, info.viewPrefab);
+            }
         }
     }
 }

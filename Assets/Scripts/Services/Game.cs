@@ -1,6 +1,5 @@
 using System.Collections;
 using Audio.Services;
-using DI;
 using DI.Services;
 using Events;
 using Events.Services;
@@ -70,9 +69,10 @@ namespace Services
             _diContainer.RegisterInstance(_pickupItemSpawner);
             _diContainer.RegisterInstance(_vfxSpawner);
             _diContainer.RegisterSingleton<IPlayerInput>((_) => new DesktopPlayerInput());
+            _diContainer.RegisterSingleton<IResourcesDataProvider>((_) => new ResourcesDataProvider());
             _diContainer.RegisterSingleton((c) => new PlayerFactory(c));
             _diContainer.RegisterSingleton((c) => new EnemyFactory(c));
-            _diContainer.RegisterSingleton((_) => new UIViewFactory());
+            _diContainer.RegisterSingleton((c) => new UIViewFactory(c.Resolve<IResourcesDataProvider>()));
         }
     
         private void InitServices()

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using DI;
 using DI.Services;
-using Factories.Config.UI;
 using Factories.UI;
 using UnityEngine;
 
@@ -19,7 +17,7 @@ namespace UI
         {
             _uiViewFactory = diContainer.Resolve<UIViewFactory>();
         
-            CreateUIViewsMap();
+            CreateUIViews();
         }
     
         public void ShowUIView(UIViewType viewType)
@@ -50,13 +48,12 @@ namespace UI
             levelLoadPanel?.SetProgressValue(progressValue);
         }
     
-        private void CreateUIViewsMap()
+        private void CreateUIViews()
         {
-            UIViewFactoryConfig.UIViewCreateInfo[] infos = _uiViewFactory.GetUIViewCreateInfos();
-
-            foreach (UIViewFactoryConfig.UIViewCreateInfo info in infos)
+            var viewTypes = _uiViewFactory.GetUIViewTypes();
+            foreach (UIViewType type in viewTypes)
             {
-                _uiViewsMap.TryAdd(info.type, Instantiate(info.viewPrefab, _canvasTransform));
+                _uiViewsMap.TryAdd(type, _uiViewFactory.Create(type, _canvasTransform));
             }
         }
     }
