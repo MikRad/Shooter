@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DI;
 using DI.Services;
 using Factories.Config;
 using Factories.Utils;
@@ -23,8 +22,9 @@ namespace Factories
         public EnemyFactory(DIContainer diContainer)
         {
             _diContainer = diContainer;
-        
-            LoadConfig();
+            
+            IResourcesDataProvider dataProvider = _diContainer.Resolve<IResourcesDataProvider>();
+            _config = dataProvider.LoadResource<EnemyFactoryConfig>(ConfigPath);
         }
 
         public EnemyUnit CreateEnemy(EnemyStartPoint data)
@@ -42,7 +42,7 @@ namespace Factories
 
         private void InitEnemyPatrolPositions(EnemyUnit enemy, EnemyStartPoint data)
         {
-            List<Vector3> positions = new List<Vector3>();
+            List<Vector3> positions = new List<Vector3>(20);
 
             if (data.PatrolPoints.Length >= MinPatrolPointsNumber)
             {
@@ -79,11 +79,6 @@ namespace Factories
             {
                 _allPatrolPositions.Add(patrolPoint.transform.position);    
             }
-        }
-    
-        private void LoadConfig()
-        {
-            _config = Resources.Load<EnemyFactoryConfig>(ConfigPath);        
         }
     }
 }

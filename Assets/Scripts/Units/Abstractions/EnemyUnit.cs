@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DI;
 using DI.Services;
 using Events;
 using Events.Services;
@@ -30,7 +29,7 @@ namespace Units.Abstractions
         private Vector3 _startPosition;
     
         protected EnemyStateMachine _stateMachine;
-        private List<Vector3> _patrolPositions = new List<Vector3>();
+        private List<Vector3> _patrolPositions = new List<Vector3>(20);
     
         protected Player.Player _player;
         private PickupItemGenerator _pickupItemGenerator;

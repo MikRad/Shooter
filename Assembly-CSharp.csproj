@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Events\EnemyCreatedEvent.cs" />
     <Compile Include="Assets\Scripts\Services\Boot.cs" />
     <Compile Include="Assets\Scripts\Events\UI\GameOverPanelClosedEvent.cs" />
+    <Compile Include="Assets\Scripts\Services\Abstractions\IResourcesDataProvider.cs" />
     <Compile Include="Assets\Scripts\Vfx\VfxType.cs" />
     <Compile Include="Assets\Scripts\UI\LevelLoadProgressPanel.cs" />
     <Compile Include="Assets\Scripts\Units\Enemy\EnemyStates\EnemyStatePatrol.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Assets\Scripts\UI\UIView.cs" />
     <Compile Include="Assets\Scripts\Units\BaseShooting.cs" />
     <Compile Include="Assets\Scripts\UI\ControlsInfoView.cs" />
+    <Compile Include="Assets\Scripts\Services\ResourcesDataProvider.cs" />
     <Compile Include="Assets\Scripts\UI\LevelCompletedPanel.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerUIStats.cs" />
     <Compile Include="Assets\Scripts\Factories\Config\EnemyFactoryConfig.cs" />

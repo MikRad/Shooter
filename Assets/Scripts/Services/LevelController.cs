@@ -18,7 +18,7 @@ namespace Services
         [SerializeField] private CinemachineVirtualCamera _cmCameraPrefab;
 
         private Player _player;
-        private readonly List<EnemyUnit> _enemyList = new List<EnemyUnit>();
+        private readonly List<EnemyUnit> _enemyList = new List<EnemyUnit>(100);
     
         private UIViewsController _uiViewsController;
         private DIContainer _diContainer;

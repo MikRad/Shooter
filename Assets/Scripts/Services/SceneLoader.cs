@@ -14,11 +14,11 @@ namespace Services
 
         public int MaxLevelNumber => _config.LevelsNumberTotal;
     
-        private void Awake()
+        public void Init(IResourcesDataProvider dataProvider)
         {
-            LoadConfig();
+            _config = dataProvider.LoadResource<SceneLoaderConfig>(ConfigPath);
         }
-
+        
         public void LoadLevel(int levelNumber, Action<float> onProgress, Action onCompleted)
         {
             string sceneName = _config.GetLevelSceneName(levelNumber);
@@ -66,11 +66,6 @@ namespace Services
         
             onCompleted?.Invoke();
             _asyncOperation = null;
-        }
-    
-        private void LoadConfig()
-        {
-            _config = Resources.Load<SceneLoaderConfig>(ConfigPath);        
         }
     }
 }
